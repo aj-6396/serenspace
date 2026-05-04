@@ -7,7 +7,12 @@
 import React from 'react'
 import { motion } from 'framer-motion'
 
+import useWellnessStore from '../context/useWellnessStore'
+
 export default function AmbientBackground({ reduceMotion }) {
+  const lowEnergyMode = useWellnessStore((s) => s.lowEnergyMode)
+  const isReduced = reduceMotion || lowEnergyMode
+
   // Generate random particles (memoized to avoid re-rendering layout jumps)
   const particles = React.useMemo(() => {
     return Array.from({ length: 15 }).map((_, i) => ({
@@ -26,21 +31,21 @@ export default function AmbientBackground({ reduceMotion }) {
       {/* Primary orb — top-left */}
       <motion.div
         className="absolute -top-32 -left-32 w-[600px] h-[600px] rounded-full"
-        style={{ background: 'radial-gradient(circle, var(--color-primary) 0%, transparent 70%)', opacity: 0.08 }}
-        animate={reduceMotion ? {} : { x: [0, 30, 0], y: [0, 20, 0] }}
+        style={{ background: 'radial-gradient(circle, var(--color-primary) 0%, transparent 70%)', opacity: lowEnergyMode ? 0.03 : 0.08 }}
+        animate={isReduced ? {} : { x: [0, 30, 0], y: [0, 20, 0] }}
         transition={{ duration: 20, repeat: Infinity, ease: 'easeInOut' }}
       />
 
       {/* Secondary orb — bottom-right */}
       <motion.div
         className="absolute -bottom-32 -right-32 w-[700px] h-[700px] rounded-full"
-        style={{ background: 'radial-gradient(circle, var(--color-secondary) 0%, transparent 70%)', opacity: 0.08 }}
-        animate={reduceMotion ? {} : { x: [0, -25, 0], y: [0, -20, 0] }}
+        style={{ background: 'radial-gradient(circle, var(--color-secondary) 0%, transparent 70%)', opacity: lowEnergyMode ? 0.03 : 0.08 }}
+        animate={isReduced ? {} : { x: [0, -25, 0], y: [0, -20, 0] }}
         transition={{ duration: 25, repeat: Infinity, ease: 'easeInOut', delay: 5 }}
       />
 
       {/* Particles */}
-      {!reduceMotion && particles.map((p) => (
+      {!isReduced && particles.map((p) => (
         <motion.div
           key={p.id}
           className="absolute rounded-full"

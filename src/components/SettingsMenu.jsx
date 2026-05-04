@@ -1,6 +1,6 @@
 import React from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Settings2, Volume2, VolumeX, Eye, Activity, Palette } from 'lucide-react'
+import { Settings2, Volume2, VolumeX, Eye, Activity, Palette, BatteryLow } from 'lucide-react'
 import useWellnessStore from '../context/useWellnessStore'
 
 export default function SettingsMenu({ isOpen, onClose }) {
@@ -8,7 +8,8 @@ export default function SettingsMenu({ isOpen, onClose }) {
     theme, setTheme,
     soundEnabled, toggleSound,
     reduceMotion, toggleMotion,
-    useDyslexicFont, toggleFont
+    useDyslexicFont, toggleFont,
+    lowEnergyMode, toggleLowEnergy
   } = useWellnessStore()
 
   const THEMES = [
@@ -95,6 +96,13 @@ export default function SettingsMenu({ isOpen, onClose }) {
                   label="Dyslexia-Friendly Font"
                   isActive={useDyslexicFont}
                   onClick={toggleFont}
+                />
+
+                <ToggleRow 
+                  icon={<BatteryLow className="w-4 h-4" />}
+                  label="Low-Energy Mode"
+                  isActive={lowEnergyMode}
+                  onClick={toggleLowEnergy}
                 />
               </div>
             </div>

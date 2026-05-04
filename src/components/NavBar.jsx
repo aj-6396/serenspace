@@ -6,12 +6,13 @@
  */
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Settings } from 'lucide-react'
+import { Settings, Zap } from 'lucide-react'
 import useWellnessStore from '../context/useWellnessStore'
 import SettingsMenu from './SettingsMenu'
 
 export default function NavBar() {
   const goHome = useWellnessStore((s) => s.goHome)
+  const openRescue = useWellnessStore((s) => s.openRescue)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
 
   return (
@@ -61,6 +62,15 @@ export default function NavBar() {
           </svg>
           Private & local
         </div>
+
+        <button
+          onClick={openRescue}
+          className="px-3 py-1.5 bg-[var(--color-primary)]/15 hover:bg-[var(--color-primary)]/30 border border-[var(--color-primary)]/30 hover:border-[var(--color-primary)]/50 rounded-full transition-all flex items-center gap-1.5 text-xs font-semibold text-[var(--color-primary)] shadow-sm"
+          aria-label="Open emergency rescue calming sequence"
+        >
+          <Zap className="w-3.5 h-3.5 fill-[var(--color-primary)]" />
+          Rescue
+        </button>
 
         <button
           onClick={() => setIsSettingsOpen(true)}

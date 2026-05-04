@@ -16,14 +16,24 @@ const useWellnessStore = create(
       soundEnabled: false,
       reduceMotion: false,
       useDyslexicFont: false,
+      lowEnergyMode: false,
+      jarMessages: [
+        "You survived your hardest days before, you can survive this one.",
+        "It's okay to do nothing today.",
+        "Your worth is not tied to your productivity."
+      ], // Seeded with some default kind messages
 
       setTheme: (theme) => set({ theme }),
       toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
       toggleMotion: () => set((s) => ({ reduceMotion: !s.reduceMotion })),
       toggleFont: () => set((s) => ({ useDyslexicFont: !s.useDyslexicFont })),
+      toggleLowEnergy: () => set((s) => ({ lowEnergyMode: !s.lowEnergyMode })),
+
+      addJarMessage: (msg) => set((s) => ({ jarMessages: [...s.jarMessages, msg] })),
+      removeJarMessage: (index) => set((s) => ({ jarMessages: s.jarMessages.filter((_, i) => i !== index) })),
 
       // ── Navigation / View State (Memory-only) ───────────────────────
-      currentView: 'home', // 'home' | 'support' | 'vent' | 'breathe' | 'grounding' | 'stillness'
+      currentView: 'home', // 'home' | 'support' | 'vent' | 'breathe' | 'grounding' | 'stillness' | 'rescue' | 'canvas' | 'jar'
       selectedEmotion: null,
       isReleasing: false,
       showReleaseMessage: false,
@@ -36,6 +46,9 @@ const useWellnessStore = create(
       openBreathe: () => set({ currentView: 'breathe' }),
       openGrounding: () => set({ currentView: 'grounding' }),
       openStillness: () => set({ currentView: 'stillness' }),
+      openRescue: () => set({ currentView: 'rescue' }),
+      openCanvas: () => set({ currentView: 'canvas' }),
+      openJar: () => set({ currentView: 'jar' }),
 
       triggerRelease: () => {
         set({ isReleasing: true })
@@ -49,6 +62,8 @@ const useWellnessStore = create(
         soundEnabled: state.soundEnabled,
         reduceMotion: state.reduceMotion,
         useDyslexicFont: state.useDyslexicFont,
+        lowEnergyMode: state.lowEnergyMode,
+        jarMessages: state.jarMessages,
       }),
     }
   )

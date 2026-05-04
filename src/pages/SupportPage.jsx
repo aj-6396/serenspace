@@ -16,6 +16,7 @@ export default function SupportPage() {
   const openBreathe = useWellnessStore((s) => s.openBreathe)
   const openGrounding = useWellnessStore((s) => s.openGrounding)
   const openStillness = useWellnessStore((s) => s.openStillness)
+  const openCanvas = useWellnessStore((s) => s.openCanvas)
   const emotionId   = useWellnessStore((s) => s.selectedEmotion)
 
   const emotion = getEmotion(emotionId)
@@ -128,6 +129,17 @@ export default function SupportPage() {
               whileHover={{ y: -2 }}
             >
               ⏳ A minute of peace
+            </motion.button>
+          )}
+
+          {emotion.tools.includes('canvas') && (
+            <motion.button
+              id="support-canvas-btn"
+              onClick={openCanvas}
+              className="flex-1 px-6 py-4 rounded-xl text-sm font-medium border border-[var(--color-primary)]/25 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 transition-all duration-200 flex items-center justify-center gap-2"
+              whileHover={{ y: -2 }}
+            >
+              🎨 Mindful Canvas
             </motion.button>
           )}
         </motion.div>

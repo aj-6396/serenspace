@@ -14,6 +14,9 @@ export default function HeroPage() {
   const selectEmotion = useWellnessStore((s) => s.selectEmotion)
   const openVent      = useWellnessStore((s) => s.openVent)
   const openBreathe   = useWellnessStore((s) => s.openBreathe)
+  const openStillness = useWellnessStore((s) => s.openStillness)
+  const openJar       = useWellnessStore((s) => s.openJar)
+  const lowEnergyMode = useWellnessStore((s) => s.lowEnergyMode)
 
   return (
     <main
@@ -46,21 +49,41 @@ export default function HeroPage() {
           </p>
         </motion.div>
 
-        {/* ── Emotion Buttons Grid ─────────────────────────────── */}
-        <div
-          role="group"
-          aria-label="Select how you are feeling"
-          className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3"
-        >
-          {EMOTIONS.map((emotion, i) => (
-            <EmotionButton
-              key={emotion.id}
-              index={i}
-              {...emotion}
-              onClick={selectEmotion}
-            />
-          ))}
-        </div>
+        {/* ── Dynamic Content based on Energy Level ──────────────── */}
+        {lowEnergyMode ? (
+          <motion.div 
+            className="w-full flex justify-center py-8"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+          >
+            <button
+              onClick={openStillness}
+              className="
+                px-10 py-8 rounded-2xl w-full max-w-sm
+                bg-[var(--bg-card)] border border-[var(--border-subtle)]
+                text-[var(--text-main)] text-xl font-medium tracking-wide
+                hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]
+                transition-all duration-300 shadow-xl
+              "
+            >
+              Just sit in quiet comfort.
+            </button>
+          </motion.div>
+        ) : (
+          <div
+            role="group"
+            aria-label="Select how you are feeling"
+            className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3"
+          >
+            {EMOTIONS.map((emotion, i) => (
+              <EmotionButton
+                key={emotion.id}
+                index={i}
+                {...emotion}
+                onClick={selectEmotion}
+              />
+            ))}
+          </div>
+        )}
 
         {/* ── Alternative entry points ─────────────────────────── */}
         <motion.div
@@ -93,13 +116,31 @@ export default function HeroPage() {
               flex-1 w-full sm:w-auto
               px-5 py-3 rounded-xl text-sm font-medium
               border border-[#2e2e3d] text-[#a89f94]
-              hover:border-[#9fcba9]/30 hover:text-[#f0ece6] hover:bg-[#1a1a22]
+              hover:border-[var(--color-secondary)] hover:text-[var(--text-main)] hover:bg-white/5
               transition-all duration-200 text-center
             "
             aria-label="Go to breathing exercise"
           >
             🌬️ &nbsp;Guide me through breathing
           </button>
+
+          {/* Jar shortcut */}
+          {!lowEnergyMode && (
+            <button
+              id="hero-jar-btn"
+              onClick={openJar}
+              className="
+                flex-1 w-full sm:w-auto
+                px-5 py-3 rounded-xl text-sm font-medium
+                border border-[#2e2e3d] text-[#a89f94]
+                hover:border-[var(--color-primary)] hover:text-[var(--text-main)] hover:bg-white/5
+                transition-all duration-200 text-center
+              "
+              aria-label="Open Kind Messages Jar"
+            >
+              🏺 &nbsp;Kind Messages
+            </button>
+          )}
         </motion.div>
 
         {/* ── Footer micro-copy ────────────────────────────────── */}

@@ -72,8 +72,27 @@ export default function VentPage() {
         <motion.div
           initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="relative"
+          className="relative flex flex-col gap-3"
         >
+          {/* Gentle Intention Prompts */}
+          <div className="flex flex-wrap gap-2 py-1">
+            {[
+              "Right now, the heavy thing I am carrying is...",
+              "I forgive myself for...",
+              "One small thing that brought me comfort today was...",
+              "What I wish someone would say to me right now is..."
+            ].map((prompt, i) => (
+              <button
+                key={i}
+                onClick={() => setText(prompt)}
+                className="text-xs px-3 py-1.5 bg-[var(--bg-card)] hover:bg-white/5 border border-[var(--border-subtle)] text-[var(--text-muted)] hover:text-[var(--text-main)] rounded-lg transition-colors duration-200"
+              >
+                {prompt}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative">
           {/* Dissolve overlay — shown during release animation */}
           <AnimatePresence>
             {isReleasing && (
@@ -114,6 +133,7 @@ export default function VentPage() {
               {charCount} character{charCount !== 1 ? 's' : ''}
             </p>
           )}
+          </div>
         </motion.div>
 
         {/* ── Release Button ────────────────────────────────────── */}

@@ -17,6 +17,9 @@ import SupportPage from './pages/SupportPage'
 import VentPage    from './pages/VentPage'
 import GroundingPage from './pages/GroundingPage'
 import StillnessPage from './pages/StillnessPage'
+import RescuePage    from './pages/RescuePage'
+import CanvasPage    from './pages/CanvasPage'
+import JarPage       from './pages/JarPage'
 import AmbientAudio  from './components/AmbientAudio'
 
 import useWellnessStore from './context/useWellnessStore'
@@ -61,6 +64,21 @@ function ViewRouter({ view }) {
       {view === 'stillness' && (
         <motion.div key="stillness" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
           <StillnessPage />
+        </motion.div>
+      )}
+      {view === 'rescue' && (
+        <motion.div key="rescue" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+          <RescuePage />
+        </motion.div>
+      )}
+      {view === 'canvas' && (
+        <motion.div key="canvas" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+          <CanvasPage />
+        </motion.div>
+      )}
+      {view === 'jar' && (
+        <motion.div key="jar" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+          <JarPage />
         </motion.div>
       )}
     </AnimatePresence>
