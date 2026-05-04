@@ -20,6 +20,8 @@ import StillnessPage from './pages/StillnessPage'
 import RescuePage    from './pages/RescuePage'
 import CanvasPage    from './pages/CanvasPage'
 import JarPage       from './pages/JarPage'
+import PMRPage       from './pages/PMRPage'
+import CBTPage       from './pages/CBTPage'
 import AmbientAudio  from './components/AmbientAudio'
 
 import useWellnessStore from './context/useWellnessStore'
@@ -79,6 +81,16 @@ function ViewRouter({ view }) {
       {view === 'jar' && (
         <motion.div key="jar" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
           <JarPage />
+        </motion.div>
+      )}
+      {view === 'pmr' && (
+        <motion.div key="pmr" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+          <PMRPage />
+        </motion.div>
+      )}
+      {view === 'cbt' && (
+        <motion.div key="cbt" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+          <CBTPage />
         </motion.div>
       )}
     </AnimatePresence>
