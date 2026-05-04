@@ -33,7 +33,7 @@ const useWellnessStore = create(
       removeJarMessage: (index) => set((s) => ({ jarMessages: s.jarMessages.filter((_, i) => i !== index) })),
 
       // ── Navigation / View State (Memory-only) ───────────────────────
-      currentView: 'home', // 'home' | 'support' | 'vent' | 'breathe' | 'grounding' | 'stillness' | 'rescue' | 'canvas' | 'jar'
+      currentView: 'home', // 'home' | 'support' | 'vent' | 'breathe' | 'grounding' | 'stillness' | 'rescue' | 'canvas' | 'jar' | 'pmr' | 'cbt'
       selectedEmotion: null,
       isReleasing: false,
       showReleaseMessage: false,
@@ -49,6 +49,8 @@ const useWellnessStore = create(
       openRescue: () => set({ currentView: 'rescue' }),
       openCanvas: () => set({ currentView: 'canvas' }),
       openJar: () => set({ currentView: 'jar' }),
+      openPmr: () => set({ currentView: 'pmr' }),
+      openCbt: () => set({ currentView: 'cbt' }),
 
       triggerRelease: () => {
         set({ isReleasing: true })

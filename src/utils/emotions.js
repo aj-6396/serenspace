@@ -13,7 +13,7 @@ export const EMOTIONS = [
     color: 'amber',          // maps to design-token primary
     affirmation: 'Your feelings are valid. Anxiety is your mind trying to protect you.',
     suggestion: 'Try a physical grounding exercise to bring you back to the present.',
-    tools: ['grounding', 'breathe', 'canvas'],
+    tools: ['grounding', 'breathe', 'canvas', 'pmr', 'cbt'],
   },
   {
     id: 'alone',
@@ -22,7 +22,7 @@ export const EMOTIONS = [
     color: 'sage',
     affirmation: "You're not alone right now. This space is here with you.",
     suggestion: 'Sometimes writing it out helps us feel heard.',
-    tools: ['vent', 'stillness', 'canvas'],
+    tools: ['vent', 'stillness', 'canvas', 'pmr', 'cbt'],
   },
   {
     id: 'lost',
@@ -31,7 +31,7 @@ export const EMOTIONS = [
     color: 'amber',
     affirmation: "It's okay not to have all the answers. One breath at a time.",
     suggestion: 'A moment of stillness can help you find your footing.',
-    tools: ['stillness', 'vent'],
+    tools: ['stillness', 'vent', 'pmr', 'cbt'],
   },
   {
     id: 'overwhelmed',
@@ -40,7 +40,7 @@ export const EMOTIONS = [
     color: 'sage',
     affirmation: "You don't have to handle everything at once. Just this moment.",
     suggestion: 'Let it out — write whatever is weighing on you.',
-    tools: ['vent', 'grounding', 'canvas'],
+    tools: ['vent', 'grounding', 'canvas', 'pmr', 'cbt'],
   },
 ]
 

@@ -17,6 +17,8 @@ export default function SupportPage() {
   const openGrounding = useWellnessStore((s) => s.openGrounding)
   const openStillness = useWellnessStore((s) => s.openStillness)
   const openCanvas = useWellnessStore((s) => s.openCanvas)
+  const openPmr = useWellnessStore((s) => s.openPmr)
+  const openCbt = useWellnessStore((s) => s.openCbt)
   const emotionId   = useWellnessStore((s) => s.selectedEmotion)
 
   const emotion = getEmotion(emotionId)
@@ -142,6 +144,28 @@ export default function SupportPage() {
               🎨 Mindful Canvas
             </motion.button>
           )}
+
+          {emotion.tools.includes('pmr') && (
+            <motion.button
+              id="support-pmr-btn"
+              onClick={openPmr}
+              className="flex-1 px-6 py-4 rounded-xl text-sm font-medium border border-[var(--color-secondary)]/25 text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/10 transition-all duration-200 flex items-center justify-center gap-2"
+              whileHover={{ y: -2 }}
+            >
+              💪 Muscle Relaxation
+            </motion.button>
+          )}
+
+          {emotion.tools.includes('cbt') && (
+            <motion.button
+              id="support-cbt-btn"
+              onClick={openCbt}
+              className="flex-1 px-6 py-4 rounded-xl text-sm font-medium border border-[var(--color-primary)]/25 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/10 transition-all duration-200 flex items-center justify-center gap-2"
+              whileHover={{ y: -2 }}
+            >
+              💡 Untangle Thoughts
+            </motion.button>
+          )}
         </motion.div>
 
         {/* Crisis micro-copy */}
@@ -161,6 +185,49 @@ export default function SupportPage() {
           </a>{' '}
           in your country.
         </motion.p>
+
+        {/* Behavioral Activation (Micro-Momentum) Choices */}
+        <motion.div
+          className="w-full max-w-lg mt-2 bg-[var(--bg-card)]/40 p-5 rounded-2xl border border-[var(--border-subtle)] space-y-4"
+          initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+        >
+          <div className="flex justify-between items-center">
+            <span className="text-xs font-semibold tracking-wider text-[var(--color-primary)] uppercase">
+              Clinical Additions — Micro-Momentum
+            </span>
+            <span className="text-xs text-[var(--text-muted)]">Behavioral Activation</span>
+          </div>
+
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed">
+            Taking a very small physical action right now can activate your dopamine pathways and break cognitive inertia.
+          </p>
+
+          <div className="space-y-2">
+            {[
+              "Take a single sip of cool water",
+              "Put your feet flat on the floor and stretch up",
+              "Look out the window for 15 seconds"
+            ].map((action, i) => (
+              <label
+                key={i}
+                className="flex items-center gap-3 p-3 bg-[var(--bg-card)]/30 border border-[var(--border-subtle)]/50 rounded-xl cursor-pointer hover:border-[var(--color-primary)] transition-all select-none"
+              >
+                <input
+                  type="checkbox"
+                  className="rounded border-[var(--border-subtle)] text-[var(--color-primary)] focus:ring-[var(--color-primary)] h-4 w-4 bg-[var(--bg-card)] cursor-pointer"
+                />
+                <span className="text-xs text-[var(--text-main)]">{action}</span>
+              </label>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* General medical disclaimer */}
+        <div className="flex gap-2 items-start bg-black/10 p-3.5 rounded-xl border border-[var(--border-subtle)]/60 max-w-lg mx-auto text-left select-none mt-2">
+          <p className="text-[10px] leading-normal text-[var(--text-muted)]">
+            <strong>Disclaimer:</strong> This mental wellness space is for emotional regulation support only. It is not a medical advisory or clinical intervention. Please seek immediate consult from a qualified doctor or healthcare professional soon if you are experiencing severe or ongoing emotional challenges.
+          </p>
+        </div>
       </div>
     </main>
   )
