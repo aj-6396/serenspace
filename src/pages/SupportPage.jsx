@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import useWellnessStore from '../context/useWellnessStore'
 import { getEmotion } from '../utils/emotions'
-import { AlertCircle, ArrowLeft, Edit3, Wind, Eye, Activity, Sparkles, Brain } from 'lucide-react'
+import { AlertCircle, ArrowLeft, Edit3, Wind, Eye, Activity, Sparkles, Brain, Archive } from 'lucide-react'
 
 export default function SupportPage() {
   const goHome      = useWellnessStore((s) => s.goHome)
@@ -13,6 +13,7 @@ export default function SupportPage() {
   const openCanvas = useWellnessStore((s) => s.openCanvas)
   const openPmr = useWellnessStore((s) => s.openPmr)
   const openCbt = useWellnessStore((s) => s.openCbt)
+  const openJar = useWellnessStore((s) => s.openJar)
   const emotionId   = useWellnessStore((s) => s.selectedEmotion)
 
   const emotion = getEmotion(emotionId)
@@ -20,9 +21,13 @@ export default function SupportPage() {
 
   const isAmber = emotion.color === 'amber'
   const accentColor = isAmber ? 'var(--color-primary)' : 'var(--color-secondary)'
-  const accentBg    = isAmber
-    ? 'radial-gradient(ellipse at top, var(--color-primary) 0%, transparent 70%)'
-    : 'radial-gradient(ellipse at top, var(--color-secondary) 0%, transparent 70%)'
+
+  // Determine which pathways apply to this emotion's tools
+  const hasVenting = emotion.tools.includes('vent')
+  const hasGrounding = emotion.tools.some(t => ['breathe', 'grounding', 'stillness'].includes(t))
+  const hasCanvas = emotion.tools.includes('canvas')
+  const hasClinical = emotion.tools.some(t => ['pmr', 'cbt'].includes(t))
+  const hasJar = emotion.tools.includes('jar')
 
   return (
     <main
@@ -66,136 +71,166 @@ export default function SupportPage() {
         {/* ── Pathways Dashboard Grid (Multi-Path therapeutic choices) ── */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 select-none cursor-default">
           {/* Pathway 1: Mindful Expression */}
-          <motion.div
-            className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-primary)] hover:shadow-xl"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
-          >
-            <div className="flex flex-col gap-3 z-10">
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl border border-[var(--color-primary)]/15">
-                  <Edit3 className="w-5 h-5" />
+          {hasVenting && (
+            <motion.div
+              className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-primary)] hover:shadow-xl"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+            >
+              <div className="flex flex-col gap-3 z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl border border-[var(--color-primary)]/15">
+                    <Edit3 className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--text-main)]">Mindful Expression</h3>
                 </div>
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Mindful Expression</h3>
+                <p className="text-xs leading-relaxed text-[var(--text-muted)]">
+                  Release racing thoughts by typing freely. It's completely private and exists only for this moment.
+                </p>
               </div>
-              <p className="text-xs leading-relaxed text-[var(--text-muted)]">
-                Release racing thoughts by typing freely. It's completely private and exists only for this moment.
-              </p>
-            </div>
-            {emotion.tools.includes('vent') && (
               <button
                 onClick={openVent}
                 className="w-full py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-xl text-sm font-semibold transition-all duration-200 text-center cursor-pointer select-none"
               >
                 ✍️ Go to Venting Space
               </button>
-            )}
-          </motion.div>
+            </motion.div>
+          )}
 
           {/* Pathway 2: Physical/Somatic Grounding */}
-          <motion.div
-            className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-secondary)] hover:shadow-xl"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
-          >
-            <div className="flex flex-col gap-3 z-10">
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-[var(--color-secondary)]/10 text-[var(--color-secondary)] rounded-xl border border-[var(--color-secondary)]/15">
-                  <Eye className="w-5 h-5" />
+          {hasGrounding && (
+            <motion.div
+              className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-secondary)] hover:shadow-xl"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.15 }}
+            >
+              <div className="flex flex-col gap-3 z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[var(--color-secondary)]/10 text-[var(--color-secondary)] rounded-xl border border-[var(--color-secondary)]/15">
+                    <Eye className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--text-main)]">Somatic Grounding</h3>
                 </div>
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Somatic Grounding</h3>
+                <p className="text-xs leading-relaxed text-[var(--text-muted)]">
+                  Anchor your physiological responses using breathing cycles or focus techniques.
+                </p>
               </div>
-              <p className="text-xs leading-relaxed text-[var(--text-muted)]">
-                Anchor your physiological responses using breathing cycles or focus techniques.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-2">
-              {emotion.tools.includes('breathe') && (
-                <button
-                  onClick={openBreathe}
-                  className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
-                >
-                  🌬️ Breathe
-                </button>
-              )}
-              {emotion.tools.includes('grounding') && (
-                <button
-                  onClick={openGrounding}
-                  className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
-                >
-                  ✋ 5-4-3-2-1
-                </button>
-              )}
-              {emotion.tools.includes('stillness') && (
-                <button
-                  onClick={openStillness}
-                  className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
-                >
-                  ⏳ Stillness
-                </button>
-              )}
-            </div>
-          </motion.div>
+              <div className="flex flex-col sm:flex-row gap-2">
+                {emotion.tools.includes('breathe') && (
+                  <button
+                    onClick={openBreathe}
+                    className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
+                  >
+                    🌬️ Breathe
+                  </button>
+                )}
+                {emotion.tools.includes('grounding') && (
+                  <button
+                    onClick={openGrounding}
+                    className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
+                  >
+                    ✋ 5-4-3-2-1
+                  </button>
+                )}
+                {emotion.tools.includes('stillness') && (
+                  <button
+                    onClick={openStillness}
+                    className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
+                  >
+                    ⏳ Stillness
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          )}
 
           {/* Pathway 3: Sensory Canvas */}
-          <motion.div
-            className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-primary)] hover:shadow-xl"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-          >
-            <div className="flex flex-col gap-3 z-10">
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl border border-[var(--color-primary)]/15">
-                  <Sparkles className="w-5 h-5" />
+          {hasCanvas && (
+            <motion.div
+              className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-primary)] hover:shadow-xl"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+            >
+              <div className="flex flex-col gap-3 z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl border border-[var(--color-primary)]/15">
+                    <Sparkles className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--text-main)]">Sensory Distraction</h3>
                 </div>
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Sensory Distraction</h3>
+                <p className="text-xs leading-relaxed text-[var(--text-muted)]">
+                  Trace soft paths across a low-contrast mindful fidgeting canvas to anchor your physical focus.
+                </p>
               </div>
-              <p className="text-xs leading-relaxed text-[var(--text-muted)]">
-                Trace soft paths across a low-contrast mindful fidgeting canvas to anchor your physical focus.
-              </p>
-            </div>
-            {emotion.tools.includes('canvas') && (
               <button
                 onClick={openCanvas}
                 className="w-full py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-xl text-sm font-semibold transition-all duration-200 text-center cursor-pointer select-none"
               >
                 🎨 Open Mindful Canvas
               </button>
-            )}
-          </motion.div>
+            </motion.div>
+          )}
 
-          {/* Pathway 4: Psychiatric Additions */}
-          <motion.div
-            className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-secondary)] hover:shadow-xl"
-            initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
-          >
-            <div className="flex flex-col gap-3 z-10">
-              <div className="flex items-center gap-3">
-                <div className="p-3 bg-[var(--color-secondary)]/10 text-[var(--color-secondary)] rounded-xl border border-[var(--color-secondary)]/15">
-                  <Brain className="w-5 h-5" />
+          {/* Pathway 4: Clinical Therapy */}
+          {hasClinical && (
+            <motion.div
+              className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-secondary)] hover:shadow-xl"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.25 }}
+            >
+              <div className="flex flex-col gap-3 z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[var(--color-secondary)]/10 text-[var(--color-secondary)] rounded-xl border border-[var(--color-secondary)]/15">
+                    <Brain className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--text-main)]">Clinical Therapy</h3>
                 </div>
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Clinical Therapy</h3>
+                <p className="text-xs leading-relaxed text-[var(--text-muted)]">
+                  Examine your core patterns directly. Use CBT thought challenging or DBT somatic relaxation exercises.
+                </p>
               </div>
-              <p className="text-xs leading-relaxed text-[var(--text-muted)]">
-                Examine your core patterns directly. Use CBT thought challenging or DBT somatic relaxation exercises.
-              </p>
-            </div>
-            <div className="flex flex-col sm:flex-row gap-2">
-              {emotion.tools.includes('pmr') && (
-                <button
-                  onClick={openPmr}
-                  className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
-                >
-                  💪 Muscle Relaxation
-                </button>
-              )}
-              {emotion.tools.includes('cbt') && (
-                <button
-                  onClick={openCbt}
-                  className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
-                >
-                  💡 Untangle Thoughts
-                </button>
-              )}
-            </div>
-          </motion.div>
+              <div className="flex flex-col sm:flex-row gap-2">
+                {emotion.tools.includes('pmr') && (
+                  <button
+                    onClick={openPmr}
+                    className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
+                  >
+                    💪 Muscle Relaxation
+                  </button>
+                )}
+                {emotion.tools.includes('cbt') && (
+                  <button
+                    onClick={openCbt}
+                    className="flex-1 py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-secondary)] text-[var(--color-secondary)] hover:bg-[var(--color-secondary)]/5 rounded-xl text-xs font-semibold transition-all text-center cursor-pointer select-none"
+                  >
+                    💡 Untangle Thoughts
+                  </button>
+                )}
+              </div>
+            </motion.div>
+          )}
+
+          {/* Pathway 5: Kind Messages Jar */}
+          {hasJar && (
+            <motion.div
+              className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-5 relative overflow-hidden transition-all hover:border-[var(--color-primary)] hover:shadow-xl"
+              initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+            >
+              <div className="flex flex-col gap-3 z-10">
+                <div className="flex items-center gap-3">
+                  <div className="p-3 bg-[var(--color-primary)]/10 text-[var(--color-primary)] rounded-xl border border-[var(--color-primary)]/15">
+                    <Archive className="w-5 h-5" />
+                  </div>
+                  <h3 className="text-lg font-bold text-[var(--text-main)]">Supportive Reminders</h3>
+                </div>
+                <p className="text-xs leading-relaxed text-[var(--text-muted)]">
+                  Review kind messages you wrote to your future self, or add a supportive reminder for later.
+                </p>
+              </div>
+              <button
+                onClick={openJar}
+                className="w-full py-3 bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-primary)] text-[var(--color-primary)] hover:bg-[var(--color-primary)]/5 rounded-xl text-sm font-semibold transition-all duration-200 text-center cursor-pointer select-none"
+              >
+                🏺 Open Kind Messages
+              </button>
+            </motion.div>
+          )}
         </div>
 
         {/* ── Crisis & Behavioral Activation Row ── */}
