@@ -26,7 +26,7 @@ export default function NavBar({ onOpenPrefs }) {
       {/* Logo / Wordmark */}
       <button
         onClick={() => handleNav(goHome)}
-        className="flex items-center gap-4 group focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-xl relative z-[60]"
+        className="flex items-center gap-4 group focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-xl relative z-[110]"
         aria-label="SerenSpace – return to home"
       >
         <img 
@@ -67,7 +67,7 @@ export default function NavBar({ onOpenPrefs }) {
       </div>
 
       {/* Mobile Toggle & Quick Actions */}
-      <div className="flex md:hidden items-center gap-3 relative z-[60]">
+      <div className="flex md:hidden items-center gap-3 relative z-[110]">
         <button
           onClick={openRescue}
           className="p-2.5 bg-[var(--color-caution)] text-white rounded-full h-11 w-11 flex items-center justify-center shadow-lg shadow-orange-500/10"
@@ -93,7 +93,7 @@ export default function NavBar({ onOpenPrefs }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-50 bg-[var(--bg-base)] md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
+            className="fixed inset-0 z-[100] bg-[var(--bg-base)] md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
           >
             <div className="flex flex-col gap-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--text-muted)] ml-4">Sanctuary Menu</p>
