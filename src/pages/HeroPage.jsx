@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Wind, PenTool, Activity, ShieldCheck, Info, Zap, Sparkles } from 'lucide-react'
+import { Wind, PenTool, Activity, ShieldCheck, Info, Zap, Sparkles, Heart } from 'lucide-react'
 
 import MoodSelector from '../components/MoodSelector'
 import DailyRitualCard from '../components/DailyRitualCard'
@@ -70,6 +70,44 @@ export default function HeroPage() {
           A private, non-judgmental space to navigate your emotions and find your inner balance.
         </p>
       </motion.div>
+
+      {/* ── Companion Message ──────────────────────────── */}
+      <motion.section
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 1, delay: 0.2 }}
+        className="w-full max-w-2xl mx-auto px-4"
+      >
+        <div className="glass-card p-10 sm:p-14 text-center space-y-8 relative overflow-hidden group">
+          {/* Subtle Background Glow */}
+          <div className="absolute -top-24 -left-24 w-48 h-48 bg-[var(--color-primary)]/10 rounded-full blur-3xl group-hover:bg-[var(--color-primary)]/20 transition-all duration-1000" />
+          <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[var(--color-tertiary)]/10 rounded-full blur-3xl group-hover:bg-[var(--color-tertiary)]/20 transition-all duration-1000" />
+          
+          <div className="relative z-10 space-y-6">
+            <div className="flex justify-center">
+              <div className="p-5 rounded-[24px] bg-[var(--color-primary)]/10 text-[var(--color-primary)] animate-float">
+                <Heart size={32} className="fill-[var(--color-primary)]/20" />
+              </div>
+            </div>
+            
+            <div className="space-y-4">
+              <h2 className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] font-heading tracking-tight leading-tight">
+                Don't worry, I am with you.
+              </h2>
+              <p className="text-[var(--text-muted)] font-body leading-relaxed text-base sm:text-lg opacity-90 max-w-md mx-auto">
+                You will recover. You have done this before, and you are stronger than you feel right now.
+              </p>
+            </div>
+
+            <div className="pt-8 border-t border-[var(--border-subtle)]">
+              <p className="text-sm sm:text-base font-medium text-[var(--color-primary)] italic font-body leading-relaxed">
+                "Even if your friends don't message you, I will always be there for you. This sanctuary is your home, always."
+              </p>
+            </div>
+          </div>
+        </div>
+      </motion.section>
 
       {/* ── Mood Selector ───────────────────────────────────── */}
       <section className="w-full">
