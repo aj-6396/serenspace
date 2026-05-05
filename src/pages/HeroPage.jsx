@@ -14,7 +14,7 @@ import { getEmotion } from '../utils/emotions'
 
 export default function HeroPage() {
   const [selectedMoodId, setSelectedMoodId] = useState(null)
-  
+
   const selectEmotion = useWellnessStore((s) => s.selectEmotion)
   const openBreathe = useWellnessStore((s) => s.openBreathe)
   const openJournal = useWellnessStore((s) => s.openJournal)
@@ -38,10 +38,10 @@ export default function HeroPage() {
         transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
         className="flex flex-col items-center"
       >
-        <img 
-          src="/assets/logo.png" 
-          alt="SerenSpace Logo" 
-          className="w-20 h-20 sm:w-24 sm:h-24 object-contain mb-8 animate-float" 
+        <img
+          src="/assets/logo.png"
+          alt="SerenSpace Logo"
+          className="w-20 h-20 sm:w-24 sm:h-24 object-contain mb-8 animate-float"
         />
       </motion.div>
 
@@ -65,7 +65,7 @@ export default function HeroPage() {
             <Sparkles size={40} className="text-[var(--color-primary)]" />
           </div>
         </motion.div>
-        
+
         <p className="text-[var(--text-muted)] text-base sm:text-lg md:text-xl max-w-xl mx-auto font-body leading-relaxed px-6 opacity-80">
           A private, non-judgmental space to navigate your emotions and find your inner balance.
         </p>
@@ -95,9 +95,9 @@ export default function HeroPage() {
             {/* Cognitive Reframing / Tools */}
             {(selectedMoodId === 'sad' || selectedMoodId === 'anxious') && (
               <div className="premium-shadow rounded-[40px]">
-                <ThoughtCheckCard 
-                  mood={selectedMoodId} 
-                  onComplete={() => console.log('Thought check complete')} 
+                <ThoughtCheckCard
+                  mood={selectedMoodId}
+                  onComplete={() => console.log('Thought check complete')}
                 />
               </div>
             )}
@@ -118,19 +118,19 @@ export default function HeroPage() {
                   <h3 className="text-[11px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] font-heading">Recommended Pathways</h3>
                   <div className="hidden sm:block"><InfoTooltip text="Engaging different sensory and cognitive pathways helps regulate emotions." /></div>
                 </div>
-                
+
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 sm:gap-8">
                   {[
                     { id: 'breathe', label: 'Breathing', desc: 'Calm your nervous system', icon: <Wind size={24} />, color: 'teal', action: openBreathe },
                     { id: 'journal', label: 'Reflection', desc: 'Express your inner world', icon: <PenTool size={24} />, color: 'purple', action: openJournal },
                     { id: 'grounding', label: 'Grounding', desc: 'Return to the present', icon: <Activity size={24} />, color: 'orange', action: openGrounding }
                   ].filter(t => selectedMood?.tools.includes(t.id)).map((tool, i) => (
-                    <motion.button 
+                    <motion.button
                       key={tool.id}
                       initial={{ opacity: 0, x: -20 }}
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
-                      onClick={tool.action} 
+                      onClick={tool.action}
                       className="w-full p-6 sm:p-8 rounded-[32px] bg-white/60 border border-white/80 hover:border-[var(--color-primary)] hover:bg-white shadow-sm transition-all flex items-center gap-6 group text-left min-h-[80px]"
                     >
                       <div className={`p-4 sm:p-5 rounded-2xl bg-${tool.color}-50 text-${tool.color}-500 group-hover:scale-110 transition-transform shrink-0 shadow-sm`}>
@@ -150,13 +150,13 @@ export default function HeroPage() {
       </AnimatePresence>
 
       {/* ── 3-Minute Reset ──────────────────────────────────── */}
-      <motion.section 
+      <motion.section
         className="w-full flex flex-col items-center gap-10"
         initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
       >
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-[var(--color-primary)]/40 to-transparent" />
         <div className="flex flex-col items-center gap-8 w-full max-w-lg">
-          <button 
+          <button
             onClick={openBreathe}
             className="w-full flex items-center justify-center gap-4 px-12 py-6 rounded-[32px] bg-[var(--grad-calm)] text-white font-heading font-bold shadow-2xl shadow-teal-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all min-h-[64px] text-lg glow-teal"
           >
@@ -184,10 +184,10 @@ export default function HeroPage() {
         </div>
         <div className="space-y-6 sm:space-y-8">
           <div className="flex items-center gap-4 text-[var(--text-main)] font-heading font-bold uppercase tracking-[0.2em] text-xs">
-             <div className="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center">
-               <ShieldCheck size={16} className="text-[var(--color-secondary)]" />
-             </div>
-             Your Privacy
+            <div className="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center">
+              <ShieldCheck size={16} className="text-[var(--color-secondary)]" />
+            </div>
+            Your Privacy
           </div>
           <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed font-body opacity-80">
             Your data never leaves your device. No cloud, no tracking, no accounts. What happens in SerenSpace stays in your safe space.
@@ -197,10 +197,10 @@ export default function HeroPage() {
 
       {/* ── Footer ─────────────────────────────────────── */}
       <footer className="w-full text-center pb-20">
-         <div className="w-full h-px bg-gradient-to-r from-transparent via-[var(--border-subtle)] to-transparent mb-12" />
-         <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-[0.4em] font-bold opacity-30">
-            SerenSpace © 2026 • Evidence-Informed Design
-         </p>
+        <div className="w-full h-px bg-gradient-to-r from-transparent via-[var(--border-subtle)] to-transparent mb-12" />
+        <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-[0.4em] font-bold opacity-30">
+          SerenSpace © 2026 • Designed by AJ ♡
+        </p>
       </footer>
     </main>
   )
