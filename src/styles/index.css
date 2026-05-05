@@ -1,48 +1,63 @@
 @import "tailwindcss";
 
 /* 
-  Global Design System & Performance Tokens
+  SerenSpace Design System - Calm, Soft, Safe
+  Evidence-informed UI/UX for mental wellness.
 */
+
+@font-face {
+  font-family: 'Lexend';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('https://fonts.gstatic.com/s/lexend/v18/nwp7L5SdB6W-oY-I5S.woff2') format('woff2');
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
 :root {
-  --bg-base: #fafafc;
+  /* Core Palette */
+  --color-primary: #4DB6AC;   /* Soft Teal */
+  --color-secondary: #8BC34A; /* Sage Green */
+  --color-tertiary: #9575CD;  /* Lavender */
+  --color-accent: #26A69A;    /* Muted Teal */
+  --color-caution: #FF8A65;   /* Muted Coral */
+  
+  /* Backgrounds & Text */
+  --bg-base: #F9F7F5;         /* Warm Beige */
   --bg-card: rgba(255, 255, 255, 0.7);
-  --text-main: #2d3436;
-  --text-muted: #636e72;
-  --border-subtle: rgba(0, 0, 0, 0.05);
+  --text-main: #2D3748;       /* Charcoal Gray */
+  --text-muted: #718096;      /* Slate Gray */
+  --border-subtle: rgba(77, 182, 172, 0.1);
   
-  --color-primary: #a29bfe;   /* Soft Purple */
-  --color-secondary: #81ecec; /* Soft Blue */
-  --color-accent: #55efc4;    /* Soft Green */
+  /* Gradients */
+  --grad-calm: linear-gradient(135deg, #9575CD 0%, #4DB6AC 50%, #8BC34A 100%);
+  --grad-soft: linear-gradient(135deg, rgba(77, 182, 172, 0.08) 0%, rgba(149, 117, 205, 0.08) 100%);
   
-  --grad-calm: linear-gradient(135deg, #a29bfe 0%, #81ecec 50%, #55efc4 100%);
-  --grad-soft: linear-gradient(135deg, rgba(162, 155, 254, 0.1) 0%, rgba(129, 236, 236, 0.1) 100%);
-  
-  --sans: 'Inter', system-ui, sans-serif;
-  --display: 'Lexend', sans-serif;
+  /* Typography Hierarchy */
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-body: 'Lexend', sans-serif;
+  --tracking-calm: 0.01em;
+  --leading-relaxed: 1.625;
 
   color-scheme: light;
 }
 
+/* Midnight Theme - Bedtime/Low-Light */
 .midnight {
-  --bg-base: #020617; /* slate-950 */
-  --bg-card: rgba(15, 23, 42, 0.8); /* slate-900 */
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
+  --bg-base: #121418;
+  --bg-card: rgba(37, 42, 49, 0.8);
+  --text-main: #E2E8F0;
+  --text-muted: #94A3B8;
   --border-subtle: rgba(255, 255, 255, 0.05);
-  --grad-soft: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(129, 236, 236, 0.05) 100%);
+  --grad-soft: linear-gradient(135deg, rgba(77, 182, 172, 0.05) 0%, rgba(149, 117, 205, 0.05) 100%);
   color-scheme: dark;
 }
 
-.high-contrast {
-  --bg-base: #000000 !important;
-  --bg-card: #000000 !important;
-  --text-main: #ffffff !important;
-  --text-muted: #ffffff !important;
-  --border-subtle: #ffffff !important;
-  --color-primary: #ffff00 !important;
-  --color-secondary: #00ffff !important;
-  --grad-calm: #ffff00 !important;
-  --grad-soft: #000000 !important;
+/* Low-Stimulation Theme - ADHD/Sensitivity */
+.low-intensity {
+  --grad-calm: #4DB6AC !important;
+  --bg-card: rgba(255, 255, 255, 0.85);
 }
 
 .low-intensity * {
@@ -50,39 +65,43 @@
   transition: none !important;
   backdrop-filter: none !important;
   -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  filter: none !important;
 }
 
-.low-intensity .glass-card {
-  background: var(--bg-card);
-  box-shadow: none;
-  border-width: 2px;
+.low-intensity body {
+  font-size: 1.1rem; /* Increase base size */
 }
 
+/* Base resets */
 * {
   box-sizing: border-box;
+  letter-spacing: var(--tracking-calm);
 }
 
 body {
   background-color: var(--bg-base);
   color: var(--text-main);
-  font-family: var(--sans);
-  line-height: 1.6;
-  overflow-x: hidden;
+  font-family: var(--font-body);
+  line-height: var(--leading-relaxed);
   -webkit-font-smoothing: antialiased;
+  transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-/* Performance: Content Visibility for off-screen chunks */
-main {
-  content-visibility: auto;
+h1, h2, h3, h4, .font-heading {
+  font-family: var(--font-sans);
+  font-weight: 500;
+  color: var(--text-main);
 }
 
+/* Glassmorphism & Effects */
 .glass-card {
   background: var(--bg-card);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid var(--border-subtle);
-  border-radius: 24px;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
+  border-radius: 28px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .gradient-text {
@@ -96,25 +115,24 @@ main {
   background: var(--grad-soft);
 }
 
-.textarea-calm {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid var(--border-subtle);
-  border-radius: 16px;
-  color: var(--text-main);
-  outline: none;
-  resize: none;
-  transition: all 0.3s ease;
+/* Micro-interactions */
+.btn-hover-scale {
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.textarea-calm:focus {
-  border-color: var(--color-primary);
-  background: rgba(255, 255, 255, 0.05);
+.btn-hover-scale:hover {
+  transform: scale(1.03);
 }
 
-@font-face {
-  font-family: 'Lexend';
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-  src: url('https://fonts.gstatic.com/s/lexend/v18/nwp7L5SdB6W-oY-I5S.woff2') format('woff2');
+/* Custom Scrollbar for a gentler feel */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-primary);
+  border-radius: 10px;
+  opacity: 0.3;
 }

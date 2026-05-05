@@ -17,34 +17,38 @@ export default function DailyRitualCard() {
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`w-full p-6 rounded-3xl border transition-all ${
+      className={`w-full p-8 rounded-[32px] border transition-all duration-700 ${
         dailyRitualDone 
-          ? 'bg-emerald-50/50 border-emerald-100' 
-          : 'bg-white/50 border-[var(--border-subtle)]'
+          ? 'bg-emerald-50/70 border-emerald-100 shadow-xl shadow-emerald-500/5' 
+          : 'glass-card'
       }`}
     >
-      <div className="flex items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <div className={`p-2 rounded-full ${dailyRitualDone ? 'bg-emerald-100 text-emerald-600' : 'bg-purple-100 text-purple-600'}`}>
-            <Sparkles size={18} />
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="flex items-center gap-5">
+          <div className={`p-4 rounded-2xl transition-colors duration-700 ${dailyRitualDone ? 'bg-emerald-100 text-emerald-600' : 'bg-teal-50 text-teal-600'}`}>
+            <Sparkles size={22} className={dailyRitualDone ? '' : 'animate-pulse'} />
           </div>
-          <div>
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Today's Mini-Ritual</h4>
-            <p className="text-sm font-semibold text-[var(--text-main)]">
+          <div className="space-y-1">
+            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] font-heading">Today's Mini-Ritual</h4>
+            <p className="text-base font-bold text-[var(--text-main)] font-body">
               {dailyRitualDone 
-                ? "Nice work on your ritual today!" 
+                ? "Ritual completed. You're doing great." 
                 : "3 min breathing + 1 journal prompt."}
             </p>
           </div>
         </div>
 
-        {!dailyRitualDone && (
+        {!dailyRitualDone ? (
           <button
             onClick={handleComplete}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-[var(--color-primary)] text-white text-[10px] font-bold uppercase tracking-widest shadow-lg shadow-purple-500/20 hover:scale-105 active:scale-95 transition-all"
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-[var(--color-primary)] text-white text-[10px] font-bold uppercase tracking-widest shadow-xl shadow-teal-500/20 btn-hover-scale"
           >
-            <CheckCircle size={14} /> Mark as done
+            <CheckCircle size={14} /> Mark Done
           </button>
+        ) : (
+          <div className="flex items-center gap-2 text-emerald-600 font-heading font-bold text-[10px] uppercase tracking-widest">
+            <CheckCircle size={16} /> Day Streak +1
+          </div>
         )}
       </div>
     </motion.div>

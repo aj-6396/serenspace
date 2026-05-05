@@ -9,42 +9,46 @@ function MoodNode({ entry, index, total }) {
   const mesh = useRef()
   const emotion = getEmotion(entry.emotionId)
   
-  // Map emotion to colors
+  // Map emotion to colors based on new calm palette
   const color = useMemo(() => {
-    if (!emotion) return '#e2e8f0'
-    if (['happy'].includes(emotion.id)) return '#fcd34d' // amber
-    if (['sad', 'anxious'].includes(emotion.id)) return '#a5b4fc' // indigo
-    if (['angry'].includes(emotion.id)) return '#fda4af' // rose
-    return '#d1d5db' // neutral
+    if (!emotion) return '#CBD5E1' // slate-300
+    if (emotion.id === 'happy') return '#4DB6AC'   // Soft Teal
+    if (emotion.id === 'neutral') return '#94A3B8' // Slate
+    if (emotion.id === 'sad') return '#8BC34A'     // Sage
+    if (emotion.id === 'angry') return '#FF8A65'   // Muted Coral
+    if (emotion.id === 'anxious') return '#9575CD' // Lavender
+    return '#CBD5E1'
   }, [emotion])
 
   const position = useMemo(() => {
     const angle = (index / total) * Math.PI * 2
-    const radius = 2 + Math.random() * 2
+    const radius = 2 + Math.random() * 2.5
     return [
       Math.cos(angle) * radius,
-      (Math.random() - 0.5) * 3,
+      (Math.random() - 0.5) * 4,
       Math.sin(angle) * radius
     ]
   }, [index, total])
 
   useFrame((state) => {
     if (mesh.current) {
-      mesh.current.position.y += Math.sin(state.clock.elapsedTime + index) * 0.002
+      mesh.current.position.y += Math.sin(state.clock.elapsedTime + index) * 0.003
+      mesh.current.rotation.x += 0.005
+      mesh.current.rotation.y += 0.005
     }
   })
 
   return (
-    <Float speed={2} rotationIntensity={0.5} floatIntensity={0.5}>
+    <Float speed={1.5} rotationIntensity={0.8} floatIntensity={0.8}>
       <mesh position={position} ref={mesh}>
-        <sphereGeometry args={[0.3, 32, 32]} />
+        <sphereGeometry args={[0.35, 32, 32]} />
         <MeshDistortMaterial 
           color={color} 
-          speed={2} 
-          distort={0.3} 
+          speed={3} 
+          distort={0.4} 
           radius={1} 
           emissive={color} 
-          emissiveIntensity={0.5} 
+          emissiveIntensity={0.4} 
         />
       </mesh>
     </Float>
@@ -55,16 +59,16 @@ export default function MoodGarden() {
   const journalEntries = useWellnessStore(s => s.journalEntries)
   
   return (
-    <div className="w-full h-[500px] rounded-[40px] overflow-hidden glass-card bg-slate-950/20 relative border border-white/10">
-      <div className="absolute top-6 left-8 z-10 space-y-1">
-        <h3 className="text-xl font-bold text-[var(--text-main)]">Mood Garden</h3>
-        <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest font-bold">Your emotional landscape in 3D</p>
+    <div className="w-full h-[550px] rounded-[48px] overflow-hidden glass-card bg-white/10 relative border border-white/20 shadow-2xl shadow-teal-500/5">
+      <div className="absolute top-8 left-10 z-10 space-y-2">
+        <h3 className="text-2xl font-bold text-[var(--text-main)] font-heading tracking-tight">Emotional Landscape</h3>
+        <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-[0.2em] font-bold font-heading">Your journey visualized in 3D</p>
       </div>
       
-      <Canvas camera={{ position: [0, 0, 10], fov: 45 }}>
-        <ambientLight intensity={0.5} />
-        <pointLight position={[10, 10, 10]} intensity={1} />
-        <spotLight position={[-10, 10, 10]} angle={0.15} penumbra={1} />
+      <Canvas camera={{ position: [0, 0, 12], fov: 45 }}>
+        <ambientLight intensity={0.6} />
+        <pointLight position={[10, 10, 10]} intensity={1.5} />
+        <spotLight position={[-10, 10, 10]} angle={0.2} penumbra={1} />
         
         <group>
           {journalEntries.map((entry, i) => (
@@ -77,12 +81,15 @@ export default function MoodGarden() {
           ))}
         </group>
 
-        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.5} />
+        <OrbitControls enableZoom={false} autoRotate autoRotateSpeed={0.4} />
       </Canvas>
 
       {journalEntries.length === 0 && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <p className="text-sm text-[var(--text-muted)] italic">Write more entries to populate your garden</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none space-y-4">
+          <div className="w-16 h-16 rounded-full bg-teal-50 flex items-center justify-center text-teal-300">
+            <Sparkles size={32} />
+          </div>
+          <p className="text-sm text-[var(--text-muted)] font-body italic opacity-60">Your garden will bloom as you reflect...</p>
         </div>
       )}
     </div>

@@ -18,124 +18,139 @@ export default function PreferencesPanel({ isOpen, onClose }) {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/10 backdrop-blur-sm"
+            className="absolute inset-0 bg-black/5 backdrop-blur-sm"
           />
           <motion.div
             initial={{ x: '100%' }}
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
-            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="relative w-full max-w-sm h-full bg-white shadow-2xl p-8 overflow-y-auto"
+            transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            className="relative w-full max-w-sm h-full bg-white/95 backdrop-blur-2xl shadow-[-20px_0_60px_-15px_rgba(0,0,0,0.05)] p-10 overflow-y-auto border-l border-white/20"
           >
-            <div className="flex justify-between items-center mb-10">
-              <div className="flex items-center gap-3">
-                <Settings size={20} className="text-[var(--text-muted)]" />
-                <h2 className="text-xl font-bold text-[var(--text-main)]">Preferences</h2>
+            <div className="flex justify-between items-center mb-12">
+              <div className="flex items-center gap-4">
+                <div className="p-3 rounded-2xl bg-teal-50 text-[var(--color-primary)] shadow-sm">
+                  <Settings size={22} />
+                </div>
+                <h2 className="text-2xl font-bold text-[var(--text-main)] font-heading tracking-tight">Preferences</h2>
               </div>
-              <button onClick={onClose} className="p-2 rounded-full hover:bg-gray-100 transition-all text-[var(--text-muted)]">
-                <X size={20} />
+              <button 
+                onClick={onClose} 
+                className="p-3 rounded-full hover:bg-[var(--color-primary)]/5 text-[var(--text-muted)] hover:text-[var(--color-primary)] transition-all"
+              >
+                <X size={24} />
               </button>
             </div>
 
-            <div className="space-y-10">
+            <div className="space-y-12">
               {/* Appearance */}
-              <div className="space-y-4">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Appearance</h3>
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    {theme === 'midnight' ? <Moon size={18} className="text-indigo-500" /> : <Sun size={18} className="text-amber-500" />}
-                    <span className="text-sm font-medium">Midnight Mode</span>
+              <div className="space-y-6">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] font-heading">Appearance</h3>
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-tertiary)]/30 transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className={`p-3 rounded-xl ${theme === 'midnight' ? 'bg-purple-50 text-purple-500' : 'bg-amber-50 text-amber-500'}`}>
+                      {theme === 'midnight' ? <Moon size={20} /> : <Sun size={20} />}
+                    </div>
+                    <span className="text-sm font-bold text-[var(--text-main)] font-body">Midnight Theme</span>
                   </div>
                   <button
                     onClick={() => setTheme(theme === 'midnight' ? 'light' : 'midnight')}
-                    className={`w-12 h-6 rounded-full transition-all relative ${theme === 'midnight' ? 'bg-indigo-500' : 'bg-gray-200'}`}
+                    className={`w-14 h-7 rounded-full transition-all relative ${theme === 'midnight' ? 'bg-[var(--color-tertiary)]' : 'bg-slate-200'}`}
                   >
                     <motion.div
-                      animate={{ x: theme === 'midnight' ? 24 : 4 }}
-                      className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm"
+                      animate={{ x: theme === 'midnight' ? 30 : 4 }}
+                      className="absolute top-1.5 w-4 h-4 rounded-full bg-white shadow-md"
                     />
                   </button>
                 </div>
               </div>
 
-              {/* Text Size */}
-              <div className="space-y-4">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Accessibility</h3>
-                <div className="p-4 rounded-2xl bg-gray-50 border border-gray-100 space-y-4">
-                  <div className="flex items-center gap-3 mb-2">
-                    <Type size={18} className="text-blue-500" />
-                    <span className="text-sm font-medium">Text Size</span>
+              {/* Accessibility */}
+              <div className="space-y-6">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] font-heading">Accessibility</h3>
+                <div className="p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] space-y-6 shadow-sm">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-blue-50 text-blue-500">
+                      <Type size={20} />
+                    </div>
+                    <span className="text-sm font-bold text-[var(--text-main)] font-body">Font Scaling</span>
                   </div>
-                  <div className="flex justify-between gap-2">
+                  <div className="flex justify-between gap-3 p-1.5 bg-slate-50 rounded-2xl">
                     {['S', 'M', 'L'].map(size => (
                       <button
                         key={size}
                         onClick={() => updatePreferences({ fontSize: size })}
-                        className={`flex-1 py-2 rounded-xl text-xs font-bold transition-all ${preferences.fontSize === size ? 'bg-white shadow-sm border border-blue-200 text-blue-600' : 'text-gray-400 hover:text-gray-600'}`}
+                        className={`flex-1 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${preferences.fontSize === size ? 'bg-white shadow-md text-[var(--color-primary)]' : 'text-slate-400 hover:text-slate-600'}`}
                       >
-                        {size === 'S' ? 'Small' : size === 'M' ? 'Medium' : 'Large'}
+                        {size === 'S' ? 'Fine' : size === 'M' ? 'Normal' : 'Large'}
                       </button>
                     ))}
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <Eye size={18} className="text-emerald-500" />
-                    <span className="text-sm font-medium">High Contrast</span>
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-primary)]/30 transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-teal-50 text-[var(--color-primary)]">
+                      <Eye size={20} />
+                    </div>
+                    <span className="text-sm font-bold text-[var(--text-main)] font-body">Clarity Assist</span>
                   </div>
                   <button
                     onClick={() => updatePreferences({ highContrast: !preferences.highContrast })}
-                    className={`w-12 h-6 rounded-full transition-all relative ${preferences.highContrast ? 'bg-emerald-500' : 'bg-gray-200'}`}
+                    className={`w-14 h-7 rounded-full transition-all relative ${preferences.highContrast ? 'bg-[var(--color-primary)]' : 'bg-slate-200'}`}
                   >
                     <motion.div
-                      animate={{ x: preferences.highContrast ? 24 : 4 }}
-                      className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm"
+                      animate={{ x: preferences.highContrast ? 30 : 4 }}
+                      className="absolute top-1.5 w-4 h-4 rounded-full bg-white shadow-md"
                     />
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <Zap size={18} className="text-amber-500" />
-                    <span className="text-sm font-medium">Reduce Intensity</span>
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-secondary)]/30 transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-sage-50 text-[var(--color-secondary)]">
+                      <Zap size={20} />
+                    </div>
+                    <span className="text-sm font-bold text-[var(--text-main)] font-body">Calm Interface</span>
                   </div>
                   <button
                     onClick={() => updatePreferences({ lowStimulationMode: !preferences.lowStimulationMode })}
-                    className={`w-12 h-6 rounded-full transition-all relative ${preferences.lowStimulationMode ? 'bg-amber-500' : 'bg-gray-200'}`}
+                    className={`w-14 h-7 rounded-full transition-all relative ${preferences.lowStimulationMode ? 'bg-[var(--color-secondary)]' : 'bg-slate-200'}`}
                   >
                     <motion.div
-                      animate={{ x: preferences.lowStimulationMode ? 24 : 4 }}
-                      className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm"
+                      animate={{ x: preferences.lowStimulationMode ? 30 : 4 }}
+                      className="absolute top-1.5 w-4 h-4 rounded-full bg-white shadow-md"
                     />
                   </button>
                 </div>
               </div>
 
               {/* Notifications */}
-              <div className="space-y-4">
-                <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Reminders</h3>
-                <div className="flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100">
-                  <div className="flex items-center gap-3">
-                    <Bell size={18} className="text-rose-500" />
-                    <span className="text-sm font-medium">Daily Reminder</span>
+              <div className="space-y-6">
+                <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] font-heading">Nurturing</h3>
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-caution)]/30 transition-all">
+                  <div className="flex items-center gap-4">
+                    <div className="p-3 rounded-xl bg-orange-50 text-[var(--color-caution)]">
+                      <Bell size={20} />
+                    </div>
+                    <span className="text-sm font-bold text-[var(--text-main)] font-body">Daily Nudges</span>
                   </div>
                   <button
                     onClick={() => updatePreferences({ dailyReminder: !preferences.dailyReminder })}
-                    className={`w-12 h-6 rounded-full transition-all relative ${preferences.dailyReminder ? 'bg-rose-500' : 'bg-gray-200'}`}
+                    className={`w-14 h-7 rounded-full transition-all relative ${preferences.dailyReminder ? 'bg-[var(--color-caution)]' : 'bg-slate-200'}`}
                   >
                     <motion.div
-                      animate={{ x: preferences.dailyReminder ? 24 : 4 }}
-                      className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm"
+                      animate={{ x: preferences.dailyReminder ? 30 : 4 }}
+                      className="absolute top-1.5 w-4 h-4 rounded-full bg-white shadow-md"
                     />
                   </button>
                 </div>
               </div>
             </div>
 
-            <div className="mt-20 pt-8 border-t border-gray-100">
-              <p className="text-[10px] text-gray-400 text-center leading-relaxed">
-                Your preferences are saved locally to your device.<br/>SerenSpace Privacy Protocol v3.0
+            <div className="mt-24 pt-10 border-t border-slate-100">
+              <p className="text-[10px] text-slate-400 text-center leading-relaxed font-body uppercase tracking-widest font-bold">
+                Privacy Protected<br/>Local Workspace only
               </p>
             </div>
           </motion.div>
