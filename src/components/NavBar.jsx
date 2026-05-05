@@ -29,10 +29,11 @@ export default function NavBar({ onOpenPrefs }) {
         className="flex items-center gap-4 group focus-visible:ring-2 focus-visible:ring-[var(--color-primary)] rounded-xl relative z-[60]"
         aria-label="SerenSpace – return to home"
       >
-        <div className="relative w-5 h-5">
-          <div className="absolute inset-0 rounded-full bg-[var(--color-primary)] animate-ping opacity-20" />
-          <div className="relative w-full h-full rounded-full bg-gradient-to-tr from-[var(--color-primary)] to-[var(--color-tertiary)] shadow-sm" />
-        </div>
+        <img 
+          src="/assets/logo.png" 
+          alt="SerenSpace Logo" 
+          className="w-8 h-8 rounded-xl object-contain shadow-sm group-hover:scale-110 transition-transform" 
+        />
         <span className="font-sans font-bold text-[var(--text-main)] tracking-[0.2em] text-sm sm:text-base uppercase group-hover:opacity-60 transition-all">
           Seren<span className="gradient-text">Space</span>
         </span>

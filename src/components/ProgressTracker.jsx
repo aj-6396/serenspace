@@ -25,16 +25,16 @@ export default function ProgressTracker() {
         transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
         className="w-full glass-card p-12 sm:p-20 text-center mb-16 bg-gradient-to-br from-white/60 to-white/20 relative overflow-hidden premium-shadow"
       >
-        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-          <Award size={120} />
+        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none grayscale">
+          <img src="/assets/logo.png" alt="" className="w-32 h-32 object-contain" />
         </div>
         <div className="relative z-10 flex flex-col items-center">
           <motion.div 
             animate={{ scale: [1, 1.05, 1], rotate: [0, 5, -5, 0] }}
             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-            className="inline-flex items-center justify-center w-24 h-24 rounded-[36px] bg-white shadow-2xl text-[var(--color-primary)] mb-8"
+            className="inline-flex items-center justify-center w-24 h-24 rounded-[36px] bg-white shadow-2xl mb-8"
           >
-            <Award size={48} />
+            <img src="/assets/logo.png" alt="SerenSpace Logo" className="w-14 h-14 object-contain" />
           </motion.div>
           <h2 className="text-7xl sm:text-9xl font-bold gradient-text mb-4 font-heading tracking-tighter leading-none">{streak}</h2>
           <p className="text-[var(--text-muted)] font-bold uppercase tracking-[0.4em] text-xs font-heading">Day Streak Bloom</p>

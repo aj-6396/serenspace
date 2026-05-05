@@ -9,27 +9,27 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'pwa-icon-192.png', 'pwa-icon-512.png', 'maskable-icon.png'],
+      includeAssets: ['assets/logo.png'],
       manifest: {
         name: 'SerenSpace - Mental Wellness',
         short_name: 'SerenSpace',
         description: 'Interactive mental wellness platform for a calmer mind.',
-        theme_color: '#a29bfe',
-        background_color: '#fafafc',
+        theme_color: '#4DB6AC',
+        background_color: '#F9F7F5',
         display: 'standalone',
         icons: [
           {
-            src: 'pwa-icon-192.png',
+            src: 'assets/logo.png',
             sizes: '192x192',
             type: 'image/png'
           },
           {
-            src: 'pwa-icon-512.png',
+            src: 'assets/logo.png',
             sizes: '512x512',
             type: 'image/png'
           },
           {
-            src: 'maskable-icon.png',
+            src: 'assets/logo.png',
             sizes: '512x512',
             type: 'image/png',
             purpose: 'maskable'

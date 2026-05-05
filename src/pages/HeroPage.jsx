@@ -33,13 +33,16 @@ export default function HeroPage() {
     <main className="flex flex-col items-center min-h-screen px-4 sm:px-8 pt-20 sm:pt-32 pb-32 sm:pb-40 max-w-6xl mx-auto space-y-20 sm:space-y-32">
       {/* ── Brand Header ───────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1.5 }}
-        className="flex flex-col items-center gap-2"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+        className="flex flex-col items-center"
       >
-        <span className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--color-primary)] opacity-60">SerenSpace</span>
-        <div className="w-px h-12 bg-gradient-to-b from-[var(--color-primary)]/40 to-transparent" />
+        <img 
+          src="/assets/logo.png" 
+          alt="SerenSpace Logo" 
+          className="w-20 h-20 sm:w-24 sm:h-24 object-contain mb-8 animate-float" 
+        />
       </motion.div>
 
       {/* ── Hero Heading ────────────────────────────────────── */}

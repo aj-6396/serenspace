@@ -67,6 +67,11 @@ export default function SupportPage() {
           transition={{ duration: 0.5 }}
           className="flex flex-col items-center"
         >
+          <img 
+            src="/assets/logo.png" 
+            alt="SerenSpace Logo" 
+            className="w-12 h-12 object-contain mb-8 opacity-40" 
+          />
           <div className="text-6xl mb-4" aria-hidden="true">
             {emotion.emoji}
           </div>
