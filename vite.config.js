@@ -1,17 +1,12 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react()],
-  // Vercel and most modern hosts prefer '/' as the base.
-  base: '/', 
-  build: {
-    // Ensuring chunks are handled correctly for Vercel's edge network
-    rollupOptions: {
-      output: {
-        manualChunks: undefined,
-      },
-    },
-  },
+  plugins: [
+    react(),
+    tailwindcss(),
+  ],
+  // No base needed, defaults to '/' which is perfect for Vercel
 })

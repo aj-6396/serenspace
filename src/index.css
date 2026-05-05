@@ -1,3 +1,5 @@
+@import "tailwindcss";
+
 /* 
   Global Design System & Performance Tokens
 */
@@ -24,14 +26,12 @@
   --text-main: #ffffff;
   --text-muted: #ffffff;
   --border-subtle: #ffffff;
-  --color-primary: #ffff00; /* Pure yellow */
-  --color-secondary: #00ffff; /* Pure cyan */
+  --color-primary: #ffff00;
+  --color-secondary: #00ffff;
 }
 
 * {
   box-sizing: border-box;
-  margin: 0;
-  padding: 0;
 }
 
 body {
@@ -74,21 +74,6 @@ main {
 .textarea-calm:focus {
   border-color: var(--color-primary);
   background: rgba(255, 255, 255, 0.05);
-}
-
-/* Custom Scrollbar */
-::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-subtle);
-  border-radius: 10px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
 }
 
 @font-face {
