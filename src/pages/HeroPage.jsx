@@ -71,7 +71,12 @@ export default function HeroPage() {
         </p>
       </motion.div>
 
-      {/* ── Companion Message ──────────────────────────── */}
+    
+      {/* ── Mood Selector ───────────────────────────────────── */}
+      <section className="w-full">
+        <MoodSelector onSelect={handleMoodSelect} selectedId={selectedMoodId} />
+      </section>
+  {/* ── Companion Message ──────────────────────────── */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -108,11 +113,6 @@ export default function HeroPage() {
           </div>
         </div>
       </motion.section>
-
-      {/* ── Mood Selector ───────────────────────────────────── */}
-      <section className="w-full">
-        <MoodSelector onSelect={handleMoodSelect} selectedId={selectedMoodId} />
-      </section>
 
       {/* ── Daily Ritual Section ──────────────────────────── */}
       <section className="w-full max-w-4xl px-4 mb-24 sm:mb-32">
