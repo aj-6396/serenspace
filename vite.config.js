@@ -5,8 +5,16 @@ import tailwindcss from '@tailwindcss/vite'
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
-    react(),
     tailwindcss(),
+    react(),
   ],
-  // No base needed, defaults to '/' which is perfect for Vercel
+  server: {
+    port: 5173,
+    host: true
+  },
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true,
+    sourcemap: false
+  }
 })
