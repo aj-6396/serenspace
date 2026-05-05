@@ -9,7 +9,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['assets/logo.png'],
+      includeAssets: [],
       manifest: {
         name: 'SerenSpace - Mental Wellness',
         short_name: 'SerenSpace',
