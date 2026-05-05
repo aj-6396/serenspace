@@ -4,6 +4,7 @@ import { TrendingUp, Award, Calendar, ChevronLeft } from 'lucide-react'
 import useWellnessStore from '../context/useWellnessStore'
 import { getEmotion } from '../utils/emotions'
 import InfoTooltip from './InfoTooltip'
+import MoodGarden from './MoodGarden'
 
 export default function ProgressTracker() {
   const streak = useWellnessStore(s => s.streak)
@@ -33,11 +34,15 @@ export default function ProgressTracker() {
         </p>
       </motion.div>
 
+      <div className="w-full mb-10">
+        <MoodGarden />
+      </div>
+
       <div className="w-full">
         <div className="flex items-center gap-2 mb-6">
           <TrendingUp className="text-[var(--color-primary)]" size={20} />
           <h3 className="text-xl font-semibold text-[var(--text-main)] flex items-center gap-2">
-            Recent Moods
+            Recent Log
             <InfoTooltip text="Tracking your mood over time helps you notice patterns and celebrate small improvements." />
           </h3>
         </div>

@@ -23,13 +23,13 @@
   color-scheme: light;
 }
 
-.dark {
-  --bg-base: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.8);
+.midnight {
+  --bg-base: #020617; /* slate-950 */
+  --bg-card: rgba(15, 23, 42, 0.8); /* slate-900 */
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --border-subtle: rgba(255, 255, 255, 0.05);
-  --grad-soft: linear-gradient(135deg, rgba(162, 155, 254, 0.05) 0%, rgba(129, 236, 236, 0.05) 100%);
+  --grad-soft: linear-gradient(135deg, rgba(99, 102, 241, 0.05) 0%, rgba(129, 236, 236, 0.05) 100%);
   color-scheme: dark;
 }
 

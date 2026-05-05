@@ -8,7 +8,7 @@ const useWellnessStore = create(
   persist(
     (set) => ({
       // ── Core Preferences & State ─────────────────────
-      theme: 'default', 
+      theme: 'light', // 'light' | 'midnight'
       soundEnabled: false,
       reduceMotion: false,
       useDyslexicFont: false,

@@ -6,6 +6,8 @@ import useWellnessStore from '../context/useWellnessStore'
 export default function PreferencesPanel({ isOpen, onClose }) {
   const preferences = useWellnessStore(s => s.preferences)
   const updatePreferences = useWellnessStore(s => s.updatePreferences)
+  const theme = useWellnessStore(s => s.theme)
+  const setTheme = useWellnessStore(s => s.setTheme)
 
   return (
     <AnimatePresence>
@@ -41,15 +43,15 @@ export default function PreferencesPanel({ isOpen, onClose }) {
                 <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Appearance</h3>
                 <div className="flex items-center justify-between p-4 rounded-2xl bg-gray-50 border border-gray-100">
                   <div className="flex items-center gap-3">
-                    <Moon size={18} className="text-purple-500" />
-                    <span className="text-sm font-medium">Dark Mode</span>
+                    {theme === 'midnight' ? <Moon size={18} className="text-indigo-500" /> : <Sun size={18} className="text-amber-500" />}
+                    <span className="text-sm font-medium">Midnight Mode</span>
                   </div>
                   <button
-                    onClick={() => updatePreferences({ darkMode: !preferences.darkMode })}
-                    className={`w-12 h-6 rounded-full transition-all relative ${preferences.darkMode ? 'bg-purple-500' : 'bg-gray-200'}`}
+                    onClick={() => setTheme(theme === 'midnight' ? 'light' : 'midnight')}
+                    className={`w-12 h-6 rounded-full transition-all relative ${theme === 'midnight' ? 'bg-indigo-500' : 'bg-gray-200'}`}
                   >
                     <motion.div
-                      animate={{ x: preferences.darkMode ? 24 : 4 }}
+                      animate={{ x: theme === 'midnight' ? 24 : 4 }}
                       className="absolute top-1 w-4 h-4 rounded-full bg-white shadow-sm"
                     />
                   </button>

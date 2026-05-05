@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Save, ChevronLeft, Calendar, Trash2 } from 'lucide-react'
+import { Save, ChevronLeft, Calendar, Trash2, Wind, Sparkles } from 'lucide-react'
 import useWellnessStore from '../context/useWellnessStore'
 import InfoTooltip from './InfoTooltip'
 
@@ -20,8 +20,14 @@ export default function SmartJournal() {
   
   const addJournalEntry = useWellnessStore(s => s.addJournalEntry)
   const journalEntries = useWellnessStore(s => s.journalEntries)
+  const selectedEmotion = useWellnessStore(s => s.selectedEmotion)
   const goHome = useWellnessStore(s => s.goHome)
   const updateStreak = useWellnessStore(s => s.updateStreak)
+
+  const [isReframeOpen, setIsReframeOpen] = useState(false)
+  const [isDissolving, setIsDissolving] = useState(false)
+
+  const isNegativeMood = ['sad', 'angry', 'anxious'].includes(selectedEmotion)
 
   useEffect(() => {
     // Rotate prompt every day or on refresh
@@ -36,13 +42,24 @@ export default function SmartJournal() {
       id: Date.now(),
       date: new Date().toLocaleDateString(),
       prompt: PROMPTS[currentPrompt],
-      content: entry.trim()
+      content: entry.trim(),
+      emotionId: selectedEmotion
     }
     
     addJournalEntry(newEntry)
     updateStreak()
     setEntry('')
+    setIsReframeOpen(false)
     alert('Entry saved to your device.')
+  }
+
+  const handleLetItGo = () => {
+    setIsDissolving(true)
+    setTimeout(() => {
+      setEntry('')
+      setIsDissolving(false)
+      setIsReframeOpen(false)
+    }, 1000)
   }
 
   return (
@@ -74,17 +91,76 @@ export default function SmartJournal() {
             </h1>
             <p className="text-[var(--text-muted)] mb-8">{PROMPTS[currentPrompt]}</p>
             
-            <textarea
-              value={entry}
-              onChange={(e) => setEntry(e.target.value)}
-              placeholder="Start writing here..."
-              className="w-full h-64 p-6 rounded-3xl bg-white/50 border border-[var(--border-subtle)] focus:border-[var(--color-primary)] transition-all resize-none text-[var(--text-main)] outline-none"
-            />
+            {isNegativeMood && (
+              <div className="mb-6">
+                <button
+                  onClick={() => setIsReframeOpen(!isReframeOpen)}
+                  className="flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-purple-500 hover:text-purple-600 transition-colors"
+                >
+                  <Sparkles size={14} /> {isReframeOpen ? 'Close Reframe' : 'Try a Reframe?'}
+                </button>
+                <AnimatePresence>
+                  {isReframeOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="mt-3 p-4 rounded-2xl bg-purple-50 border border-purple-100 text-xs text-purple-900 leading-relaxed"
+                    >
+                      <strong>Cognitive Reframe:</strong> What is one small piece of evidence that contradicts this feeling?
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            )}
             
-            <div className="mt-8 flex justify-end">
+            <div className="relative">
+              <motion.textarea
+                value={entry}
+                onChange={(e) => setEntry(e.target.value)}
+                animate={isDissolving ? { 
+                  opacity: 0, 
+                  scale: 0.95, 
+                  filter: 'blur(10px)',
+                  y: -20
+                } : { opacity: 1, scale: 1, filter: 'blur(0px)', y: 0 }}
+                placeholder="Start writing here..."
+                className="w-full h-64 p-6 rounded-3xl bg-white/50 border border-[var(--border-subtle)] focus:border-[var(--color-primary)] transition-all resize-none text-[var(--text-main)] outline-none"
+              />
+              
+              <AnimatePresence>
+                {isDissolving && (
+                  <div className="absolute inset-0 pointer-events-none overflow-hidden">
+                    {[...Array(12)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 1, x: '50%', y: '50%' }}
+                        animate={{ 
+                          opacity: 0, 
+                          x: `${Math.random() * 100}%`, 
+                          y: `${Math.random() * 100}%`,
+                          scale: 0
+                        }}
+                        transition={{ duration: 1, ease: 'easeOut' }}
+                        className="absolute w-2 h-2 rounded-full bg-purple-200"
+                      />
+                    ))}
+                  </div>
+                )}
+              </AnimatePresence>
+            </div>
+            
+            <div className="mt-8 flex justify-end gap-3">
+              <button
+                onClick={handleLetItGo}
+                disabled={!entry.trim() || isDissolving}
+                className="flex items-center gap-2 px-6 py-4 rounded-full border border-rose-200 text-rose-500 font-semibold hover:bg-rose-50 transition-all disabled:opacity-50"
+              >
+                <Wind size={18} /> Let it Go
+              </button>
               <button
                 onClick={handleSave}
-                disabled={!entry.trim()}
+                disabled={!entry.trim() || isDissolving}
                 className="flex items-center gap-2 px-8 py-4 rounded-full bg-[var(--color-primary)] text-white font-semibold shadow-lg shadow-purple-500/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50 disabled:grayscale"
               >
                 <Save size={18} /> Save Entry

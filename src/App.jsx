@@ -151,14 +151,55 @@ function ViewRouter({ view }) {
   )
 }
 
+function WeatherView() {
+  return (
+    <div className="min-h-screen bg-sky-400 flex flex-col items-center justify-center text-white p-8 animate-in fade-in duration-500">
+      <div className="flex flex-col items-center gap-4">
+        <Wind size={64} className="animate-pulse" />
+        <h1 className="text-6xl font-bold">24°C</h1>
+        <p className="text-xl opacity-80">Partly Cloudy • Varanasi, IN</p>
+      </div>
+      <div className="mt-12 grid grid-cols-3 gap-8 w-full max-w-sm border-t border-white/20 pt-8">
+        <div className="text-center"><p className="text-[10px] uppercase opacity-60">Humidity</p><p className="font-bold">65%</p></div>
+        <div className="text-center"><p className="text-[10px] uppercase opacity-60">Wind</p><p className="font-bold">12 km/h</p></div>
+        <div className="text-center"><p className="text-[10px] uppercase opacity-60">Visibility</p><p className="font-bold">10 km</p></div>
+      </div>
+    </div>
+  )
+}
+
 export default function App() {
   useKeyboardNav()
   const view = useWellnessStore((s) => s.currentView)
   const hasSeenOnboarding = useWellnessStore((s) => s.hasSeenOnboarding)
   const preferences = useWellnessStore((s) => s.preferences)
+  const theme = useWellnessStore((s) => s.theme)
   
   const [isPrefsOpen, setIsPrefsOpen] = React.useState(false)
   const [isBreakReminderOpen, setIsBreakReminderOpen] = React.useState(false)
+  const [isExited, setIsExited] = React.useState(false)
+  const [escCount, setEscCount] = React.useState(0)
+
+  // Quick Exit Logic
+  React.useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setEscCount(prev => {
+          if (prev + 1 >= 3) {
+            setIsExited(true)
+            return 0
+          }
+          return prev + 1
+        })
+        // Reset count after 2s of inactivity
+        setTimeout(() => setEscCount(0), 2000)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  if (isExited) return <WeatherView />
   
   const timerRef = React.useRef(null)
 
@@ -178,9 +219,10 @@ export default function App() {
   const fontSizeClass = preferences.fontSize === 'S' ? 'text-xs' : preferences.fontSize === 'L' ? 'text-lg' : 'text-base'
   const contrastClass = preferences.highContrast ? 'high-contrast' : ''
   const intensityClass = preferences.lowStimulationMode ? 'low-intensity' : ''
+  const themeClass = theme === 'midnight' ? 'midnight' : ''
 
   return (
-    <div className={`min-h-screen relative selection:bg-[var(--color-primary)] selection:text-black ${fontSizeClass} ${contrastClass} ${intensityClass} ${preferences.darkMode ? 'dark' : ''}`}>
+    <div className={`min-h-screen relative selection:bg-[var(--color-primary)] selection:text-black ${fontSizeClass} ${contrastClass} ${intensityClass} ${themeClass}`}>
       <AmbientBackground />
       <AmbientAudio />
       

@@ -6,8 +6,15 @@ import { DisclaimerBanner, SeveritySignal } from './ClinicalSignals'
 import GroundingModule from './GroundingModule'
 import InfoTooltip from './InfoTooltip'
 
+const CITY_RESOURCES = {
+  Varanasi: { name: "Aasra Varanasi", phone: "+91 98381 12233" },
+  Mumbai: { name: "TISS ICall", phone: "022-25521111" },
+  Delhi: { name: "Sanjivini Society", phone: "011-24311918" }
+}
+
 export default function CrisisSupport() {
   const [isOpen, setIsOpen] = useState(false)
+  const [selectedCity, setSelectedCity] = useState('')
 
   return (
     <>
@@ -85,9 +92,49 @@ export default function CrisisSupport() {
                   </div>
                 </section>
 
+                {/* Localized Support */}
+                <section className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <h3 className="text-[10px] font-bold uppercase tracking-widest text-rose-900/60">Local Resources</h3>
+                  </div>
+                  <select
+                    value={selectedCity}
+                    onChange={(e) => setSelectedCity(e.target.value)}
+                    className="w-full p-4 rounded-2xl bg-rose-50 border border-rose-100 text-rose-900 text-sm font-bold focus:outline-none focus:ring-2 focus:ring-rose-200 transition-all appearance-none cursor-pointer"
+                  >
+                    <option value="">Select your city...</option>
+                    <option value="Varanasi">Varanasi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Delhi">Delhi</option>
+                  </select>
+
+                  <AnimatePresence mode="wait">
+                    {selectedCity && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="p-5 rounded-2xl bg-white border border-rose-100 shadow-sm space-y-3"
+                      >
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-rose-400">Emergency Contact for {selectedCity}</p>
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-bold text-rose-900">{CITY_RESOURCES[selectedCity].name}</span>
+                          <a 
+                            href={`tel:${CITY_RESOURCES[selectedCity].phone.replace(/[^0-9]/g, '')}`} 
+                            className="p-2 rounded-xl bg-rose-50 text-rose-600 hover:bg-rose-100 transition-colors"
+                          >
+                            <Phone size={16} />
+                          </a>
+                        </div>
+                        <p className="text-xl font-bold text-rose-900">{CITY_RESOURCES[selectedCity].phone}</p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </section>
+
                 {/* Helpline Card */}
                 <section className="space-y-4">
-                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-rose-900/60">Direct Support</h3>
+                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-rose-900/60">National Support</h3>
                   <div className="p-6 rounded-3xl bg-[var(--grad-soft)] border border-rose-200 shadow-xl shadow-rose-500/10">
                     <div className="flex flex-col gap-6">
                       <div className="flex items-center gap-4">
