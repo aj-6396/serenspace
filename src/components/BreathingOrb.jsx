@@ -7,6 +7,7 @@
  */
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { ChevronLeft } from 'lucide-react'
 import useWellnessStore from '../context/useWellnessStore'
 import InfoTooltip from './InfoTooltip'
 
@@ -14,6 +15,7 @@ const PHASES = [
   { label: 'Inhale...',  duration: 4000, scale: 1.35, opacity: 0.9 },
   { label: 'Hold...',    duration: 4000, scale: 1.35, opacity: 0.85 },
   { label: 'Exhale...',  duration: 6000, scale: 1.0,  opacity: 0.6 },
+  { label: 'Rest...',    duration: 2000, scale: 1.0,  opacity: 0.4 },
 ]
 
 export default function BreathingOrb() {
@@ -64,7 +66,7 @@ export default function BreathingOrb() {
   return (
     <motion.section
       aria-label="Breathing exercise"
-      animate={{ backgroundColor: running ? 'rgba(77, 182, 172, 0.08)' : 'rgba(255, 255, 255, 0)' }}
+      animate={{ backgroundColor: running ? 'var(--color-primary-soft)' : 'transparent' }}
       className="flex flex-col items-center justify-center min-h-screen px-4 sm:px-8 text-center transition-colors duration-1000 relative overflow-hidden"
     >
       {/* Back */}
@@ -110,7 +112,7 @@ export default function BreathingOrb() {
           <motion.div
             className="w-40 h-40 sm:w-48 sm:h-48 rounded-full z-10"
             style={{
-              background: 'radial-gradient(circle at 30% 30%, #4DB6AC 0%, #26A69A 100%)',
+              background: 'radial-gradient(circle at 30% 30%, var(--color-primary) 0%, var(--color-accent) 100%)',
               filter: 'blur(0.5px)',
             }}
             animate={running
