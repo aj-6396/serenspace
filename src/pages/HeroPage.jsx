@@ -1,9 +1,16 @@
 import React, { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Wind, PenTool, Activity, ShieldCheck, Info, Zap, Sparkles } from 'lucide-react'
+
 import MoodSelector from '../components/MoodSelector'
+import DailyRitualCard from '../components/DailyRitualCard'
+import ThoughtCheckCard from '../components/ThoughtCheckCard'
+import BodyScanCard from '../components/BodyScanCard'
+import ValuesPrompter from '../components/ValuesPrompter'
+import InfoTooltip from '../components/InfoTooltip'
+
 import useWellnessStore from '../context/useWellnessStore'
 import { getEmotion } from '../utils/emotions'
-import { Wind, PenTool, Activity, ShieldCheck, Info, Zap } from 'lucide-react'
 
 export default function HeroPage() {
   const [selectedMoodId, setSelectedMoodId] = useState(null)
@@ -22,90 +29,122 @@ export default function HeroPage() {
 
   const selectedMood = getEmotion(selectedMoodId)
 
-  const renderSuggestions = () => {
-    if (!selectedMood) return null
-
-    return (
-      <motion.div 
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mt-12"
-      >
-        {selectedMood.tools.includes('breathe') && (
-          <button onClick={openBreathe} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
-            <div className="p-3 rounded-full bg-blue-100 text-blue-500 group-hover:scale-110 transition-transform">
-              <Wind size={24} />
-            </div>
-            <span className="font-semibold text-sm">Breathing Exercise</span>
-            <p className="text-[10px] text-[var(--text-muted)] text-center">Calm your nervous system</p>
-          </button>
-        )}
-        
-        {selectedMood.tools.includes('journal') && (
-          <button onClick={openJournal} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
-            <div className="p-3 rounded-full bg-purple-100 text-purple-500 group-hover:scale-110 transition-transform">
-              <PenTool size={24} />
-            </div>
-            <span className="font-semibold text-sm">Journaling Prompt</span>
-            <p className="text-[10px] text-[var(--text-muted)] text-center">Express your inner thoughts</p>
-          </button>
-        )}
-
-        {selectedMood.tools.includes('grounding') && (
-          <button onClick={openGrounding} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
-            <div className="p-3 rounded-full bg-emerald-100 text-emerald-500 group-hover:scale-110 transition-transform">
-              <Activity size={24} />
-            </div>
-            <span className="font-semibold text-sm">Grounding Activity</span>
-            <p className="text-[10px] text-[var(--text-muted)] text-center">Stay in the present moment</p>
-          </button>
-        )}
-
-        {(selectedMood.id === 'happy' || selectedMood.id === 'neutral') && (
-          <button onClick={openProgress} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
-            <div className="p-3 rounded-full bg-amber-100 text-amber-500 group-hover:scale-110 transition-transform">
-              <Zap size={24} />
-            </div>
-            <span className="font-semibold text-sm">Productivity Boost</span>
-            <p className="text-[10px] text-[var(--text-muted)] text-center">Leverage your current flow</p>
-          </button>
-        )}
-      </motion.div>
-    )
-  }
-
   return (
     <main className="flex flex-col items-center min-h-screen px-6 pt-24 pb-32 max-w-4xl mx-auto">
-      {/* ── Streak Counter ─────────────────────────────────── */}
-      <motion.button 
-        onClick={openProgress}
-        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-        className="mb-12 px-4 py-2 rounded-full bg-white/50 border border-[var(--border-subtle)] text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] flex items-center gap-2"
-      >
-        <Activity size={14} className="text-[var(--color-primary)]" />
-        {streak > 0 ? `You’ve checked in ${streak} days in a row 👏` : "Start your daily streak today"}
-      </motion.button>
+      {/* ── Daily Ritual ─────────────────────────────────── */}
+      <div className="w-full max-w-lg mb-12 relative">
+        <DailyRitualCard />
+        <div className="absolute -top-1 -right-1">
+          <InfoTooltip text="Daily rituals build mental resilience through consistency." />
+        </div>
+      </div>
 
       {/* ── Hero Heading ────────────────────────────────────── */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        className="text-center mb-12"
+        className="text-center mb-12 space-y-4"
       >
-        <h1 className="text-4xl md:text-6xl font-bold text-[var(--text-main)] mb-4 tracking-tight">
-          How are you <span className="gradient-text">feeling</span> today?
-        </h1>
+        <div className="flex items-center justify-center gap-2">
+          <h1 className="text-4xl md:text-6xl font-bold text-[var(--text-main)] tracking-tight">
+            How are you <span className="gradient-text">feeling</span>?
+          </h1>
+          <InfoTooltip text="Labeling your emotions reduces their intensity in the brain." />
+        </div>
         <p className="text-[var(--text-muted)] text-lg max-w-lg mx-auto">
           Choose a mood to get personalized wellness suggestions.
         </p>
       </motion.div>
 
       {/* ── Mood Selector ───────────────────────────────────── */}
-      <MoodSelector onSelect={handleMoodSelect} selectedId={selectedMoodId} />
+      <div className="w-full mb-16">
+        <MoodSelector onSelect={handleMoodSelect} selectedId={selectedMoodId} />
+      </div>
 
-      {/* ── Dynamic Suggestions ─────────────────────────────── */}
+      {/* ── Dynamic Mood-Based Modules ──────────────────────── */}
       <AnimatePresence mode="wait">
-        {renderSuggestions()}
+        {selectedMoodId && (
+          <motion.div
+            key={selectedMoodId}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="w-full max-w-lg space-y-8"
+          >
+            {/* Cognitive Reframing for Sad/Anxious */}
+            {(selectedMoodId === 'sad' || selectedMoodId === 'anxious') && (
+              <ThoughtCheckCard 
+                mood={selectedMoodId} 
+                onComplete={() => console.log('Thought check complete')} 
+              />
+            )}
+
+            {/* Body Scan for Anxious */}
+            {selectedMoodId === 'anxious' && (
+              <BodyScanCard mood={selectedMoodId} />
+            )}
+
+            {/* Values Prompter for Happy/Neutral */}
+            {(selectedMoodId === 'happy' || selectedMoodId === 'neutral') && (
+              <ValuesPrompter onComplete={() => console.log('Values set')} />
+            )}
+
+            {/* Standard Suggestions Card */}
+            <div className="glass-card p-8 space-y-10 bg-white/40">
+              <div className="space-y-4 text-center">
+                <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">A thought for you</h3>
+                <p className="text-xl font-medium text-[var(--text-main)] leading-relaxed italic">
+                  "{selectedMood?.affirmation}"
+                </p>
+              </div>
+
+              <div className="space-y-6">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Suggested pathways</h3>
+                  <InfoTooltip text="Different tools engage different parts of your brain for regulation." />
+                </div>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {selectedMood?.tools.includes('breathe') && (
+                    <button onClick={openBreathe} className="p-5 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex items-center gap-4 group text-left">
+                      <div className="p-3 rounded-2xl bg-blue-100 text-blue-500 group-hover:scale-110 transition-transform">
+                        <Wind size={20} />
+                      </div>
+                      <div>
+                        <span className="font-bold text-xs block">Breathing</span>
+                        <p className="text-[9px] text-[var(--text-muted)]">Calm your nervous system</p>
+                      </div>
+                    </button>
+                  )}
+                  
+                  {selectedMood?.tools.includes('journal') && (
+                    <button onClick={openJournal} className="p-5 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex items-center gap-4 group text-left">
+                      <div className="p-3 rounded-2xl bg-purple-100 text-purple-500 group-hover:scale-110 transition-transform">
+                        <PenTool size={20} />
+                      </div>
+                      <div>
+                        <span className="font-bold text-xs block">Journaling</span>
+                        <p className="text-[9px] text-[var(--text-muted)]">Express your inner thoughts</p>
+                      </div>
+                    </button>
+                  )}
+
+                  {selectedMood?.tools.includes('grounding') && (
+                    <button onClick={openGrounding} className="p-5 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex items-center gap-4 group text-left">
+                      <div className="p-3 rounded-2xl bg-emerald-100 text-emerald-500 group-hover:scale-110 transition-transform">
+                        <Activity size={20} />
+                      </div>
+                      <div>
+                        <span className="font-bold text-xs block">Grounding</span>
+                        <p className="text-[9px] text-[var(--text-muted)]">Stay in the present</p>
+                      </div>
+                    </button>
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        )}
       </AnimatePresence>
 
       {/* ── 3-Minute Reset ──────────────────────────────────── */}
@@ -119,7 +158,10 @@ export default function HeroPage() {
         >
           <Zap size={20} /> 3-Minute Reset
         </button>
-        <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest font-bold">Quick mental recharge</p>
+        <div className="flex items-center gap-2">
+          <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest font-bold">Quick mental recharge</p>
+          <InfoTooltip text="Slow breathing signals your nervous system that it’s safe." />
+        </div>
       </motion.div>
 
       {/* ── About & Privacy ─────────────────────────────────── */}

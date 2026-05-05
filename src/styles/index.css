@@ -23,25 +23,39 @@
   color-scheme: light;
 }
 
-[data-theme='dark'] {
+.dark {
   --bg-base: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.7);
+  --bg-card: rgba(30, 41, 59, 0.8);
   --text-main: #f8fafc;
   --text-muted: #94a3b8;
   --border-subtle: rgba(255, 255, 255, 0.05);
-  
+  --grad-soft: linear-gradient(135deg, rgba(162, 155, 254, 0.05) 0%, rgba(129, 236, 236, 0.05) 100%);
   color-scheme: dark;
 }
 
-/* High Contrast Theme Override */
-[data-theme='high-contrast'] {
-  --bg-base: #000000;
-  --bg-card: #000000;
-  --text-main: #ffffff;
-  --text-muted: #ffffff;
-  --border-subtle: #ffffff;
-  --color-primary: #ffff00;
-  --color-secondary: #00ffff;
+.high-contrast {
+  --bg-base: #000000 !important;
+  --bg-card: #000000 !important;
+  --text-main: #ffffff !important;
+  --text-muted: #ffffff !important;
+  --border-subtle: #ffffff !important;
+  --color-primary: #ffff00 !important;
+  --color-secondary: #00ffff !important;
+  --grad-calm: #ffff00 !important;
+  --grad-soft: #000000 !important;
+}
+
+.low-intensity * {
+  animation: none !important;
+  transition: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+.low-intensity .glass-card {
+  background: var(--bg-card);
+  box-shadow: none;
+  border-width: 2px;
 }
 
 * {

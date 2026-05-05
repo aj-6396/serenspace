@@ -8,6 +8,7 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import useWellnessStore from '../context/useWellnessStore'
+import InfoTooltip from './InfoTooltip'
 
 const PHASES = [
   { label: 'Inhale...',  duration: 4000, scale: 1.35, opacity: 0.9 },
@@ -84,8 +85,9 @@ export default function BreathingOrb() {
         className="flex flex-col items-center gap-10"
       >
         <div>
-          <h1 className="text-3xl font-semibold gradient-text mb-2">
+          <h1 className="text-3xl font-semibold gradient-text mb-2 flex items-center justify-center gap-2">
             Breathe with me
+            <InfoTooltip text="Slow breathing signals your nervous system that it’s safe." />
           </h1>
           <p className="text-[#7d7469] text-sm">
             Let your breath be your anchor right now.

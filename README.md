@@ -26,32 +26,39 @@
 ## 🛠️ Key Features
 
 ### 1. 🧠 Mood-Based Experience
-- **"How are you feeling today?"**: A dynamic hero section where you select your mood via interactive emojis (🙂 😐 😞 😡 😰).
-- **Personalized suggestions**:
-  - **Anxious**: Breathing exercises & Grounding techniques.
-  - **Sad**: Journaling prompts & Affirmations.
-  - **Angry**: Physical release exercises & Muscle relaxation.
-  - **Happy/Neutral**: Productivity tools & Focus modes.
+- **"How are you feeling today?"**: A dynamic hero section where you select your mood via interactive emojis.
+- **Personalized Suggestion Modules**:
+  - **Cognitive Reframing (😞/😰)**: A 3-step thought check-in tool to identify and balance negative thoughts.
+  - **Body Scan (😰)**: A guided 30-second tension-release guide with a visual timer.
+  - **Values & Goals (😊/😐)**: A prompter to align your daily actions with your core values (Peace, Connection, etc.).
 
 ### 2. ✍️ Smart Journal System
-- **Guided Prompts**: No more blank-page anxiety. Rotating prompts like "What made you smile today?" guide your reflection.
-- **Journal History**: Save your entries locally and look back at your journey through a clean, chronological log.
+- **Guided Prompts**: Rotating daily prompts to reduce blank-page anxiety.
+- **Journal History**: Secure local storage for reflection and journey tracking.
+- **"Why this helps"**: Integrated explanations for the psychological benefits of journaling.
 
 ### 3. 🧘 Guided Breathing Exercise
 - **Breathing Orb**: A beautiful, pulsing visual guide for "Inhale... Hold... Exhale" cycles.
 - **Calming Visuals**: Soft gradients that expand and contract with your breath.
 
-### 4. 📊 Progress Tracking
-- **Check-in Streaks**: Celebrate your consistency with a daily streak counter.
-- **Mood History**: Visualize your emotional patterns over time with a simple, intuitive history chart.
+### 4. 🛠️ Skills Library & Toolkit
+- **Categorized Exercises**: Access all tools (Breathing, Grounding, CBT Prompts) from a dedicated toolkit page.
+- **Low-Intensity Mode**: A preference for users who need reduced stimulation and simplified visuals.
 
-### 5. 🚨 Crisis Support
-- **Immediate Help**: A sticky support section with direct access to helplines (India: 1800-599-0019).
-- **Clear Disclaimer**: Professional resources are highlighted for urgent needs.
+### 5. 🚨 Crisis Support & Safety
+- **Grounding Module**: A 5-4-3-2-1 distress tolerance tool for immediate stabilization.
+- **Severity Signaling**: Automated guidance for very low moods with expert resources.
+- **Clinical Disclaimer**: Clear boundaries ensuring SerenSpace is used as a supportive, not clinical, tool.
 
-### 6. 📱 PWA (Progressive Web App)
-- **Installable**: Add SerenSpace to your home screen on Android and iOS.
-- **Offline Mode**: Essential assets are cached so you can find calm even without an internet connection.
+### 6. 📊 Progress & Rituals
+- **Daily Mini-Ritual**: Encourages consistency with a simple goal: 3 min breathing + 1 journal.
+- **Weekly Snapshot**: A reflection form to track sleep, practice frequency, and gratitude.
+- **Mood History**: Visualize emotional patterns over time.
+
+### 7. ♿ Accessibility & Preferences
+- **Themes**: Support for Dark Mode and High Contrast modes.
+- **Text Adjustment**: S/M/L text size options for better readability.
+- **Privacy First**: Everything is stored in `localStorage`. Zero accounts, zero tracking.
 
 ---
 

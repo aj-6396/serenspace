@@ -7,14 +7,27 @@ import { persist } from 'zustand/middleware'
 const useWellnessStore = create(
   persist(
     (set) => ({
-      // ── Preferences & Clinical Data (Persisted) ─────────────────────
-      theme: 'default', // 'default' | 'dusk' | 'midnight' | 'forest' | 'high-contrast'
+      // ── Core Preferences & State ─────────────────────
+      theme: 'default', 
       soundEnabled: false,
       reduceMotion: false,
       useDyslexicFont: false,
       lowEnergyMode: false,
       hasSeenOnboarding: false,
-      dailyIntention: null, // { word: string, date: string }
+      dailyIntention: null, 
+      
+      preferences: {
+        darkMode: false,
+        highContrast: false,
+        lowStimulationMode: false,
+        fontSize: 'M', // S, M, L
+        dailyReminder: false,
+        favoriteTool: 'Breathing'
+      },
+
+      hasSeenSeverityWarning: false,
+      dailyRitualDone: false,
+      lastBreakReminder: null,
       
       jarMessages: [
         "You survived your hardest days before, you can survive this one.",
@@ -34,7 +47,20 @@ const useWellnessStore = create(
       streak: 0,
       lastCheckInDate: null,
 
+      // ── New Features Data ────────────────────────────
+      thoughtChecks: [],
+      bodyScanSessions: [],
+      valuesPrompts: [],
+      groundingSessions: [],
+      weeklySnapshots: [],
+
+      // ── Actions ─────────────────────────────────────
       setTheme: (theme) => set({ theme }),
+      updatePreferences: (newPrefs) => set((s) => ({ preferences: { ...s.preferences, ...newPrefs } })),
+      setHasSeenSeverityWarning: (val) => set({ hasSeenSeverityWarning: val }),
+      setDailyRitualDone: (val) => set({ dailyRitualDone: val }),
+      setLastBreakReminder: (time) => set({ lastBreakReminder: time }),
+      
       toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
       toggleMotion: () => set((s) => ({ reduceMotion: !s.reduceMotion })),
       toggleFont: () => set((s) => ({ useDyslexicFont: !s.useDyslexicFont })),
@@ -49,6 +75,12 @@ const useWellnessStore = create(
 
       addJournalEntry: (entry) => set((s) => ({ journalEntries: [entry, ...s.journalEntries] })),
       
+      addThoughtCheck: (entry) => set((s) => ({ thoughtChecks: [entry, ...s.thoughtChecks] })),
+      addBodyScanSession: (session) => set((s) => ({ bodyScanSessions: [session, ...s.bodyScanSessions] })),
+      addValuesPrompt: (prompt) => set((s) => ({ valuesPrompts: [prompt, ...s.valuesPrompts] })),
+      addGroundingSession: (session) => set((s) => ({ groundingSessions: [session, ...s.groundingSessions] })),
+      addWeeklySnapshot: (snapshot) => set((s) => ({ weeklySnapshots: [snapshot, ...s.weeklySnapshots] })),
+
       updateStreak: () => {
         const today = new Date().toISOString().split('T')[0]
         set((s) => {
@@ -59,7 +91,7 @@ const useWellnessStore = create(
           const yesterdayStr = yesterday.toISOString().split('T')[0]
           
           const newStreak = s.lastCheckInDate === yesterdayStr ? s.streak + 1 : 1
-          return { streak: newStreak, lastCheckInDate: today }
+          return { streak: newStreak, lastCheckInDate: today, dailyRitualDone: false }
         })
       },
 
@@ -71,13 +103,13 @@ const useWellnessStore = create(
       isReleasing: false,
       showReleaseMessage: false,
 
-      // ── Actions ───────────────────────────────────────────────────
+      // ── Navigation Actions ──────────────────────────────────────────
       setView: (view) => set({ currentView: view }),
       selectEmotion: (emotionId) => {
         const today = new Date().toISOString().split('T')[0]
         set((s) => {
           const newHistory = [...s.moodHistory, { date: today, emotionId }].slice(-100)
-          return { selectedEmotion: emotionId, currentView: 'support', moodHistory: newHistory }
+          return { selectedEmotion: emotionId, moodHistory: newHistory }
         })
       },
       goHome: () => set({ currentView: 'home', selectedEmotion: null, isReleasing: false, showReleaseMessage: false }),
@@ -95,6 +127,8 @@ const useWellnessStore = create(
       openLibrary: () => set({ currentView: 'library' }),
       openJournal: () => set({ currentView: 'journal' }),
       openProgress: () => set({ currentView: 'progress' }),
+      openToolkit: () => set({ currentView: 'toolkit' }),
+      openSnapshot: () => set({ currentView: 'snapshot' }),
 
       triggerRelease: () => {
         set({ isReleasing: true })
@@ -102,13 +136,16 @@ const useWellnessStore = create(
       },
     }),
     {
-      name: 'serenspace-preferences-v2', 
+      name: 'serenspace-wellness-v3', 
       partialize: (state) => ({
         theme: state.theme,
         soundEnabled: state.soundEnabled,
         reduceMotion: state.reduceMotion,
         useDyslexicFont: state.useDyslexicFont,
         lowEnergyMode: state.lowEnergyMode,
+        preferences: state.preferences,
+        hasSeenSeverityWarning: state.hasSeenSeverityWarning,
+        dailyRitualDone: state.dailyRitualDone,
         jarMessages: state.jarMessages,
         moodHistory: state.moodHistory,
         safetyPlan: state.safetyPlan,
@@ -117,6 +154,11 @@ const useWellnessStore = create(
         journalEntries: state.journalEntries,
         streak: state.streak,
         lastCheckInDate: state.lastCheckInDate,
+        thoughtChecks: state.thoughtChecks,
+        bodyScanSessions: state.bodyScanSessions,
+        valuesPrompts: state.valuesPrompts,
+        groundingSessions: state.groundingSessions,
+        weeklySnapshots: state.weeklySnapshots,
       }),
     }
   )

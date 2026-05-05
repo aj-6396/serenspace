@@ -23,6 +23,10 @@ const OnboardingOverlay = lazy(() => import('./components/OnboardingOverlay'))
 const SmartJournal     = lazy(() => import('./components/SmartJournal'))
 const ProgressTracker  = lazy(() => import('./components/ProgressTracker'))
 const CrisisSupport    = lazy(() => import('./components/CrisisSupport'))
+const ToolkitPage     = lazy(() => import('./pages/ToolkitPage'))
+const WeeklySnapshotPage = lazy(() => import('./pages/WeeklySnapshotPage'))
+const PreferencesPanel = lazy(() => import('./components/PreferencesPanel'))
+const BreakReminder    = lazy(() => import('./components/BreakReminder'))
 
 import AmbientAudio  from './components/AmbientAudio'
 import useWellnessStore from './context/useWellnessStore'
@@ -132,6 +136,16 @@ function ViewRouter({ view }) {
             <ProgressTracker />
           </motion.div>
         )}
+        {view === 'toolkit' && (
+          <motion.div key="toolkit" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+            <ToolkitPage />
+          </motion.div>
+        )}
+        {view === 'snapshot' && (
+          <motion.div key="snapshot" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+            <WeeklySnapshotPage />
+          </motion.div>
+        )}
       </AnimatePresence>
     </Suspense>
   )
@@ -141,12 +155,36 @@ export default function App() {
   useKeyboardNav()
   const view = useWellnessStore((s) => s.currentView)
   const hasSeenOnboarding = useWellnessStore((s) => s.hasSeenOnboarding)
+  const preferences = useWellnessStore((s) => s.preferences)
+  
+  const [isPrefsOpen, setIsPrefsOpen] = React.useState(false)
+  const [isBreakReminderOpen, setIsBreakReminderOpen] = React.useState(false)
+  
+  const timerRef = React.useRef(null)
+
+  // Break Reminder Logic
+  React.useEffect(() => {
+    if (view === 'journal' || view === 'breathe') {
+      timerRef.current = setTimeout(() => {
+        setIsBreakReminderOpen(true)
+      }, 7 * 60 * 1000) // 7 minutes
+    } else {
+      clearTimeout(timerRef.current)
+      setIsBreakReminderOpen(false)
+    }
+    return () => clearTimeout(timerRef.current)
+  }, [view])
+
+  const fontSizeClass = preferences.fontSize === 'S' ? 'text-xs' : preferences.fontSize === 'L' ? 'text-lg' : 'text-base'
+  const contrastClass = preferences.highContrast ? 'high-contrast' : ''
+  const intensityClass = preferences.lowStimulationMode ? 'low-intensity' : ''
 
   return (
-    <div className="min-h-screen relative selection:bg-[var(--color-primary)] selection:text-black">
+    <div className={`min-h-screen relative selection:bg-[var(--color-primary)] selection:text-black ${fontSizeClass} ${contrastClass} ${intensityClass} ${preferences.darkMode ? 'dark' : ''}`}>
       <AmbientBackground />
       <AmbientAudio />
-      <NavBar />
+      
+      <NavBar onOpenPrefs={() => setIsPrefsOpen(true)} />
       
       <ViewRouter view={view} />
 
@@ -154,6 +192,8 @@ export default function App() {
 
       <Suspense fallback={null}>
         {!hasSeenOnboarding && <OnboardingOverlay />}
+        <PreferencesPanel isOpen={isPrefsOpen} onClose={() => setIsPrefsOpen(false)} />
+        <BreakReminder isOpen={isBreakReminderOpen} onClose={() => setIsBreakReminderOpen(false)} />
       </Suspense>
     </div>
   )

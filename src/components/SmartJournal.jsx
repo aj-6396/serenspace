@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Save, ChevronLeft, Calendar, Trash2 } from 'lucide-react'
 import useWellnessStore from '../context/useWellnessStore'
+import InfoTooltip from './InfoTooltip'
 
 const PROMPTS = [
   "What is bothering you today?",
@@ -67,7 +68,10 @@ export default function SmartJournal() {
             exit={{ opacity: 0, y: -20 }}
             className="w-full"
           >
-            <h1 className="text-3xl font-semibold mb-2 text-[var(--text-main)]">Reflect</h1>
+            <h1 className="text-3xl font-semibold mb-2 text-[var(--text-main)] flex items-center gap-2">
+              Reflect
+              <InfoTooltip text="Writing your thoughts can reduce emotional intensity and help you see patterns." />
+            </h1>
             <p className="text-[var(--text-muted)] mb-8">{PROMPTS[currentPrompt]}</p>
             
             <textarea
