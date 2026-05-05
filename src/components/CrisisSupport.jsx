@@ -24,7 +24,7 @@ export default function CrisisSupport() {
           onClick={() => setIsOpen(true)}
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full bg-white border-2 border-[var(--color-caution)]/20 p-4 sm:p-5 rounded-[28px] sm:rounded-[32px] shadow-2xl flex items-center justify-between gap-4 group backdrop-blur-xl"
+          className="w-full bg-[var(--bg-card)] border-2 border-[var(--color-caution)]/20 p-4 sm:p-5 rounded-[28px] sm:rounded-[32px] shadow-2xl flex items-center justify-between gap-4 group backdrop-blur-xl"
         >
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="bg-[var(--color-caution)] p-2.5 sm:p-3 rounded-xl sm:rounded-2xl text-white group-hover:scale-110 transition-transform shadow-lg shadow-orange-500/20">
@@ -49,16 +49,16 @@ export default function CrisisSupport() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="w-full max-w-xl bg-orange-50/95 backdrop-blur-2xl rounded-t-[40px] sm:rounded-[48px] shadow-2xl overflow-hidden border-t sm:border border-white/40"
+              className="w-full max-w-xl bg-[var(--bg-base)]/95 backdrop-blur-2xl rounded-t-[40px] sm:rounded-[48px] shadow-2xl overflow-hidden border-t sm:border border-[var(--border-subtle)]"
             >
               {/* Header */}
               <div className="px-6 sm:px-10 pt-8 sm:pt-10 flex justify-between items-center">
-                <div className="p-3.5 rounded-2xl bg-white text-[var(--color-caution)] shadow-sm">
+                <div className="p-3.5 rounded-2xl bg-[var(--bg-card)] text-[var(--color-caution)] shadow-sm border border-[var(--border-subtle)]">
                   <Heart size={24} className="fill-[var(--color-caution)]" />
                 </div>
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="p-3 rounded-full bg-white/50 text-[var(--text-muted)] hover:text-[var(--color-caution)] transition-all h-12 w-12 flex items-center justify-center"
+                  className="p-3 rounded-full bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--color-caution)] transition-all h-12 w-12 flex items-center justify-center border border-[var(--border-subtle)]"
                 >
                   <X size={24} />
                 </button>
@@ -82,14 +82,14 @@ export default function CrisisSupport() {
                     <select
                       value={selectedCity}
                       onChange={(e) => setSelectedCity(e.target.value)}
-                      className="w-full h-14 p-4 pl-5 rounded-[20px] bg-white border border-orange-100 text-[var(--text-main)] text-sm font-bold focus:outline-none focus:ring-4 focus:ring-orange-200 transition-all appearance-none cursor-pointer shadow-sm"
+                      className="w-full h-14 p-4 pl-5 rounded-[20px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 text-[var(--text-main)] text-sm font-bold focus:outline-none focus:ring-4 focus:ring-[var(--color-caution)]/10 transition-all appearance-none cursor-pointer shadow-sm"
                     >
                       <option value="">Select your city...</option>
                       <option value="Varanasi">Varanasi</option>
                       <option value="Mumbai">Mumbai</option>
                       <option value="Delhi">Delhi</option>
                     </select>
-                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-orange-300">
+                    <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-caution)]/40">
                       <ChevronUp className="rotate-180" size={18} />
                     </div>
                   </div>
@@ -100,7 +100,7 @@ export default function CrisisSupport() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="p-6 rounded-[28px] bg-white border border-orange-100 shadow-lg shadow-orange-500/5 space-y-4"
+                        className="p-6 rounded-[28px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 shadow-lg shadow-orange-500/5 space-y-4"
                       >
                         <div className="flex items-center justify-between">
                           <div>
@@ -109,7 +109,7 @@ export default function CrisisSupport() {
                           </div>
                           <a 
                             href={`tel:${CITY_RESOURCES[selectedCity].phone.replace(/[^0-9]/g, '')}`} 
-                            className="h-12 w-12 rounded-xl bg-orange-50 text-[var(--color-caution)] flex items-center justify-center hover:bg-orange-100 transition-colors"
+                            className="h-12 w-12 rounded-xl bg-[var(--color-caution)]/10 text-[var(--color-caution)] flex items-center justify-center hover:bg-[var(--color-caution)]/20 transition-colors"
                           >
                             <Phone size={20} />
                           </a>
@@ -123,9 +123,9 @@ export default function CrisisSupport() {
                 {/* National Support */}
                 <section className="space-y-4">
                   <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] font-heading px-1">National Helpline</h3>
-                  <div className="p-6 sm:p-8 rounded-[32px] bg-white border border-orange-100 shadow-xl shadow-orange-500/10 space-y-6 sm:space-y-8">
+                  <div className="p-6 sm:p-8 rounded-[32px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 shadow-xl shadow-orange-500/10 space-y-6 sm:space-y-8">
                     <div className="flex flex-col gap-1">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-orange-400 font-heading">24/7 Support (India)</p>
+                      <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--color-caution)] font-heading">24/7 Support (India)</p>
                       <a href="tel:18005990019" className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] hover:text-[var(--color-caution)] transition-colors tabular-nums">
                         1800-599-0019
                       </a>
