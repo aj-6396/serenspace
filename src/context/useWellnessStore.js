@@ -1,9 +1,5 @@
 /**
  * WellnessStore – Zustand global state
- *
- * DESIGN DECISION:
- * Emotional data (text, current view, emotions) remains strictly memory-only.
- * Accessibility & Aesthetic preferences are persisted to localStorage so they don't reset.
  */
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
@@ -12,19 +8,21 @@ const useWellnessStore = create(
   persist(
     (set) => ({
       // ── Preferences & Clinical Data (Persisted) ─────────────────────
-      theme: 'default', // 'default' | 'dusk' | 'midnight' | 'forest'
+      theme: 'default', // 'default' | 'dusk' | 'midnight' | 'forest' | 'high-contrast'
       soundEnabled: false,
       reduceMotion: false,
       useDyslexicFont: false,
       lowEnergyMode: false,
+      hasSeenOnboarding: false,
+      dailyIntention: null, // { word: string, date: string }
+      
       jarMessages: [
         "You survived your hardest days before, you can survive this one.",
         "It's okay to do nothing today.",
         "Your worth is not tied to your productivity."
       ], 
       
-      // Clinical Data
-      moodHistory: [], // Array of { date: string, emotionId: string }
+      moodHistory: [], 
       safetyPlan: {
         warningSigns: "",
         copingStrategies: "",
@@ -38,20 +36,18 @@ const useWellnessStore = create(
       toggleMotion: () => set((s) => ({ reduceMotion: !s.reduceMotion })),
       toggleFont: () => set((s) => ({ useDyslexicFont: !s.useDyslexicFont })),
       toggleLowEnergy: () => set((s) => ({ lowEnergyMode: !s.lowEnergyMode })),
+      completeOnboarding: () => set({ hasSeenOnboarding: true }),
+      setIntention: (word) => set({ 
+        dailyIntention: { word, date: new Date().toISOString().split('T')[0] } 
+      }),
 
       addJarMessage: (msg) => set((s) => ({ jarMessages: [...s.jarMessages, msg] })),
       removeJarMessage: (index) => set((s) => ({ jarMessages: s.jarMessages.filter((_, i) => i !== index) })),
 
       setSafetyPlan: (plan) => set({ safetyPlan: plan }),
-      addMoodEntry: (emotionId) => set((s) => {
-        const today = new Date().toISOString().split('T')[0]
-        // Keep only last 100 entries for performance
-        const newHistory = [...s.moodHistory, { date: today, emotionId }].slice(-100)
-        return { moodHistory: newHistory }
-      }),
 
       // ── Navigation / View State (Memory-only) ───────────────────────
-      currentView: 'home', // 'home' | 'support' | 'vent' | 'breathe' | 'grounding' | 'stillness' | 'rescue' | 'canvas' | 'jar' | 'pmr' | 'cbt' | 'safety-plan' | 'mood-history'
+      currentView: 'home', 
       selectedEmotion: null,
       isReleasing: false,
       showReleaseMessage: false,
@@ -77,6 +73,7 @@ const useWellnessStore = create(
       openCbt: () => set({ currentView: 'cbt' }),
       openSafetyPlan: () => set({ currentView: 'safety-plan' }),
       openMoodHistory: () => set({ currentView: 'mood-history' }),
+      openLibrary: () => set({ currentView: 'library' }),
 
       triggerRelease: () => {
         set({ isReleasing: true })
@@ -84,7 +81,7 @@ const useWellnessStore = create(
       },
     }),
     {
-      name: 'serenspace-preferences', 
+      name: 'serenspace-preferences-v2', 
       partialize: (state) => ({
         theme: state.theme,
         soundEnabled: state.soundEnabled,
@@ -94,6 +91,8 @@ const useWellnessStore = create(
         jarMessages: state.jarMessages,
         moodHistory: state.moodHistory,
         safetyPlan: state.safetyPlan,
+        hasSeenOnboarding: state.hasSeenOnboarding,
+        dailyIntention: state.dailyIntention,
       }),
     }
   )

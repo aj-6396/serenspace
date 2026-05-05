@@ -2,7 +2,7 @@ import React from 'react'
 import { motion } from 'framer-motion'
 import useWellnessStore from '../context/useWellnessStore'
 import { getEmotion } from '../utils/emotions'
-import { AlertCircle, ArrowLeft, Edit3, Wind, Eye, Activity, Sparkles, Brain, Archive } from 'lucide-react'
+import { AlertCircle, ArrowLeft, Edit3, Wind, Eye, Activity, Sparkles, Brain, Archive, Volume2, BookOpen } from 'lucide-react'
 
 export default function SupportPage() {
   const goHome      = useWellnessStore((s) => s.goHome)
@@ -16,7 +16,18 @@ export default function SupportPage() {
   const openJar = useWellnessStore((s) => s.openJar)
   const openSafetyPlan = useWellnessStore((s) => s.openSafetyPlan)
   const openMoodHistory = useWellnessStore((s) => s.openMoodHistory)
+  const openLibrary = useWellnessStore((s) => s.openLibrary)
   const emotionId   = useWellnessStore((s) => s.selectedEmotion)
+
+  const readAffirmation = () => {
+    if ('speechSynthesis' in window) {
+      window.speechSynthesis.cancel() // Stop any current speech
+      const utterance = new SpeechSynthesisUtterance(emotion.affirmation)
+      utterance.rate = 0.9
+      utterance.pitch = 1
+      window.speechSynthesis.speak(utterance)
+    }
+  }
 
   const emotion = getEmotion(emotionId)
   if (!emotion) { goHome(); return null }
@@ -65,9 +76,16 @@ export default function SupportPage() {
           <h1 className="text-3xl md:text-4xl font-semibold text-[var(--text-main)] max-w-lg leading-relaxed mb-3">
             {emotion.affirmation}
           </h1>
-          <p className="text-[var(--text-muted)] text-sm md:text-base max-w-sm mx-auto select-none">
+          <p className="text-[var(--text-muted)] text-sm md:text-base max-w-sm mx-auto select-none mb-4">
             {emotion.suggestion}
           </p>
+
+          <button 
+            onClick={readAffirmation}
+            className="flex items-center gap-2 px-4 py-2 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--text-main)] hover:bg-white/10 transition-all"
+          >
+            <Volume2 className="w-3.5 h-3.5" /> Listen to Affirmation
+          </button>
         </motion.div>
 
         {/* ── Pathways Dashboard Grid (Multi-Path therapeutic choices) ── */}
@@ -280,6 +298,30 @@ export default function SupportPage() {
                 Mood Reflection
               </button>
             </div>
+          </motion.div>
+
+          {/* Wellness Library Pathway */}
+          <motion.div
+            className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-4 bg-[var(--bg-card)]/20"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
+          >
+            <div className="space-y-1">
+              <div className="flex items-center gap-2">
+                <BookOpen className="w-3.5 h-3.5 text-[var(--color-primary)]" />
+                <span className="text-xs font-bold tracking-wider text-[var(--color-primary)] uppercase block">
+                  Wellness Library
+                </span>
+              </div>
+              <p className="text-[10px] text-[var(--text-muted)] leading-relaxed">
+                Learn the science behind your tools. Understand how your brain and body heal.
+              </p>
+            </div>
+            <button
+              onClick={openLibrary}
+              className="w-full py-2.5 bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/30 text-[var(--color-primary)] hover:bg-[var(--color-primary)]/20 rounded-xl text-[10px] font-bold uppercase tracking-tight transition-all"
+            >
+              Open Library
+            </button>
           </motion.div>
         </div>
 
