@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 /* 
   SerenSpace Design System - Calm, Soft, Safe
@@ -12,8 +13,6 @@
   font-display: swap;
   src: url('https://fonts.gstatic.com/s/lexend/v18/nwp7L5SdB6W-oY-I5S.woff2') format('woff2');
 }
-
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
 :root {
   /* Core Palette */
