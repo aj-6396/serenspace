@@ -41,8 +41,8 @@ export default function MoodSelector({ onSelect, selectedId }) {
             className={`
               relative flex flex-col items-center gap-4 p-8 sm:p-10 rounded-[40px] transition-all duration-700
               ${isSelected 
-                ? 'bg-white premium-shadow ring-1 ring-[var(--color-primary)]/20 glow-teal' 
-                : 'bg-white/40 hover:bg-white/60 border border-white/50 backdrop-blur-md'}
+                ? 'bg-[var(--bg-base)] premium-shadow ring-1 ring-[var(--color-primary)]/20 glow-teal' 
+                : 'bg-[var(--bg-card)] hover:bg-[var(--bg-card)]/80 border border-[var(--border-subtle)] backdrop-blur-md'}
             `}
           >
             <span 

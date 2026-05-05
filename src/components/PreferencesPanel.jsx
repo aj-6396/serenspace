@@ -25,11 +25,11 @@ export default function PreferencesPanel({ isOpen, onClose }) {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="relative w-full max-w-sm h-full bg-white/95 backdrop-blur-2xl shadow-[-20px_0_60px_-15px_rgba(0,0,0,0.05)] p-10 overflow-y-auto border-l border-white/20"
+            className="relative w-full max-w-sm h-full bg-[var(--bg-base)]/95 backdrop-blur-2xl shadow-[-20px_0_60px_-15px_rgba(0,0,0,0.05)] p-10 overflow-y-auto border-l border-[var(--border-subtle)]"
           >
             <div className="flex justify-between items-center mb-12">
               <div className="flex items-center gap-4">
-                <div className="p-3 rounded-2xl bg-teal-50 text-[var(--color-primary)] shadow-sm">
+                <div className="p-3 rounded-2xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] shadow-sm">
                   <Settings size={22} />
                 </div>
                 <h2 className="text-2xl font-bold text-[var(--text-main)] font-heading tracking-tight">Preferences</h2>
@@ -46,9 +46,9 @@ export default function PreferencesPanel({ isOpen, onClose }) {
               {/* Appearance */}
               <div className="space-y-6">
                 <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] font-heading">Appearance</h3>
-                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-tertiary)]/30 transition-all">
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-tertiary)]/30 transition-all">
                   <div className="flex items-center gap-4">
-                    <div className={`p-3 rounded-xl ${theme === 'midnight' ? 'bg-purple-50 text-purple-500' : 'bg-amber-50 text-amber-500'}`}>
+                    <div className={`p-3 rounded-xl ${theme === 'midnight' ? 'bg-[var(--color-tertiary)]/10 text-[var(--color-tertiary)]' : 'bg-amber-50 text-amber-500'}`}>
                       {theme === 'midnight' ? <Moon size={20} /> : <Sun size={20} />}
                     </div>
                     <span className="text-sm font-bold text-[var(--text-main)] font-body">Midnight Theme</span>
@@ -68,19 +68,19 @@ export default function PreferencesPanel({ isOpen, onClose }) {
               {/* Accessibility */}
               <div className="space-y-6">
                 <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] font-heading">Accessibility</h3>
-                <div className="p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] space-y-6 shadow-sm">
+                <div className="p-6 rounded-[28px] bg-[var(--bg-card)] border border-[var(--border-subtle)] space-y-6 shadow-sm">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-blue-50 text-blue-500">
+                    <div className="p-3 rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
                       <Type size={20} />
                     </div>
                     <span className="text-sm font-bold text-[var(--text-main)] font-body">Font Scaling</span>
                   </div>
-                  <div className="flex justify-between gap-3 p-1.5 bg-slate-50 rounded-2xl">
+                  <div className="flex justify-between gap-3 p-1.5 bg-[var(--bg-base)] rounded-2xl">
                     {['S', 'M', 'L'].map(size => (
                       <button
                         key={size}
                         onClick={() => updatePreferences({ fontSize: size })}
-                        className={`flex-1 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${preferences.fontSize === size ? 'bg-white shadow-md text-[var(--color-primary)]' : 'text-slate-400 hover:text-slate-600'}`}
+                        className={`flex-1 py-3 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all ${preferences.fontSize === size ? 'bg-[var(--bg-card)] shadow-md text-[var(--color-primary)]' : 'text-[var(--text-muted)] hover:text-[var(--text-main)]'}`}
                       >
                         {size === 'S' ? 'Fine' : size === 'M' ? 'Normal' : 'Large'}
                       </button>
@@ -88,9 +88,9 @@ export default function PreferencesPanel({ isOpen, onClose }) {
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-primary)]/30 transition-all">
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-primary)]/30 transition-all">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-teal-50 text-[var(--color-primary)]">
+                    <div className="p-3 rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
                       <Eye size={20} />
                     </div>
                     <span className="text-sm font-bold text-[var(--text-main)] font-body">Clarity Assist</span>
@@ -106,9 +106,9 @@ export default function PreferencesPanel({ isOpen, onClose }) {
                   </button>
                 </div>
 
-                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-secondary)]/30 transition-all">
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-secondary)]/30 transition-all">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-sage-50 text-[var(--color-secondary)]">
+                    <div className="p-3 rounded-xl bg-[var(--color-secondary)]/10 text-[var(--color-secondary)]">
                       <Zap size={20} />
                     </div>
                     <span className="text-sm font-bold text-[var(--text-main)] font-body">Calm Interface</span>
@@ -128,9 +128,9 @@ export default function PreferencesPanel({ isOpen, onClose }) {
               {/* Notifications */}
               <div className="space-y-6">
                 <h3 className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] font-heading">Nurturing</h3>
-                <div className="flex items-center justify-between p-6 rounded-[28px] bg-white border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-caution)]/30 transition-all">
+                <div className="flex items-center justify-between p-6 rounded-[28px] bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm hover:border-[var(--color-caution)]/30 transition-all">
                   <div className="flex items-center gap-4">
-                    <div className="p-3 rounded-xl bg-orange-50 text-[var(--color-caution)]">
+                    <div className="p-3 rounded-xl bg-[var(--color-caution)]/10 text-[var(--color-caution)]">
                       <Bell size={20} />
                     </div>
                     <span className="text-sm font-bold text-[var(--text-main)] font-body">Daily Nudges</span>
@@ -148,7 +148,7 @@ export default function PreferencesPanel({ isOpen, onClose }) {
               </div>
             </div>
 
-            <div className="mt-24 pt-10 border-t border-slate-100">
+            <div className="mt-24 pt-10 border-t border-[var(--border-subtle)]">
               <p className="text-[10px] text-slate-400 text-center leading-relaxed font-body uppercase tracking-widest font-bold">
                 Privacy Protected<br/>Local Workspace only
               </p>

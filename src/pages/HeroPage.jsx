@@ -103,9 +103,9 @@ export default function HeroPage() {
             )}
 
             {/* Sugestive Pathways Card */}
-            <div className="glass-card p-8 sm:p-16 space-y-12 sm:space-y-16 bg-white/40">
+            <div className="glass-card p-8 sm:p-16 space-y-12 sm:space-y-16">
               <div className="space-y-6 sm:space-y-8 text-center max-w-2xl mx-auto">
-                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-white/50 text-[var(--color-primary)] border border-white/50">
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[10px] font-bold uppercase tracking-widest bg-[var(--bg-card)] text-[var(--color-primary)] border border-[var(--border-subtle)]">
                   <Sparkles size={12} /> A thought for you
                 </div>
                 <p className="text-2xl sm:text-3xl font-medium text-[var(--text-main)] leading-tight italic font-body tracking-tight">
@@ -131,9 +131,9 @@ export default function HeroPage() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
                       onClick={tool.action}
-                      className="w-full p-6 sm:p-8 rounded-[32px] bg-white/60 border border-white/80 hover:border-[var(--color-primary)] hover:bg-white shadow-sm transition-all flex items-center gap-6 group text-left min-h-[80px]"
+                      className="w-full p-6 sm:p-8 rounded-[32px] bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-primary)] shadow-sm transition-all flex items-center gap-6 group text-left min-h-[80px]"
                     >
-                      <div className={`p-4 sm:p-5 rounded-2xl bg-${tool.color}-50 text-${tool.color}-500 group-hover:scale-110 transition-transform shrink-0 shadow-sm`}>
+                      <div className={`p-4 sm:p-5 rounded-2xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] group-hover:scale-110 transition-transform shrink-0 shadow-sm`}>
                         {tool.icon}
                       </div>
                       <div>
@@ -173,7 +173,7 @@ export default function HeroPage() {
       <section className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-16 sm:gap-24 border-t border-[var(--border-subtle)] pt-20 sm:pt-32">
         <div className="space-y-6 sm:space-y-8">
           <div className="flex items-center gap-4 text-[var(--text-main)] font-heading font-bold uppercase tracking-[0.2em] text-xs">
-            <div className="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center">
               <Info size={16} className="text-[var(--color-primary)]" />
             </div>
             Why SerenSpace
@@ -184,7 +184,7 @@ export default function HeroPage() {
         </div>
         <div className="space-y-6 sm:space-y-8">
           <div className="flex items-center gap-4 text-[var(--text-main)] font-heading font-bold uppercase tracking-[0.2em] text-xs">
-            <div className="w-8 h-8 rounded-xl bg-teal-50 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-xl bg-[var(--color-secondary)]/10 flex items-center justify-center">
               <ShieldCheck size={16} className="text-[var(--color-secondary)]" />
             </div>
             Your Privacy

@@ -30,7 +30,7 @@ export default function ThoughtCheckCard({ mood, onComplete }) {
       className="w-full glass-card p-6 md:p-8 bg-pastel"
     >
       <div className="flex items-center gap-3 mb-6">
-        <div className="p-2 rounded-full bg-purple-100 text-purple-600">
+        <div className="p-2 rounded-full bg-[var(--color-tertiary)]/10 text-[var(--color-tertiary)]">
           <Brain size={20} />
         </div>
         <h3 className="font-semibold text-lg text-[var(--text-main)]">Thought Check-in</h3>
@@ -50,7 +50,7 @@ export default function ThoughtCheckCard({ mood, onComplete }) {
               value={thought}
               onChange={(e) => setThought(e.target.value)}
               placeholder="I feel like I'm failing at..."
-              className="w-full h-32 p-4 rounded-2xl bg-white/50 border border-[var(--border-subtle)] focus:border-[var(--color-primary)] transition-all resize-none text-sm outline-none"
+              className="w-full h-32 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] focus:border-[var(--color-primary)] transition-all resize-none text-sm outline-none text-[var(--text-main)] placeholder:opacity-50"
             />
             <button
               onClick={() => setStep(2)}
@@ -79,7 +79,7 @@ export default function ThoughtCheckCard({ mood, onComplete }) {
                   className={`py-3 rounded-xl border text-xs font-medium transition-all ${
                     isTrue === option 
                       ? 'bg-[var(--color-primary)] text-white border-[var(--color-primary)]' 
-                      : 'bg-white/50 border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--color-primary)]'
+                      : 'bg-[var(--bg-card)] border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--color-primary)]'
                   }`}
                 >
                   {option}
@@ -114,7 +114,7 @@ export default function ThoughtCheckCard({ mood, onComplete }) {
               value={balancedThought}
               onChange={(e) => setBalancedThought(e.target.value)}
               placeholder="While I'm struggling with X, I am doing my best in Y..."
-              className="w-full h-32 p-4 rounded-2xl bg-white/50 border border-[var(--border-subtle)] focus:border-[var(--color-primary)] transition-all resize-none text-sm outline-none"
+              className="w-full h-32 p-4 rounded-2xl bg-[var(--bg-card)] border border-[var(--border-subtle)] focus:border-[var(--color-primary)] transition-all resize-none text-sm outline-none text-[var(--text-main)] placeholder:opacity-50"
             />
             <div className="flex gap-3">
               <button onClick={() => setStep(2)} className="flex-1 py-3 rounded-xl border border-[var(--border-subtle)] text-xs font-medium text-[var(--text-muted)]">

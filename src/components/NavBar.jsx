@@ -20,7 +20,7 @@ export default function NavBar({ onOpenPrefs }) {
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-10 md:px-20 py-5 sm:py-8 backdrop-blur-xl bg-white/5 border-b border-white/10"
+      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-4 sm:px-10 md:px-20 py-5 sm:py-8 backdrop-blur-xl bg-[var(--bg-card)] border-b border-[var(--border-subtle)]"
       role="banner"
     >
       {/* Logo / Wordmark */}
@@ -43,7 +43,7 @@ export default function NavBar({ onOpenPrefs }) {
       <div className="hidden md:flex items-center gap-6">
         <button
           onClick={openToolkit}
-          className="flex items-center gap-2 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] border border-white/20 hover:border-[var(--color-primary)] hover:text-[var(--text-main)] transition-all bg-white/20 backdrop-blur-sm h-11"
+          className="flex items-center gap-2 px-6 py-2.5 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--text-muted)] border border-[var(--border-subtle)] hover:border-[var(--color-primary)] hover:text-[var(--text-main)] transition-all bg-[var(--bg-card)] backdrop-blur-sm h-11"
         >
           Toolkit
         </button>
@@ -60,7 +60,7 @@ export default function NavBar({ onOpenPrefs }) {
 
         <button
           onClick={onOpenPrefs}
-          className="p-2.5 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors rounded-full hover:bg-white/50 backdrop-blur-sm h-11 w-11 flex items-center justify-center border border-white/10"
+          className="p-2.5 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors rounded-full hover:bg-[var(--bg-card)] backdrop-blur-sm h-11 w-11 flex items-center justify-center border border-[var(--border-subtle)]"
         >
           <Settings size={20} />
         </button>
@@ -78,7 +78,7 @@ export default function NavBar({ onOpenPrefs }) {
         
         <button
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2.5 text-[var(--text-muted)] bg-white/40 backdrop-blur-sm rounded-full h-11 w-11 flex items-center justify-center transition-all border border-white/20"
+          className="p-2.5 text-[var(--text-muted)] bg-[var(--bg-card)] backdrop-blur-sm rounded-full h-11 w-11 flex items-center justify-center transition-all border border-[var(--border-subtle)]"
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
         >
           {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -93,17 +93,17 @@ export default function NavBar({ onOpenPrefs }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-50 bg-white/98 backdrop-blur-3xl md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
+            className="fixed inset-0 z-50 bg-[var(--bg-base)]/98 backdrop-blur-3xl md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
           >
             <div className="flex flex-col gap-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--text-muted)] ml-4">Sanctuary Menu</p>
               
               <button
                 onClick={() => handleNav(openToolkit)}
-                className="w-full flex items-center justify-between p-7 rounded-[40px] bg-white border border-slate-100 shadow-sm active:scale-[0.98] transition-all"
+                className="w-full flex items-center justify-between p-7 rounded-[40px] bg-[var(--bg-card)] border border-[var(--border-subtle)] shadow-sm active:scale-[0.98] transition-all"
               >
                 <div className="flex items-center gap-5">
-                  <div className="p-4 rounded-2xl bg-teal-50 text-teal-600">
+                  <div className="p-4 rounded-2xl bg-[var(--color-primary)]/10 text-[var(--color-primary)]">
                     <LayoutGrid size={28} />
                   </div>
                   <div className="text-left">
@@ -115,10 +115,10 @@ export default function NavBar({ onOpenPrefs }) {
 
               <button
                 onClick={() => handleNav(openRescue)}
-                className="w-full flex items-center justify-between p-7 rounded-[40px] bg-orange-50 border border-orange-100 shadow-sm active:scale-[0.98] transition-all"
+                className="w-full flex items-center justify-between p-7 rounded-[40px] bg-[var(--color-caution)]/10 border border-[var(--color-caution)]/20 shadow-sm active:scale-[0.98] transition-all"
               >
                 <div className="flex items-center gap-5">
-                  <div className="p-4 rounded-2xl bg-orange-100 text-orange-600">
+                  <div className="p-4 rounded-2xl bg-[var(--color-caution)]/20 text-[var(--color-caution)]">
                     <Zap size={28} />
                   </div>
                   <div className="text-left">
@@ -129,12 +129,12 @@ export default function NavBar({ onOpenPrefs }) {
               </button>
             </div>
 
-            <div className="flex flex-col gap-6 pt-12 border-t border-slate-100">
+            <div className="flex flex-col gap-6 pt-12 border-t border-[var(--border-subtle)]">
               <button
                 onClick={() => handleNav(onOpenPrefs)}
                 className="w-full flex items-center gap-4 p-4 text-[var(--text-muted)] hover:text-[var(--text-main)] transition-colors"
               >
-                <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center">
+                <div className="w-10 h-10 rounded-full bg-[var(--bg-card)] flex items-center justify-center border border-[var(--border-subtle)]">
                   <Settings size={20} />
                 </div>
                 <span className="font-bold text-sm uppercase tracking-[0.2em]">Sanctuary Settings</span>

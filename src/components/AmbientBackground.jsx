@@ -92,7 +92,7 @@ export default function AmbientBackground({ reduceMotion }) {
       )}
 
       {/* Vignette & Texture */}
-      <div className="absolute inset-0 bg-radial-gradient(circle at center, transparent 0%, rgba(249, 247, 245, 0.2) 100%) pointer-events-none" />
+      <div className="absolute inset-0 bg-radial-gradient(circle at center, transparent 0%, var(--bg-base) 100%) opacity-20 pointer-events-none" />
       <div className="noise-overlay" />
     </div>
   )

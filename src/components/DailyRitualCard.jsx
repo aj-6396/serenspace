@@ -20,13 +20,13 @@ export default function DailyRitualCard() {
       viewport={{ once: true }}
       className={`w-full p-8 sm:p-10 rounded-[40px] border transition-all duration-1000 premium-shadow ${
         dailyRitualDone 
-          ? 'bg-gradient-to-br from-emerald-50/80 to-white/40 border-emerald-100/50 glow-teal' 
+          ? 'bg-gradient-to-br from-[var(--color-secondary)]/10 to-[var(--bg-card)] border-[var(--color-secondary)]/20 glow-teal' 
           : 'glass-card'
       }`}
     >
       <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
         <div className="flex items-center gap-6">
-          <div className={`p-5 rounded-2xl transition-all duration-1000 ${dailyRitualDone ? 'bg-emerald-100 text-emerald-600' : 'bg-teal-50 text-teal-600'}`}>
+          <div className={`p-5 rounded-2xl transition-all duration-1000 ${dailyRitualDone ? 'bg-[var(--color-secondary)]/20 text-[var(--color-secondary)]' : 'bg-[var(--color-primary)]/10 text-[var(--color-primary)]'}`}>
             {dailyRitualDone ? <CheckCircle size={24} /> : <Sparkles size={24} className="animate-pulse" />}
           </div>
           <div className="space-y-2">
@@ -47,8 +47,8 @@ export default function DailyRitualCard() {
             Complete Ritual
           </button>
         ) : (
-          <div className="flex items-center gap-3 text-emerald-600 font-heading font-bold text-[10px] uppercase tracking-[0.3em] bg-emerald-100/50 px-6 py-3 rounded-full">
-            <Zap size={14} className="fill-emerald-600" /> Current Streak: {useWellnessStore.getState().streak}
+          <div className="flex items-center gap-3 text-[var(--color-secondary)] font-heading font-bold text-[10px] uppercase tracking-[0.3em] bg-[var(--color-secondary)]/10 px-6 py-3 rounded-full">
+            <Zap size={14} className="fill-[var(--color-secondary)]" /> Current Streak: {useWellnessStore.getState().streak}
           </div>
         )}
       </div>
