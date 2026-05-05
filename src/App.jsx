@@ -180,6 +180,29 @@ export default function App() {
   const [isExited, setIsExited] = React.useState(false)
   const [escCount, setEscCount] = React.useState(0)
 
+  // ── Browser History Synchronization ────────────────
+  React.useEffect(() => {
+    // Replace initial state with 'home'
+    window.history.replaceState({ view: 'home' }, '', '')
+
+    const handlePopState = (e) => {
+      if (e.state?.view) {
+        // Update store without triggering another pushState
+        useWellnessStore.setState({ currentView: e.state.view })
+      }
+    }
+
+    window.addEventListener('popstate', handlePopState)
+    return () => window.removeEventListener('popstate', handlePopState)
+  }, [])
+
+  React.useEffect(() => {
+    // Only push if the history state is different from current view
+    if (window.history.state?.view !== view) {
+      window.history.pushState({ view }, '', '')
+    }
+  }, [view])
+
   // Quick Exit Logic
   React.useEffect(() => {
     const handleKeyDown = (e) => {
