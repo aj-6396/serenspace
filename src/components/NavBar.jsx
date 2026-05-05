@@ -93,7 +93,7 @@ export default function NavBar({ onOpenPrefs }) {
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0, scale: 1.05 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-50 bg-[var(--bg-base)]/98 backdrop-blur-3xl md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
+            className="fixed inset-0 z-50 bg-[var(--bg-base)] md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
           >
             <div className="flex flex-col gap-6">
               <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--text-muted)] ml-4">Sanctuary Menu</p>
