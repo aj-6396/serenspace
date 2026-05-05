@@ -84,7 +84,7 @@ export default function HeroPage() {
         transition={{ duration: 1, delay: 0.2 }}
         className="w-full max-w-2xl mx-auto px-4"
       >
-        <div className="glass-card p-10 sm:p-14 text-center space-y-8 relative overflow-hidden group">
+        <div className="glass-card p-8 sm:p-14 text-center space-y-8 relative overflow-hidden group">
           {/* Subtle Background Glow */}
           <div className="absolute -top-24 -left-24 w-48 h-48 bg-[var(--color-primary)]/10 rounded-full blur-3xl group-hover:bg-[var(--color-primary)]/20 transition-all duration-1000" />
           <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[var(--color-tertiary)]/10 rounded-full blur-3xl group-hover:bg-[var(--color-tertiary)]/20 transition-all duration-1000" />
