@@ -14,6 +14,7 @@ export const EMOTIONS = [
     affirmation: 'Your feelings are valid. Anxiety is your mind trying to protect you.',
     suggestion: 'Let us anchor your physical focus and quiet the mind.',
     tools: ['grounding', 'breathe', 'canvas', 'pmr'],
+    science: 'Anxiety triggers the Amygdala. Grounding and breathing shift activity to the Prefrontal Cortex, lowering the heart rate and cortisol levels.',
   },
   {
     id: 'alone',
@@ -23,6 +24,7 @@ export const EMOTIONS = [
     affirmation: "You're not alone right now. This space is here with you.",
     suggestion: 'Let us focus on deep personal reflection and validation.',
     tools: ['vent', 'jar', 'cbt'],
+    science: 'Loneliness often involves ruminative loops. CBT and journaling break these loops by externalizing internal thoughts, providing perspective.',
   },
   {
     id: 'lost',
@@ -32,6 +34,7 @@ export const EMOTIONS = [
     affirmation: "It's okay not to have all the answers. One breath at a time.",
     suggestion: 'Let us find steady ground and clarity together.',
     tools: ['stillness', 'cbt'],
+    science: 'Feeling lost is often a result of cognitive overload. Brief stillness helps reset neural "noise," while CBT targets specific lost-identity distortions.',
   },
   {
     id: 'overwhelmed',
@@ -41,6 +44,7 @@ export const EMOTIONS = [
     affirmation: "You don't have to handle everything at once. Just this moment.",
     suggestion: 'Let us give you an immediate mental reset.',
     tools: ['vent', 'grounding', 'canvas', 'pmr'],
+    science: 'Overwhelm is a state of sensory flooding. Distraction and somatic release (PMR) provide a "circuit breaker" for the nervous system.',
   },
 ]
 

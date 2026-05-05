@@ -22,6 +22,8 @@ import CanvasPage    from './pages/CanvasPage'
 import JarPage       from './pages/JarPage'
 import PMRPage       from './pages/PMRPage'
 import CBTPage       from './pages/CBTPage'
+import SafetyPlanPage from './pages/SafetyPlanPage'
+import MoodHistoryPage from './pages/MoodHistoryPage'
 import AmbientAudio  from './components/AmbientAudio'
 
 import useWellnessStore from './context/useWellnessStore'
@@ -91,6 +93,16 @@ function ViewRouter({ view }) {
       {view === 'cbt' && (
         <motion.div key="cbt" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
           <CBTPage />
+        </motion.div>
+      )}
+      {view === 'safety-plan' && (
+        <motion.div key="safety-plan" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+          <SafetyPlanPage />
+        </motion.div>
+      )}
+      {view === 'mood-history' && (
+        <motion.div key="mood-history" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+          <MoodHistoryPage />
         </motion.div>
       )}
     </AnimatePresence>

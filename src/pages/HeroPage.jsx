@@ -16,6 +16,8 @@ export default function HeroPage() {
   const openBreathe   = useWellnessStore((s) => s.openBreathe)
   const openStillness = useWellnessStore((s) => s.openStillness)
   const openJar       = useWellnessStore((s) => s.openJar)
+  const openSafetyPlan = useWellnessStore((s) => s.openSafetyPlan)
+  const openMoodHistory = useWellnessStore((s) => s.openMoodHistory)
   const lowEnergyMode = useWellnessStore((s) => s.lowEnergyMode)
 
   return (
@@ -142,6 +144,28 @@ export default function HeroPage() {
             </button>
           )}
         </motion.div>
+
+        {/* ── Clinical Access (New) ─────────────────────────── */}
+        {!lowEnergyMode && (
+          <motion.div
+            className="flex items-center justify-center gap-6 pt-4 border-t border-[var(--border-subtle)]/30 w-full"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}
+          >
+            <button 
+              onClick={openSafetyPlan}
+              className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--color-primary)] transition-all flex items-center gap-2"
+            >
+              My Safety Plan
+            </button>
+            <div className="w-1 h-1 rounded-full bg-[var(--border-subtle)]" />
+            <button 
+              onClick={openMoodHistory}
+              className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--color-secondary)] transition-all flex items-center gap-2"
+            >
+              Mood Reflection
+            </button>
+          </motion.div>
+        )}
 
         {/* ── Footer micro-copy ────────────────────────────────── */}
         <motion.p

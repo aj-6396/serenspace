@@ -11,7 +11,7 @@ import { persist } from 'zustand/middleware'
 const useWellnessStore = create(
   persist(
     (set) => ({
-      // ── Preferences (Persisted) ────────────────────────────────────
+      // ── Preferences & Clinical Data (Persisted) ─────────────────────
       theme: 'default', // 'default' | 'dusk' | 'midnight' | 'forest'
       soundEnabled: false,
       reduceMotion: false,
@@ -21,7 +21,17 @@ const useWellnessStore = create(
         "You survived your hardest days before, you can survive this one.",
         "It's okay to do nothing today.",
         "Your worth is not tied to your productivity."
-      ], // Seeded with some default kind messages
+      ], 
+      
+      // Clinical Data
+      moodHistory: [], // Array of { date: string, emotionId: string }
+      safetyPlan: {
+        warningSigns: "",
+        copingStrategies: "",
+        distractions: "",
+        supporters: "",
+        professionals: ""
+      },
 
       setTheme: (theme) => set({ theme }),
       toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
@@ -32,15 +42,29 @@ const useWellnessStore = create(
       addJarMessage: (msg) => set((s) => ({ jarMessages: [...s.jarMessages, msg] })),
       removeJarMessage: (index) => set((s) => ({ jarMessages: s.jarMessages.filter((_, i) => i !== index) })),
 
+      setSafetyPlan: (plan) => set({ safetyPlan: plan }),
+      addMoodEntry: (emotionId) => set((s) => {
+        const today = new Date().toISOString().split('T')[0]
+        // Keep only last 100 entries for performance
+        const newHistory = [...s.moodHistory, { date: today, emotionId }].slice(-100)
+        return { moodHistory: newHistory }
+      }),
+
       // ── Navigation / View State (Memory-only) ───────────────────────
-      currentView: 'home', // 'home' | 'support' | 'vent' | 'breathe' | 'grounding' | 'stillness' | 'rescue' | 'canvas' | 'jar' | 'pmr' | 'cbt'
+      currentView: 'home', // 'home' | 'support' | 'vent' | 'breathe' | 'grounding' | 'stillness' | 'rescue' | 'canvas' | 'jar' | 'pmr' | 'cbt' | 'safety-plan' | 'mood-history'
       selectedEmotion: null,
       isReleasing: false,
       showReleaseMessage: false,
 
       // ── Actions ───────────────────────────────────────────────────
       setView: (view) => set({ currentView: view }),
-      selectEmotion: (emotion) => set({ selectedEmotion: emotion, currentView: 'support' }),
+      selectEmotion: (emotionId) => {
+        const today = new Date().toISOString().split('T')[0]
+        set((s) => {
+          const newHistory = [...s.moodHistory, { date: today, emotionId }].slice(-100)
+          return { selectedEmotion: emotionId, currentView: 'support', moodHistory: newHistory }
+        })
+      },
       goHome: () => set({ currentView: 'home', selectedEmotion: null, isReleasing: false, showReleaseMessage: false }),
       openVent: () => set({ currentView: 'vent' }),
       openBreathe: () => set({ currentView: 'breathe' }),
@@ -51,6 +75,8 @@ const useWellnessStore = create(
       openJar: () => set({ currentView: 'jar' }),
       openPmr: () => set({ currentView: 'pmr' }),
       openCbt: () => set({ currentView: 'cbt' }),
+      openSafetyPlan: () => set({ currentView: 'safety-plan' }),
+      openMoodHistory: () => set({ currentView: 'mood-history' }),
 
       triggerRelease: () => {
         set({ isReleasing: true })
@@ -58,7 +84,7 @@ const useWellnessStore = create(
       },
     }),
     {
-      name: 'serenspace-preferences', // unique name in localStorage
+      name: 'serenspace-preferences', 
       partialize: (state) => ({
         theme: state.theme,
         soundEnabled: state.soundEnabled,
@@ -66,6 +92,8 @@ const useWellnessStore = create(
         useDyslexicFont: state.useDyslexicFont,
         lowEnergyMode: state.lowEnergyMode,
         jarMessages: state.jarMessages,
+        moodHistory: state.moodHistory,
+        safetyPlan: state.safetyPlan,
       }),
     }
   )

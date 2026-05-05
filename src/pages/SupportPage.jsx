@@ -14,6 +14,8 @@ export default function SupportPage() {
   const openPmr = useWellnessStore((s) => s.openPmr)
   const openCbt = useWellnessStore((s) => s.openCbt)
   const openJar = useWellnessStore((s) => s.openJar)
+  const openSafetyPlan = useWellnessStore((s) => s.openSafetyPlan)
+  const openMoodHistory = useWellnessStore((s) => s.openMoodHistory)
   const emotionId   = useWellnessStore((s) => s.selectedEmotion)
 
   const emotion = getEmotion(emotionId)
@@ -233,12 +235,60 @@ export default function SupportPage() {
           )}
         </div>
 
+        {/* ── Clinical Science & Long-term Support ── */}
+        <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
+          {/* Science Information */}
+          <motion.div
+            className="glass-card p-6 border border-[var(--border-subtle)] text-left space-y-3 bg-[var(--bg-card)]/20"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+          >
+            <div className="flex items-center gap-2">
+              <Activity className="w-4 h-4 text-[var(--color-primary)]" />
+              <span className="text-xs font-bold tracking-wider text-[var(--color-primary)] uppercase">
+                Clinical Science — The "Why"
+              </span>
+            </div>
+            <p className="text-xs text-[var(--text-main)] leading-relaxed italic">
+              "{emotion.science}"
+            </p>
+          </motion.div>
+
+          {/* Long-term Clinical Tools */}
+          <motion.div
+            className="glass-card p-6 border border-[var(--border-subtle)] text-left flex flex-col justify-between gap-4 bg-[var(--bg-card)]/20"
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.55 }}
+          >
+            <div className="space-y-1">
+              <span className="text-xs font-bold tracking-wider text-[var(--color-secondary)] uppercase block">
+                Long-term Companion Tools
+              </span>
+              <p className="text-[10px] text-[var(--text-muted)] leading-relaxed">
+                Build a safety plan or review your emotional trends for your next doctor's visit.
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button
+                onClick={openSafetyPlan}
+                className="flex-1 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-[10px] font-bold uppercase tracking-tight transition-all"
+              >
+                Safety Plan
+              </button>
+              <button
+                onClick={openMoodHistory}
+                className="flex-1 py-2.5 bg-white/5 border border-white/10 hover:bg-white/10 rounded-xl text-[10px] font-bold uppercase tracking-tight transition-all"
+              >
+                Mood Reflection
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
         {/* ── Crisis & Behavioral Activation Row ── */}
         <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 mt-4">
           {/* Behavioral Activation (Micro-Momentum) */}
           <motion.div
             className="glass-card p-6 border border-[var(--border-subtle)] text-left space-y-4"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}
+            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.6 }}
           >
             <div className="flex justify-between items-center select-none">
               <span className="text-xs font-bold tracking-wider text-[var(--color-primary)] uppercase">
