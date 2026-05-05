@@ -97,7 +97,8 @@ export default function NavBar({ onOpenPrefs }) {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed inset-0 z-[100] bg-[var(--bg-base)] md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
+            style={{ backgroundColor: 'var(--bg-base)' }}
+            className="fixed inset-0 z-[100] md:hidden flex flex-col pt-32 px-6 pb-12 space-y-12"
             role="dialog"
             aria-modal="true"
             aria-label="Navigation Menu"
