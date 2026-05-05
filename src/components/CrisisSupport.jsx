@@ -24,7 +24,8 @@ export default function CrisisSupport() {
           onClick={() => setIsOpen(true)}
           whileHover={{ y: -2 }}
           whileTap={{ scale: 0.98 }}
-          className="w-full bg-[var(--bg-card)] border-2 border-[var(--color-caution)]/20 p-4 sm:p-5 rounded-[28px] sm:rounded-[32px] shadow-2xl flex items-center justify-between gap-4 group backdrop-blur-xl"
+          aria-label="Open emergency support menu"
+          className="w-full bg-[var(--bg-card)] border-2 border-[var(--color-caution)]/20 p-4 sm:p-5 rounded-[28px] sm:rounded-[32px] shadow-2xl flex items-center justify-between gap-4 group backdrop-blur-xl focus-visible:ring-4 focus-visible:ring-[var(--color-caution)]/20 focus-visible:outline-none"
         >
           <div className="flex items-center gap-3 sm:gap-4">
             <div className="bg-[var(--color-caution)] p-2.5 sm:p-3 rounded-xl sm:rounded-2xl text-white group-hover:scale-110 transition-transform shadow-lg shadow-orange-500/20">
@@ -43,13 +44,17 @@ export default function CrisisSupport() {
       {/* ── Expandable Support Sheet ────────────────────────── */}
       <AnimatePresence>
         {isOpen && (
-          <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/10 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-black/40 backdrop-blur-sm" onClick={() => setIsOpen(false)}>
             <motion.div
               initial={{ opacity: 0, y: '100%' }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: '100%' }}
               transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-              className="w-full max-w-xl bg-[var(--bg-base)]/95 backdrop-blur-2xl rounded-t-[40px] sm:rounded-[48px] shadow-2xl overflow-hidden border-t sm:border border-[var(--border-subtle)]"
+              onClick={(e) => e.stopPropagation()}
+              className="w-full max-w-xl bg-[var(--bg-base)] rounded-t-[40px] sm:rounded-[48px] shadow-2xl overflow-hidden border-t sm:border border-[var(--border-subtle)]"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="crisis-heading"
             >
               {/* Header */}
               <div className="px-6 sm:px-10 pt-8 sm:pt-10 flex justify-between items-center">
@@ -58,17 +63,18 @@ export default function CrisisSupport() {
                 </div>
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="p-3 rounded-full bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--color-caution)] transition-all h-12 w-12 flex items-center justify-center border border-[var(--border-subtle)]"
+                  aria-label="Close support menu"
+                  className="p-3 rounded-full bg-[var(--bg-card)] text-[var(--text-muted)] hover:text-[var(--color-caution)] transition-all h-12 w-12 flex items-center justify-center border border-[var(--border-subtle)] focus-visible:ring-2 focus-visible:ring-[var(--color-caution)] focus-visible:outline-none"
                 >
                   <X size={24} />
                 </button>
               </div>
 
               {/* Content */}
-              <div className="px-6 sm:px-10 py-8 sm:py-10 max-h-[80vh] overflow-y-auto space-y-10 custom-scrollbar">
-                <header className="space-y-3">
-                  <h2 className="text-3xl sm:text-4xl font-bold text-[var(--text-main)] tracking-tight font-heading leading-tight">You’re not alone.</h2>
-                  <p className="text-[var(--text-muted)] font-body leading-relaxed text-base sm:text-lg">
+              <div className="px-6 sm:px-10 py-8 sm:py-10 max-h-[85vh] overflow-y-auto space-y-10 custom-scrollbar">
+                <header className="space-y-4 text-center sm:text-left">
+                  <h2 id="crisis-heading" className="text-3xl sm:text-4xl font-bold text-[var(--text-main)] tracking-tight font-heading leading-tight">You’re not alone.</h2>
+                  <p className="text-[var(--text-muted)] font-body leading-relaxed text-base sm:text-lg opacity-90 max-w-sm sm:max-w-none">
                     We're here to help you find the support you need right now.
                   </p>
                 </header>
@@ -76,13 +82,14 @@ export default function CrisisSupport() {
                 <SeveritySignal />
 
                 {/* Localized Support */}
-                <section className="space-y-4">
-                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] font-heading px-1">Local Resources</h3>
+                <section className="space-y-6" aria-label="Local support resources">
+                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] font-heading px-1 opacity-70">Local Resources</h3>
                   <div className="relative group">
                     <select
                       value={selectedCity}
                       onChange={(e) => setSelectedCity(e.target.value)}
-                      className="w-full h-14 p-4 pl-5 rounded-[20px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 text-[var(--text-main)] text-sm font-bold focus:outline-none focus:ring-4 focus:ring-[var(--color-caution)]/10 transition-all appearance-none cursor-pointer shadow-sm"
+                      aria-label="Filter support by city"
+                      className="w-full h-16 p-4 pl-5 rounded-[24px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 text-[var(--text-main)] text-base font-bold focus:outline-none focus:ring-4 focus:ring-[var(--color-caution)]/10 transition-all appearance-none cursor-pointer shadow-sm"
                     >
                       <option value="">Select your city...</option>
                       <option value="Varanasi">Varanasi</option>
@@ -90,7 +97,7 @@ export default function CrisisSupport() {
                       <option value="Delhi">Delhi</option>
                     </select>
                     <div className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--color-caution)]/40">
-                      <ChevronUp className="rotate-180" size={18} />
+                      <ChevronUp className="rotate-180" size={20} />
                     </div>
                   </div>
 
@@ -100,39 +107,44 @@ export default function CrisisSupport() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0, scale: 0.95 }}
-                        className="p-6 rounded-[28px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 shadow-lg shadow-orange-500/5 space-y-4"
+                        className="p-6 sm:p-8 rounded-[32px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 shadow-lg shadow-orange-500/5 space-y-4"
                       >
                         <div className="flex items-center justify-between">
                           <div>
-                            <p className="text-[9px] font-bold uppercase tracking-widest text-orange-400 font-heading mb-1">{selectedCity} Help</p>
-                            <span className="text-sm font-bold text-[var(--text-main)] font-heading">{CITY_RESOURCES[selectedCity].name}</span>
+                            <p className="text-[10px] font-bold uppercase tracking-widest text-orange-400 font-heading mb-1">{selectedCity} Help</p>
+                            <span className="text-base font-bold text-[var(--text-main)] font-heading">{CITY_RESOURCES[selectedCity].name}</span>
                           </div>
                           <a 
                             href={`tel:${CITY_RESOURCES[selectedCity].phone.replace(/[^0-9]/g, '')}`} 
-                            className="h-12 w-12 rounded-xl bg-[var(--color-caution)]/10 text-[var(--color-caution)] flex items-center justify-center hover:bg-[var(--color-caution)]/20 transition-colors"
+                            aria-label={`Call ${CITY_RESOURCES[selectedCity].name}`}
+                            className="h-14 w-14 rounded-2xl bg-[var(--color-caution)]/10 text-[var(--color-caution)] flex items-center justify-center hover:bg-[var(--color-caution)]/20 transition-colors"
                           >
-                            <Phone size={20} />
+                            <Phone size={24} />
                           </a>
                         </div>
-                        <p className="text-xl sm:text-2xl font-bold text-[var(--text-main)] tabular-nums">{CITY_RESOURCES[selectedCity].phone}</p>
+                        <p className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] tabular-nums">{CITY_RESOURCES[selectedCity].phone}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </section>
 
                 {/* National Support */}
-                <section className="space-y-4">
-                  <h3 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] font-heading px-1">National Helpline</h3>
-                  <div className="p-6 sm:p-8 rounded-[32px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 shadow-xl shadow-orange-500/10 space-y-6 sm:space-y-8">
-                    <div className="flex flex-col gap-1">
-                      <p className="text-[9px] font-bold uppercase tracking-widest text-[var(--color-caution)] font-heading">24/7 Support (India)</p>
-                      <a href="tel:18005990019" className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] hover:text-[var(--color-caution)] transition-colors tabular-nums">
+                <section className="space-y-6" aria-label="National support resources">
+                  <h3 className="text-[11px] font-bold uppercase tracking-widest text-[var(--text-muted)] font-heading px-1 opacity-70">National Helpline</h3>
+                  <div className="p-8 sm:p-10 rounded-[40px] bg-[var(--bg-card)] border border-[var(--color-caution)]/20 shadow-xl shadow-orange-500/10 space-y-8">
+                    <div className="flex flex-col gap-2">
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-caution)] font-heading">24/7 Support (India)</p>
+                      <a 
+                        href="tel:18005990019" 
+                        aria-label="Call national helpline 1800-599-0019"
+                        className="text-3xl sm:text-4xl font-bold text-[var(--text-main)] hover:text-[var(--color-caution)] transition-colors tabular-nums"
+                      >
                         1800-599-0019
                       </a>
                     </div>
                     
-                    <button className="w-full h-14 sm:h-16 rounded-[20px] bg-[var(--color-caution)] text-white font-bold font-heading flex items-center justify-center gap-3 hover:opacity-90 transition-all shadow-xl shadow-orange-500/20 active:scale-95">
-                      <Heart size={20} className="fill-white" />
+                    <button className="w-full h-16 sm:h-20 rounded-[24px] bg-[var(--color-caution)] text-white font-bold font-heading text-lg flex items-center justify-center gap-4 hover:opacity-90 transition-all shadow-xl shadow-orange-500/20 active:scale-95 focus-visible:ring-4 focus-visible:ring-[var(--color-caution)]/30 focus-visible:outline-none">
+                      <Heart size={24} className="fill-white" />
                       Immediate Support
                     </button>
                   </div>
@@ -140,8 +152,8 @@ export default function CrisisSupport() {
 
                 <DisclaimerBanner />
 
-                <div className="pt-4 pb-2 text-center">
-                  <p className="text-[9px] text-orange-300 uppercase tracking-[0.2em] font-bold font-heading">
+                <div className="pt-6 pb-2 text-center">
+                  <p className="text-[10px] text-orange-400 font-bold uppercase tracking-[0.4em] font-heading opacity-60">
                     You are safe. You are cared for.
                   </p>
                 </div>

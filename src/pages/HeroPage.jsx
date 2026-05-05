@@ -30,10 +30,13 @@ export default function HeroPage() {
   const selectedMood = getEmotion(selectedMoodId)
 
   return (
-    <main className="flex flex-col items-center min-h-screen px-4 sm:px-8 pt-20 sm:pt-32 pb-32 sm:pb-40 max-w-6xl mx-auto space-y-20 sm:space-y-32">
+    <main 
+      className="flex flex-col items-center min-h-screen px-4 sm:px-8 pt-24 sm:pt-32 pb-32 sm:pb-40 max-w-6xl mx-auto space-y-24 sm:space-y-32"
+      aria-label="SerenSpace Home"
+    >
       {/* ── Brand Header ───────────────────────────────────── */}
       <motion.div
-        initial={{ opacity: 0, scale: 0.8 }}
+        initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
         className="flex flex-col items-center"
@@ -46,45 +49,42 @@ export default function HeroPage() {
       </motion.div>
 
       {/* ── Hero Heading ────────────────────────────────────── */}
-      <motion.div
+      <motion.header
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
         className="text-center space-y-6 sm:space-y-8"
       >
-        <motion.div
-          animate={{ y: [0, -6, 0] }}
-          transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-          className="relative inline-block"
-        >
+        <div className="relative inline-block">
           <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold font-heading text-[var(--text-main)] tracking-tight leading-[1.1]">
             How are you <br />
             <span className="gradient-text">feeling today?</span>
           </h1>
-          <div className="absolute -top-4 -right-4 sm:-top-8 sm:-right-8 opacity-20">
+          <div className="absolute -top-4 -right-4 sm:-top-8 sm:-right-8 opacity-20 hidden sm:block">
             <Sparkles size={40} className="text-[var(--color-primary)]" />
           </div>
-        </motion.div>
+        </div>
 
-        <p className="text-[var(--text-muted)] text-base sm:text-lg md:text-xl max-w-xl mx-auto font-body leading-relaxed px-6 opacity-80">
-          A private, non-judgmental space to navigate your emotions and find your inner balance.
+        <p className="text-[var(--text-muted)] text-base sm:text-lg md:text-xl max-w-xl mx-auto font-body leading-relaxed px-4 opacity-90">
+          A private, non-judgmental sanctuary to navigate your emotions and find your inner balance.
         </p>
-      </motion.div>
+      </motion.header>
 
-    
       {/* ── Mood Selector ───────────────────────────────────── */}
-      <section className="w-full">
+      <section className="w-full" aria-label="Mood selection">
         <MoodSelector onSelect={handleMoodSelect} selectedId={selectedMoodId} />
       </section>
-  {/* ── Companion Message ──────────────────────────── */}
+
+      {/* ── Companion Message ──────────────────────────── */}
       <motion.section
         initial={{ opacity: 0, y: 30 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.2 }}
         className="w-full max-w-2xl mx-auto px-4"
+        aria-label="Supportive companion message"
       >
-        <div className="glass-card p-8 sm:p-14 text-center space-y-8 relative overflow-hidden group">
+        <div className="glass-card p-10 sm:p-14 text-center space-y-8 relative overflow-hidden group">
           {/* Subtle Background Glow */}
           <div className="absolute -top-24 -left-24 w-48 h-48 bg-[var(--color-primary)]/10 rounded-full blur-3xl group-hover:bg-[var(--color-primary)]/20 transition-all duration-1000" />
           <div className="absolute -bottom-24 -right-24 w-48 h-48 bg-[var(--color-tertiary)]/10 rounded-full blur-3xl group-hover:bg-[var(--color-tertiary)]/20 transition-all duration-1000" />
@@ -115,7 +115,7 @@ export default function HeroPage() {
       </motion.section>
 
       {/* ── Daily Ritual Section ──────────────────────────── */}
-      <section className="w-full max-w-4xl px-4 mb-24 sm:mb-32">
+      <section className="w-full max-w-4xl px-4" aria-label="Daily ritual">
         <DailyRitualCard />
       </section>
 
@@ -169,14 +169,15 @@ export default function HeroPage() {
                       animate={{ opacity: 1, x: 0 }}
                       transition={{ delay: i * 0.1 }}
                       onClick={tool.action}
-                      className="w-full p-6 sm:p-8 rounded-[32px] bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-primary)] shadow-sm transition-all flex items-center gap-6 group text-left min-h-[80px]"
+                      className="w-full p-6 sm:p-10 rounded-[32px] bg-[var(--bg-card)] border border-[var(--border-subtle)] hover:border-[var(--color-primary)] shadow-sm transition-all flex items-center gap-6 group text-left min-h-[100px]"
+                      aria-label={`Open ${tool.label} tool`}
                     >
-                      <div className={`p-4 sm:p-5 rounded-2xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] group-hover:scale-110 transition-transform shrink-0 shadow-sm`}>
+                      <div className="p-4 sm:p-6 rounded-2xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] group-hover:scale-110 transition-transform shrink-0 shadow-sm">
                         {tool.icon}
                       </div>
                       <div>
-                        <span className="font-heading font-bold text-sm sm:text-base block text-[var(--text-main)]">{tool.label}</span>
-                        <p className="text-xs text-[var(--text-muted)] font-body mt-1 opacity-80">{tool.desc}</p>
+                        <span className="font-heading font-bold text-base sm:text-lg block text-[var(--text-main)]">{tool.label}</span>
+                        <p className="text-sm text-[var(--text-muted)] font-body mt-1 opacity-80">{tool.desc}</p>
                       </div>
                     </motion.button>
                   ))}
@@ -191,12 +192,13 @@ export default function HeroPage() {
       <motion.section
         className="w-full flex flex-col items-center gap-10"
         initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }}
+        aria-label="Quick reset"
       >
         <div className="w-px h-16 bg-gradient-to-b from-transparent via-[var(--color-primary)]/40 to-transparent" />
-        <div className="flex flex-col items-center gap-8 w-full max-w-lg">
+        <div className="flex flex-col items-center gap-8 w-full max-w-lg px-4">
           <button
             onClick={openBreathe}
-            className="w-full flex items-center justify-center gap-4 px-12 py-6 rounded-[32px] bg-[var(--grad-calm)] text-white font-heading font-bold shadow-2xl shadow-teal-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all min-h-[64px] text-lg glow-teal"
+            className="w-full flex items-center justify-center gap-4 px-12 py-7 rounded-[32px] bg-[var(--grad-calm)] text-white font-heading font-bold shadow-2xl shadow-teal-500/20 hover:scale-[1.02] active:scale-[0.98] transition-all min-h-[72px] text-lg glow-teal"
           >
             <Zap size={24} /> 3-Minute Quick Reset
           </button>
@@ -208,26 +210,29 @@ export default function HeroPage() {
       </motion.section>
 
       {/* ── About & Privacy ─────────────────────────────────── */}
-      <section className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-16 sm:gap-24 border-t border-[var(--border-subtle)] pt-20 sm:pt-32">
+      <section 
+        className="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-16 sm:gap-24 border-t border-[var(--border-subtle)] pt-24 sm:pt-32"
+        aria-label="Information and Privacy"
+      >
         <div className="space-y-6 sm:space-y-8">
           <div className="flex items-center gap-4 text-[var(--text-main)] font-heading font-bold uppercase tracking-[0.2em] text-xs">
-            <div className="w-8 h-8 rounded-xl bg-[var(--color-primary)]/10 flex items-center justify-center">
-              <Info size={16} className="text-[var(--color-primary)]" />
+            <div className="w-10 h-10 rounded-2xl bg-[var(--color-primary)]/10 flex items-center justify-center">
+              <Info size={20} className="text-[var(--color-primary)]" />
             </div>
             Why SerenSpace
           </div>
-          <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed font-body opacity-80">
+          <p className="text-base text-[var(--text-muted)] leading-relaxed font-body opacity-90">
             We believe mental wellness shouldn't be complicated or clinical. SerenSpace is a gentle, privacy-first sanctuary designed to help you process emotions through evidence-based rituals.
           </p>
         </div>
         <div className="space-y-6 sm:space-y-8">
           <div className="flex items-center gap-4 text-[var(--text-main)] font-heading font-bold uppercase tracking-[0.2em] text-xs">
-            <div className="w-8 h-8 rounded-xl bg-[var(--color-secondary)]/10 flex items-center justify-center">
-              <ShieldCheck size={16} className="text-[var(--color-secondary)]" />
+            <div className="w-10 h-10 rounded-2xl bg-[var(--color-secondary)]/10 flex items-center justify-center">
+              <ShieldCheck size={20} className="text-[var(--color-secondary)]" />
             </div>
             Your Privacy
           </div>
-          <p className="text-sm sm:text-base text-[var(--text-muted)] leading-relaxed font-body opacity-80">
+          <p className="text-base text-[var(--text-muted)] leading-relaxed font-body opacity-90">
             Your data never leaves your device. No cloud, no tracking, no accounts. What happens in SerenSpace stays in your safe space.
           </p>
         </div>
