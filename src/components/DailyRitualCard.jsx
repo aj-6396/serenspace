@@ -15,25 +15,26 @@ export default function DailyRitualCard() {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      className={`w-full p-8 rounded-[32px] border transition-all duration-700 ${
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      className={`w-full p-8 sm:p-10 rounded-[40px] border transition-all duration-1000 premium-shadow ${
         dailyRitualDone 
-          ? 'bg-emerald-50/70 border-emerald-100 shadow-xl shadow-emerald-500/5' 
+          ? 'bg-gradient-to-br from-emerald-50/80 to-white/40 border-emerald-100/50 glow-teal' 
           : 'glass-card'
       }`}
     >
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-6">
-        <div className="flex items-center gap-5">
-          <div className={`p-4 rounded-2xl transition-colors duration-700 ${dailyRitualDone ? 'bg-emerald-100 text-emerald-600' : 'bg-teal-50 text-teal-600'}`}>
-            <Sparkles size={22} className={dailyRitualDone ? '' : 'animate-pulse'} />
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-8">
+        <div className="flex items-center gap-6">
+          <div className={`p-5 rounded-2xl transition-all duration-1000 ${dailyRitualDone ? 'bg-emerald-100 text-emerald-600' : 'bg-teal-50 text-teal-600'}`}>
+            {dailyRitualDone ? <CheckCircle size={24} /> : <Sparkles size={24} className="animate-pulse" />}
           </div>
-          <div className="space-y-1">
-            <h4 className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] font-heading">Today's Mini-Ritual</h4>
-            <p className="text-base font-bold text-[var(--text-main)] font-body">
+          <div className="space-y-2">
+            <h4 className="text-[10px] font-bold uppercase tracking-[0.3em] text-[var(--text-muted)] font-heading opacity-60">Daily Intention</h4>
+            <p className="text-lg sm:text-xl font-bold text-[var(--text-main)] font-body tracking-tight">
               {dailyRitualDone 
-                ? "Ritual completed. You're doing great." 
-                : "3 min breathing + 1 journal prompt."}
+                ? "You've nurtured your mind today." 
+                : "Mindful check-in & short breathing."}
             </p>
           </div>
         </div>
@@ -41,13 +42,13 @@ export default function DailyRitualCard() {
         {!dailyRitualDone ? (
           <button
             onClick={handleComplete}
-            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 rounded-2xl bg-[var(--color-primary)] text-white text-[10px] font-bold uppercase tracking-widest shadow-xl shadow-teal-500/20 btn-hover-scale"
+            className="w-full sm:w-auto flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-[var(--color-primary)] text-white text-[10px] font-bold uppercase tracking-[0.2em] shadow-xl shadow-teal-500/20 hover:scale-[1.03] active:scale-[0.97] transition-all"
           >
-            <CheckCircle size={14} /> Mark Done
+            Complete Ritual
           </button>
         ) : (
-          <div className="flex items-center gap-2 text-emerald-600 font-heading font-bold text-[10px] uppercase tracking-widest">
-            <CheckCircle size={16} /> Day Streak +1
+          <div className="flex items-center gap-3 text-emerald-600 font-heading font-bold text-[10px] uppercase tracking-[0.3em] bg-emerald-100/50 px-6 py-3 rounded-full">
+            <Zap size={14} className="fill-emerald-600" /> Current Streak: {useWellnessStore.getState().streak}
           </div>
         )}
       </div>

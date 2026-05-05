@@ -25,19 +25,23 @@
   
   /* Backgrounds & Text */
   --bg-base: #F9F7F5;         /* Warm Beige */
-  --bg-card: rgba(255, 255, 255, 0.7);
+  --bg-card: rgba(255, 255, 255, 0.65);
   --text-main: #2D3748;       /* Charcoal Gray */
-  --text-muted: #718096;      /* Slate Gray */
-  --border-subtle: rgba(77, 182, 172, 0.1);
+  --text-muted: #64748B;      /* Slate Gray */
+  --border-subtle: rgba(77, 182, 172, 0.08);
   
   /* Gradients */
   --grad-calm: linear-gradient(135deg, #9575CD 0%, #4DB6AC 50%, #8BC34A 100%);
-  --grad-soft: linear-gradient(135deg, rgba(77, 182, 172, 0.08) 0%, rgba(149, 117, 205, 0.08) 100%);
+  --grad-soft: linear-gradient(135deg, rgba(77, 182, 172, 0.06) 0%, rgba(149, 117, 205, 0.06) 100%);
   
+  /* Shadows */
+  --shadow-premium: 0 20px 40px -15px rgba(0, 0, 0, 0.05), 0 15px 25px -10px rgba(0, 0, 0, 0.02);
+  --shadow-glow: 0 0 30px rgba(77, 182, 172, 0.15);
+
   /* Typography Hierarchy */
   --font-sans: 'Inter', system-ui, sans-serif;
   --font-body: 'Lexend', sans-serif;
-  --tracking-calm: 0.01em;
+  --tracking-calm: 0.015em;
   --leading-relaxed: 1.625;
 
   color-scheme: light;
@@ -45,19 +49,19 @@
 
 /* Midnight Theme - Bedtime/Low-Light */
 .midnight {
-  --bg-base: #121418;
-  --bg-card: rgba(37, 42, 49, 0.8);
-  --text-main: #E2E8F0;
+  --bg-base: #0F1115;
+  --bg-card: rgba(30, 35, 42, 0.75);
+  --text-main: #F1F5F9;
   --text-muted: #94A3B8;
-  --border-subtle: rgba(255, 255, 255, 0.05);
-  --grad-soft: linear-gradient(135deg, rgba(77, 182, 172, 0.05) 0%, rgba(149, 117, 205, 0.05) 100%);
+  --border-subtle: rgba(255, 255, 255, 0.04);
+  --grad-soft: linear-gradient(135deg, rgba(77, 182, 172, 0.04) 0%, rgba(149, 117, 205, 0.04) 100%);
   color-scheme: dark;
 }
 
-/* Low-Stimulation Theme - ADHD/Sensitivity */
+/* Low-Stimulation Theme */
 .low-intensity {
   --grad-calm: #4DB6AC !important;
-  --bg-card: rgba(255, 255, 255, 0.85);
+  --bg-card: rgba(255, 255, 255, 0.9);
 }
 
 .low-intensity * {
@@ -69,14 +73,14 @@
   filter: none !important;
 }
 
-.low-intensity body {
-  font-size: 1.1rem; /* Increase base size */
-}
-
 /* Base resets */
 * {
   box-sizing: border-box;
   letter-spacing: var(--tracking-calm);
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
@@ -85,23 +89,56 @@ body {
   font-family: var(--font-body);
   line-height: var(--leading-relaxed);
   -webkit-font-smoothing: antialiased;
-  transition: background-color 0.5s ease, color 0.5s ease;
+  transition: background-color 0.8s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow-x: hidden;
 }
 
 h1, h2, h3, h4, .font-heading {
   font-family: var(--font-sans);
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-main);
+  letter-spacing: -0.025em;
 }
 
-/* Glassmorphism & Effects */
+/* Noise texture for organic feel */
+.noise-overlay {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  content: "";
+  opacity: 0.015;
+  z-index: 1000;
+  pointer-events: none;
+  background-image: url("https://grainy-gradients.vercel.app/noise.svg");
+}
+
+/* Glassmorphism & Premium Effects */
 .glass-card {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(24px) saturate(120%);
+  -webkit-backdrop-filter: blur(24px) saturate(120%);
   border: 1px solid var(--border-subtle);
-  border-radius: 28px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  border-radius: 32px;
+  box-shadow: var(--shadow-premium);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.premium-shadow {
+  box-shadow: var(--shadow-premium);
+}
+
+.glow-teal {
+  box-shadow: 0 0 40px rgba(77, 182, 172, 0.1);
 }
 
 .gradient-text {
@@ -115,24 +152,27 @@ h1, h2, h3, h4, .font-heading {
   background: var(--grad-soft);
 }
 
-/* Micro-interactions */
-.btn-hover-scale {
-  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Animations */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
-.btn-hover-scale:hover {
-  transform: scale(1.03);
+.animate-float {
+  animation: float 6s ease-in-out infinite;
 }
 
-/* Custom Scrollbar for a gentler feel */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 5px;
 }
 ::-webkit-scrollbar-track {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-primary);
+  background: rgba(77, 182, 172, 0.2);
   border-radius: 10px;
-  opacity: 0.3;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(77, 182, 172, 0.4);
 }

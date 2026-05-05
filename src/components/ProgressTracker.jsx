@@ -12,78 +12,92 @@ export default function ProgressTracker() {
   const goHome = useWellnessStore(s => s.goHome)
 
   return (
-    <div className="flex flex-col items-center w-full max-w-2xl mx-auto px-4 sm:px-8 py-10 sm:py-20 min-h-[90vh]">
-      <div className="w-full flex justify-between items-center mb-8">
-        <button onClick={goHome} className="text-[var(--text-muted)] flex items-center gap-2 hover:text-[var(--text-main)] transition-colors h-11 px-2 font-bold uppercase tracking-widest text-[10px]">
-          <ChevronLeft size={20} /> Back
+    <div className="flex flex-col items-center w-full max-w-4xl mx-auto px-4 sm:px-10 py-20 sm:py-32 min-h-screen">
+      <div className="w-full mb-16">
+        <button onClick={goHome} className="group text-[var(--text-muted)] flex items-center gap-3 hover:text-[var(--text-main)] transition-all h-12 px-6 rounded-full bg-white/40 border border-white/20 font-bold uppercase tracking-[0.2em] text-[10px]">
+          <ChevronLeft size={18} className="group-hover:-translate-x-1 transition-transform" /> Back to Sanctuary
         </button>
       </div>
 
       <motion.div 
-        initial={{ opacity: 0, scale: 0.95 }}
-        animate={{ opacity: 1, scale: 1 }}
-        className="w-full glass-card p-8 sm:p-10 text-center mb-10 bg-pastel relative overflow-hidden"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+        className="w-full glass-card p-12 sm:p-20 text-center mb-16 bg-gradient-to-br from-white/60 to-white/20 relative overflow-hidden premium-shadow"
       >
-        <div className="relative z-10">
-          <div className="inline-flex items-center justify-center w-20 h-20 rounded-[32px] bg-[var(--color-primary)] text-white mb-6 shadow-xl shadow-teal-500/30">
-            <Award size={40} />
-          </div>
-          <h2 className="text-5xl sm:text-6xl font-bold text-[var(--text-main)] mb-2 font-heading tracking-tight">{streak}</h2>
-          <p className="text-[var(--text-muted)] font-bold uppercase tracking-[0.2em] text-[10px] font-heading">Day Streak</p>
-          <div className="mt-8 p-4 rounded-2xl bg-white/40 border border-white/20 backdrop-blur-sm">
-            <p className="text-sm sm:text-base text-[var(--text-main)] font-body leading-relaxed">
-              You’ve checked in <span className="font-bold text-[var(--color-primary)]">{streak} days</span> in a row. 👏 Every small step counts towards your peace.
+        <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
+          <Award size={120} />
+        </div>
+        <div className="relative z-10 flex flex-col items-center">
+          <motion.div 
+            animate={{ scale: [1, 1.05, 1], rotate: [0, 5, -5, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+            className="inline-flex items-center justify-center w-24 h-24 rounded-[36px] bg-white shadow-2xl text-[var(--color-primary)] mb-8"
+          >
+            <Award size={48} />
+          </motion.div>
+          <h2 className="text-7xl sm:text-9xl font-bold gradient-text mb-4 font-heading tracking-tighter leading-none">{streak}</h2>
+          <p className="text-[var(--text-muted)] font-bold uppercase tracking-[0.4em] text-xs font-heading">Day Streak Bloom</p>
+          
+          <div className="mt-12 p-6 rounded-3xl bg-white/50 border border-white/80 backdrop-blur-sm max-w-lg mx-auto shadow-sm">
+            <p className="text-base sm:text-lg text-[var(--text-main)] font-body leading-relaxed opacity-90">
+              Your dedication is inspiring. You've nurtured your peace for <span className="font-bold text-[var(--color-primary)]">{streak} consecutive days</span>.
             </p>
           </div>
         </div>
       </motion.div>
 
-      <div className="w-full mb-12">
+      <section className="w-full mb-24">
+        <div className="flex flex-col items-center gap-4 mb-10 text-center">
+          <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-[var(--color-primary)] opacity-60">Visualized Mindset</p>
+          <h3 className="text-3xl sm:text-4xl font-bold text-[var(--text-main)] font-heading tracking-tight">Emotional Landscape</h3>
+        </div>
         <MoodGarden />
-      </div>
+      </section>
 
-      <div className="w-full space-y-8">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-lg bg-teal-50 text-[var(--color-primary)]">
-            <TrendingUp size={20} />
+      <section className="w-full max-w-2xl space-y-12">
+        <div className="flex items-center justify-between border-b border-[var(--border-subtle)] pb-8">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl bg-teal-50 text-[var(--color-primary)]">
+              <TrendingUp size={24} />
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-bold text-[var(--text-main)] font-heading tracking-tight">Recent Journey</h3>
           </div>
-          <h3 className="text-xl sm:text-2xl font-bold text-[var(--text-main)] font-heading flex items-center gap-2 tracking-tight">
-            Recent Journey
-            <InfoTooltip text="Tracking your mood over time helps you notice patterns and celebrate small improvements." />
-          </h3>
+          <InfoTooltip text="Seeing your emotional shifts helps build self-compassion and recognition of progress." />
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-6">
           {moodHistory.slice(-7).reverse().map((entry, idx) => {
             const emotion = getEmotion(entry.emotionId)
             return (
               <motion.div 
                 key={idx}
-                initial={{ opacity: 0, x: -10 }}
+                initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: idx * 0.05 }}
-                className="flex items-center justify-between p-5 rounded-[24px] bg-white border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all group"
+                transition={{ delay: idx * 0.1 }}
+                className="flex items-center justify-between p-6 sm:p-8 rounded-[32px] bg-white/60 border border-white/80 hover:border-[var(--color-primary)] hover:bg-white transition-all group shadow-sm"
               >
-                <div className="flex items-center gap-5">
-                  <span className="text-3xl sm:text-4xl filter drop-shadow-sm group-hover:scale-110 transition-transform">{emotion?.emoji || '❔'}</span>
+                <div className="flex items-center gap-6">
+                  <div className="text-4xl sm:text-5xl filter transition-transform group-hover:scale-110 duration-500">{emotion?.emoji || '❔'}</div>
                   <div>
-                    <p className="text-sm sm:text-base font-bold text-[var(--text-main)] font-heading">{emotion?.label || 'Unknown'}</p>
-                    <div className="flex items-center gap-1.5 text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-widest mt-1">
+                    <p className="text-lg font-bold text-[var(--text-main)] font-heading">{emotion?.label || 'Self Check-in'}</p>
+                    <div className="flex items-center gap-2 text-[10px] text-[var(--text-muted)] font-bold uppercase tracking-[0.2em] mt-2 opacity-60">
                       <Calendar size={12} className="text-[var(--color-primary)]" /> {entry.date}
                     </div>
                   </div>
                 </div>
+                <div className="w-2 h-2 rounded-full bg-[var(--color-primary)] opacity-20 group-hover:opacity-100 transition-opacity" />
               </motion.div>
             )
           })}
           
           {moodHistory.length === 0 && (
-            <div className="text-center py-16 text-[var(--text-muted)] text-sm italic font-body border-2 border-dashed border-[var(--border-subtle)] rounded-[32px]">
-              No mood history yet. Start by checking in today!
+            <div className="text-center py-24 text-[var(--text-muted)] text-sm italic font-body border-2 border-dashed border-white rounded-[40px] opacity-40">
+              Your story is waiting to be written. <br /> Check in to see your landscape grow.
             </div>
           )}
         </div>
-      </div>
+      </section>
     </div>
   )
 }
