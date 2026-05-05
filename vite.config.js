@@ -2,19 +2,23 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
-// https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     tailwindcss(),
     react(),
   ],
-  server: {
-    port: 5173,
-    host: true
-  },
+  // Explicitly setting base to root for Vercel
+  base: '/',
   build: {
+    // Explicitly naming the output directory
     outDir: 'dist',
     emptyOutDir: true,
-    sourcemap: false
-  }
+    assetsDir: 'assets',
+    // Ensure the index.html is correctly placed
+    rollupOptions: {
+      input: {
+        main: './index.html',
+      },
+    },
+  },
 })
