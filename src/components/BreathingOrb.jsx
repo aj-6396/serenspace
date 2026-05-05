@@ -10,10 +10,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import useWellnessStore from '../context/useWellnessStore'
 
 const PHASES = [
-  { label: 'Breathe in',  duration: 4000, scale: 1.35, opacity: 0.9 },
-  { label: 'Hold',        duration: 4000, scale: 1.35, opacity: 0.85 },
-  { label: 'Breathe out', duration: 6000, scale: 1.0,  opacity: 0.6 },
-  { label: 'Rest',        duration: 2000, scale: 1.0,  opacity: 0.5 },
+  { label: 'Inhale...',  duration: 4000, scale: 1.35, opacity: 0.9 },
+  { label: 'Hold...',    duration: 4000, scale: 1.35, opacity: 0.85 },
+  { label: 'Exhale...',  duration: 6000, scale: 1.0,  opacity: 0.6 },
 ]
 
 export default function BreathingOrb() {

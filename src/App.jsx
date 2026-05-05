@@ -20,6 +20,9 @@ const SafetyPlanPage  = lazy(() => import('./pages/SafetyPlanPage'))
 const MoodHistoryPage = lazy(() => import('./pages/MoodHistoryPage'))
 const LibraryPage     = lazy(() => import('./pages/LibraryPage'))
 const OnboardingOverlay = lazy(() => import('./components/OnboardingOverlay'))
+const SmartJournal     = lazy(() => import('./components/SmartJournal'))
+const ProgressTracker  = lazy(() => import('./components/ProgressTracker'))
+const CrisisSupport    = lazy(() => import('./components/CrisisSupport'))
 
 import AmbientAudio  from './components/AmbientAudio'
 import useWellnessStore from './context/useWellnessStore'
@@ -119,6 +122,16 @@ function ViewRouter({ view }) {
             <LibraryPage />
           </motion.div>
         )}
+        {view === 'journal' && (
+          <motion.div key="journal" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+            <SmartJournal />
+          </motion.div>
+        )}
+        {view === 'progress' && (
+          <motion.div key="progress" variants={PAGE_VARIANTS} initial="initial" animate="animate" exit="exit" transition={PAGE_TRANSITION}>
+            <ProgressTracker />
+          </motion.div>
+        )}
       </AnimatePresence>
     </Suspense>
   )
@@ -136,6 +149,8 @@ export default function App() {
       <NavBar />
       
       <ViewRouter view={view} />
+
+      <CrisisSupport />
 
       <Suspense fallback={null}>
         {!hasSeenOnboarding && <OnboardingOverlay />}

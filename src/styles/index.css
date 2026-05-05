@@ -4,18 +4,32 @@
   Global Design System & Performance Tokens
 */
 :root {
-  --bg-base: #0d0d0f;
-  --bg-card: #16161a;
-  --text-main: #f0ece6;
-  --text-muted: #7d7469;
-  --border-subtle: rgba(240, 236, 230, 0.1);
+  --bg-base: #fafafc;
+  --bg-card: rgba(255, 255, 255, 0.7);
+  --text-main: #2d3436;
+  --text-muted: #636e72;
+  --border-subtle: rgba(0, 0, 0, 0.05);
   
-  --color-primary: #f6c857;   /* Amber */
-  --color-secondary: #a3b18a; /* Sage */
+  --color-primary: #a29bfe;   /* Soft Purple */
+  --color-secondary: #81ecec; /* Soft Blue */
+  --color-accent: #55efc4;    /* Soft Green */
+  
+  --grad-calm: linear-gradient(135deg, #a29bfe 0%, #81ecec 50%, #55efc4 100%);
+  --grad-soft: linear-gradient(135deg, rgba(162, 155, 254, 0.1) 0%, rgba(129, 236, 236, 0.1) 100%);
   
   --sans: 'Inter', system-ui, sans-serif;
   --display: 'Lexend', sans-serif;
 
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  --bg-base: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border-subtle: rgba(255, 255, 255, 0.05);
+  
   color-scheme: dark;
 }
 
@@ -50,15 +64,22 @@ main {
 
 .glass-card {
   background: var(--bg-card);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--border-subtle);
   border-radius: 24px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.05);
 }
 
 .gradient-text {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #fff 100%);
+  background: var(--grad-calm);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.bg-pastel {
+  background: var(--grad-soft);
 }
 
 .textarea-calm {

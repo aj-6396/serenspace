@@ -1,192 +1,147 @@
-/**
- * pages/HeroPage.jsx — "How are you feeling right now?"
- */
-import React from 'react'
-import { motion } from 'framer-motion'
-import EmotionButton from '../components/EmotionButton'
+import React, { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import MoodSelector from '../components/MoodSelector'
 import useWellnessStore from '../context/useWellnessStore'
-import { EMOTIONS } from '../utils/emotions'
-import { Sparkles, BookOpen } from 'lucide-react'
-
-const INTENTIONS = ["Patience", "Presence", "Courage", "Kindness", "Stillness", "Balance"]
+import { getEmotion } from '../utils/emotions'
+import { Wind, PenTool, Activity, ShieldCheck, Info, Zap } from 'lucide-react'
 
 export default function HeroPage() {
-  const selectEmotion = useWellnessStore((s) => s.selectEmotion)
-  const openVent      = useWellnessStore((s) => s.openVent)
-  const openBreathe   = useWellnessStore((s) => s.openBreathe)
-  const openStillness = useWellnessStore((s) => s.openStillness)
-  const openJar       = useWellnessStore((s) => s.openJar)
-  const openSafetyPlan = useWellnessStore((s) => s.openSafetyPlan)
-  const openMoodHistory = useWellnessStore((s) => s.openMoodHistory)
-  const openLibrary   = useWellnessStore((s) => s.openLibrary)
+  const [selectedMoodId, setSelectedMoodId] = useState(null)
   
-  const lowEnergyMode = useWellnessStore((s) => s.lowEnergyMode)
-  const dailyIntention = useWellnessStore((s) => s.dailyIntention)
-  const setIntention = useWellnessStore((s) => s.setIntention)
+  const selectEmotion = useWellnessStore((s) => s.selectEmotion)
+  const openBreathe = useWellnessStore((s) => s.openBreathe)
+  const openJournal = useWellnessStore((s) => s.openJournal)
+  const openGrounding = useWellnessStore((s) => s.openGrounding)
+  const openProgress = useWellnessStore((s) => s.openProgress)
+  const streak = useWellnessStore((s) => s.streak)
 
-  const today = new Date().toISOString().split('T')[0]
-  const hasIntention = dailyIntention?.date === today
+  const handleMoodSelect = (id) => {
+    setSelectedMoodId(id)
+    selectEmotion(id)
+  }
+
+  const selectedMood = getEmotion(selectedMoodId)
+
+  const renderSuggestions = () => {
+    if (!selectedMood) return null
+
+    return (
+      <motion.div 
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="w-full grid grid-cols-1 md:grid-cols-3 gap-4 mt-12"
+      >
+        {selectedMood.tools.includes('breathe') && (
+          <button onClick={openBreathe} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
+            <div className="p-3 rounded-full bg-blue-100 text-blue-500 group-hover:scale-110 transition-transform">
+              <Wind size={24} />
+            </div>
+            <span className="font-semibold text-sm">Breathing Exercise</span>
+            <p className="text-[10px] text-[var(--text-muted)] text-center">Calm your nervous system</p>
+          </button>
+        )}
+        
+        {selectedMood.tools.includes('journal') && (
+          <button onClick={openJournal} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
+            <div className="p-3 rounded-full bg-purple-100 text-purple-500 group-hover:scale-110 transition-transform">
+              <PenTool size={24} />
+            </div>
+            <span className="font-semibold text-sm">Journaling Prompt</span>
+            <p className="text-[10px] text-[var(--text-muted)] text-center">Express your inner thoughts</p>
+          </button>
+        )}
+
+        {selectedMood.tools.includes('grounding') && (
+          <button onClick={openGrounding} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
+            <div className="p-3 rounded-full bg-emerald-100 text-emerald-500 group-hover:scale-110 transition-transform">
+              <Activity size={24} />
+            </div>
+            <span className="font-semibold text-sm">Grounding Activity</span>
+            <p className="text-[10px] text-[var(--text-muted)] text-center">Stay in the present moment</p>
+          </button>
+        )}
+
+        {(selectedMood.id === 'happy' || selectedMood.id === 'neutral') && (
+          <button onClick={openProgress} className="p-6 rounded-3xl bg-white/60 border border-[var(--border-subtle)] hover:border-[var(--color-primary)] transition-all flex flex-col items-center gap-3 group">
+            <div className="p-3 rounded-full bg-amber-100 text-amber-500 group-hover:scale-110 transition-transform">
+              <Zap size={24} />
+            </div>
+            <span className="font-semibold text-sm">Productivity Boost</span>
+            <p className="text-[10px] text-[var(--text-muted)] text-center">Leverage your current flow</p>
+          </button>
+        )}
+      </motion.div>
+    )
+  }
 
   return (
-    <main
-      id="main-content"
-      aria-label="Emotion selection"
-      className="flex flex-col items-center justify-center min-h-screen px-6 pt-24 pb-12"
-    >
-      <div className="w-full max-w-lg flex flex-col items-center gap-8">
+    <main className="flex flex-col items-center min-h-screen px-6 pt-24 pb-32 max-w-4xl mx-auto">
+      {/* ── Streak Counter ─────────────────────────────────── */}
+      <motion.button 
+        onClick={openProgress}
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+        className="mb-12 px-4 py-2 rounded-full bg-white/50 border border-[var(--border-subtle)] text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] flex items-center gap-2"
+      >
+        <Activity size={14} className="text-[var(--color-primary)]" />
+        {streak > 0 ? `You’ve checked in ${streak} days in a row 👏` : "Start your daily streak today"}
+      </motion.button>
 
-        {/* ── Heading ──────────────────────────────────────────── */}
-        <motion.div
-          className="text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: 'easeOut' }}
+      {/* ── Hero Heading ────────────────────────────────────── */}
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-center mb-12"
+      >
+        <h1 className="text-4xl md:text-6xl font-bold text-[var(--text-main)] mb-4 tracking-tight">
+          How are you <span className="gradient-text">feeling</span> today?
+        </h1>
+        <p className="text-[var(--text-muted)] text-lg max-w-lg mx-auto">
+          Choose a mood to get personalized wellness suggestions.
+        </p>
+      </motion.div>
+
+      {/* ── Mood Selector ───────────────────────────────────── */}
+      <MoodSelector onSelect={handleMoodSelect} selectedId={selectedMoodId} />
+
+      {/* ── Dynamic Suggestions ─────────────────────────────── */}
+      <AnimatePresence mode="wait">
+        {renderSuggestions()}
+      </AnimatePresence>
+
+      {/* ── 3-Minute Reset ──────────────────────────────────── */}
+      <motion.div 
+        className="mt-20 w-full flex flex-col items-center gap-4"
+        initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }}
+      >
+        <button 
+          onClick={openBreathe}
+          className="flex items-center gap-3 px-8 py-4 rounded-2xl bg-[var(--grad-calm)] text-white font-bold shadow-xl shadow-purple-500/20 hover:scale-105 active:scale-95 transition-all"
         >
-          <p className="text-xs font-bold tracking-[0.2em] uppercase text-[var(--text-muted)] mb-4">
-            You're in a safe space
-          </p>
+          <Zap size={20} /> 3-Minute Reset
+        </button>
+        <p className="text-[10px] text-[var(--text-muted)] uppercase tracking-widest font-bold">Quick mental recharge</p>
+      </motion.div>
 
-          <h1 className="text-4xl md:text-5xl font-semibold leading-tight mb-4 text-[var(--text-main)]">
-            How are you <span className="gradient-text">feeling</span> right now?
-          </h1>
-
-          <p className="text-[var(--text-muted)] text-sm leading-relaxed max-w-sm mx-auto">
-            It's okay to feel this way. Choose what resonates most — no judgment, no pressure.
-          </p>
-        </motion.div>
-
-        {/* ── Daily Intention Ritual (New) ──────────────────────── */}
-        {!lowEnergyMode && (
-          <motion.div 
-            className="w-full py-2 flex flex-col items-center gap-3"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.3 }}
-          >
-            {hasIntention ? (
-              <div className="flex items-center gap-2 px-4 py-2 bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/20 rounded-full">
-                <Sparkles className="w-3.5 h-3.5 text-[var(--color-primary)]" />
-                <span className="text-[10px] font-bold uppercase tracking-widest text-[var(--color-primary)]">
-                  Today's Intention: {dailyIntention.word}
-                </span>
-              </div>
-            ) : (
-              <>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)]">Set a gentle intention for today</p>
-                <div className="flex flex-wrap justify-center gap-2">
-                  {INTENTIONS.map(word => (
-                    <button
-                      key={word}
-                      onClick={() => setIntention(word)}
-                      className="px-3 py-1.5 rounded-lg border border-[var(--border-subtle)] text-[10px] font-semibold text-[var(--text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-all active:scale-95"
-                    >
-                      {word}
-                    </button>
-                  ))}
-                </div>
-              </>
-            )}
-          </motion.div>
-        )}
-
-        {/* ── Dynamic Content based on Energy Level ──────────────── */}
-        {lowEnergyMode ? (
-          <motion.div 
-            className="w-full flex justify-center py-8"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-          >
-            <button
-              onClick={openStillness}
-              className="px-10 py-8 rounded-2xl w-full max-w-sm bg-[var(--bg-card)] border border-[var(--border-subtle)] text-[var(--text-main)] text-xl font-medium tracking-wide hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] transition-all duration-300 shadow-xl"
-            >
-              Just sit in quiet comfort.
-            </button>
-          </motion.div>
-        ) : (
-          <div
-            role="group"
-            aria-label="Select how you are feeling"
-            className="w-full grid grid-cols-1 sm:grid-cols-2 gap-3"
-          >
-            {EMOTIONS.map((emotion, i) => (
-              <EmotionButton
-                key={emotion.id}
-                index={i}
-                {...emotion}
-                onClick={selectEmotion}
-              />
-            ))}
+      {/* ── About & Privacy ─────────────────────────────────── */}
+      <div className="mt-32 grid grid-cols-1 md:grid-cols-2 gap-8 w-full border-t border-[var(--border-subtle)] pt-12">
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 text-[var(--text-main)] font-bold uppercase tracking-wider text-xs">
+            <Info size={16} className="text-[var(--color-primary)]" />
+            Why SerenSpace exists
           </div>
-        )}
-
-        {/* ── Alternative entry points ─────────────────────────── */}
-        <motion.div
-          className="flex flex-col sm:flex-row items-center gap-3 w-full"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.7, duration: 0.5 }}
-        >
-          <button
-            onClick={openVent}
-            className="flex-1 w-full sm:w-auto px-5 py-3 rounded-xl text-sm font-medium border border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--text-main)] hover:bg-white/5 transition-all duration-200 text-center"
-          >
-            ✍️ &nbsp;Write it out
-          </button>
-
-          <button
-            onClick={openBreathe}
-            className="flex-1 w-full sm:w-auto px-5 py-3 rounded-xl text-sm font-medium border border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--color-secondary)] hover:text-[var(--text-main)] hover:bg-white/5 transition-all duration-200 text-center"
-          >
-            🌬️ &nbsp;Breathe
-          </button>
-
-          {!lowEnergyMode && (
-            <button
-              onClick={openJar}
-              className="flex-1 w-full sm:w-auto px-5 py-3 rounded-xl text-sm font-medium border border-[var(--border-subtle)] text-[var(--text-muted)] hover:border-[var(--color-primary)] hover:text-[var(--text-main)] hover:bg-white/5 transition-all duration-200 text-center"
-            >
-              🏺 &nbsp;Kind Messages
-            </button>
-          )}
-        </motion.div>
-
-        {/* ── Clinical Access ─────────────────────────── */}
-        {!lowEnergyMode && (
-          <motion.div
-            className="flex flex-wrap items-center justify-center gap-x-6 gap-y-4 pt-4 border-t border-[var(--border-subtle)]/30 w-full"
-            initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.9 }}
-          >
-            <button 
-              onClick={openSafetyPlan}
-              className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--color-primary)] transition-all"
-            >
-              My Safety Plan
-            </button>
-            <div className="w-1 h-1 rounded-full bg-[var(--border-subtle)] hidden sm:block" />
-            <button 
-              onClick={openMoodHistory}
-              className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--color-secondary)] transition-all"
-            >
-              Mood Reflection
-            </button>
-            <div className="w-1 h-1 rounded-full bg-[var(--border-subtle)] hidden sm:block" />
-            <button 
-              onClick={openLibrary}
-              className="text-[10px] font-bold uppercase tracking-widest text-[var(--text-muted)] hover:text-[var(--color-primary)] transition-all flex items-center gap-2"
-            >
-              <BookOpen className="w-3 h-3" /> Wellness Library
-            </button>
-          </motion.div>
-        )}
-
-        {/* ── Footer ────────────────────────────────── */}
-        <motion.p
-          className="text-center text-[10px] text-[var(--text-muted)] leading-relaxed max-w-xs mt-2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.1, duration: 0.5 }}
-        >
-          Everything you do here is private and stays on your device.
-          No accounts. No tracking. Just you.
-        </motion.p>
+          <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+            SerenSpace was built to provide a gentle, non-overwhelming sanctuary for mental wellness. We believe in emotion-first design that guides you through your toughest moments.
+          </p>
+        </div>
+        <div className="flex flex-col gap-4">
+          <div className="flex items-center gap-2 text-[var(--text-main)] font-bold uppercase tracking-wider text-xs">
+            <ShieldCheck size={16} className="text-[var(--color-accent)]" />
+            Your Privacy
+          </div>
+          <p className="text-sm text-[var(--text-muted)] leading-relaxed">
+            Your data stays on your device. We don't use trackers, accounts, or clouds. What you feel and write here is for your eyes only.
+          </p>
+        </div>
       </div>
     </main>
   )

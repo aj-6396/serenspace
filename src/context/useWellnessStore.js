@@ -30,6 +30,9 @@ const useWellnessStore = create(
         supporters: "",
         professionals: ""
       },
+      journalEntries: [],
+      streak: 0,
+      lastCheckInDate: null,
 
       setTheme: (theme) => set({ theme }),
       toggleSound: () => set((s) => ({ soundEnabled: !s.soundEnabled })),
@@ -43,6 +46,22 @@ const useWellnessStore = create(
 
       addJarMessage: (msg) => set((s) => ({ jarMessages: [...s.jarMessages, msg] })),
       removeJarMessage: (index) => set((s) => ({ jarMessages: s.jarMessages.filter((_, i) => i !== index) })),
+
+      addJournalEntry: (entry) => set((s) => ({ journalEntries: [entry, ...s.journalEntries] })),
+      
+      updateStreak: () => {
+        const today = new Date().toISOString().split('T')[0]
+        set((s) => {
+          if (s.lastCheckInDate === today) return {}
+          
+          const yesterday = new Date()
+          yesterday.setDate(yesterday.getDate() - 1)
+          const yesterdayStr = yesterday.toISOString().split('T')[0]
+          
+          const newStreak = s.lastCheckInDate === yesterdayStr ? s.streak + 1 : 1
+          return { streak: newStreak, lastCheckInDate: today }
+        })
+      },
 
       setSafetyPlan: (plan) => set({ safetyPlan: plan }),
 
@@ -74,6 +93,8 @@ const useWellnessStore = create(
       openSafetyPlan: () => set({ currentView: 'safety-plan' }),
       openMoodHistory: () => set({ currentView: 'mood-history' }),
       openLibrary: () => set({ currentView: 'library' }),
+      openJournal: () => set({ currentView: 'journal' }),
+      openProgress: () => set({ currentView: 'progress' }),
 
       triggerRelease: () => {
         set({ isReleasing: true })
@@ -93,6 +114,9 @@ const useWellnessStore = create(
         safetyPlan: state.safetyPlan,
         hasSeenOnboarding: state.hasSeenOnboarding,
         dailyIntention: state.dailyIntention,
+        journalEntries: state.journalEntries,
+        streak: state.streak,
+        lastCheckInDate: state.lastCheckInDate,
       }),
     }
   )
